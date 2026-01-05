@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>lucas-hudsn</title>
-<link>lucas-hudsn.github.io/</link>
-<atom:link href="lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
+<link>https://lucas-hudsn.github.io/</link>
+<atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Personal website - Lucas Hudson 🙂‍↔️</description>
 <generator>quarto-1.8.26</generator>
 <lastBuildDate>Mon, 05 Jan 2026 13:00:00 GMT</lastBuildDate>
 <item>
   <title>Hello World</title>
   <dc:creator>Lucas Hudson</dc:creator>
-  <link>lucas-hudsn.github.io/posts/hello-world/</link>
+  <link>https://lucas-hudsn.github.io/posts/hello-world/</link>
   <description><![CDATA[ 
 
 
@@ -37,7 +37,7 @@ font-style: inherit;">"Hello World!"</span>)</span></code></pre></div></div>
 <p>I plan on posting here at lease weekly so please keep checking in if you are interested in what I am building, Thanks!</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="lucas-hudsn.github.io/posts/hello-world/image.jpg" class="img-fluid figure-img"></p>
+<p><img src="https://lucas-hudsn.github.io/posts/hello-world/image.jpg" class="img-fluid figure-img"></p>
 <figcaption>alt</figcaption>
 </figure>
 </div>
@@ -46,9 +46,9 @@ font-style: inherit;">"Hello World!"</span>)</span></code></pre></div></div>
 
  ]]></description>
   <category>blog</category>
-  <guid>lucas-hudsn.github.io/posts/hello-world/</guid>
+  <guid>https://lucas-hudsn.github.io/posts/hello-world/</guid>
   <pubDate>Mon, 05 Jan 2026 13:00:00 GMT</pubDate>
-  <media:content url="lucas-hudsn.github.io/posts/hello-world/image.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://lucas-hudsn.github.io/posts/hello-world/image.jpg" medium="image" type="image/jpeg"/>
 </item>
 </channel>
 </rss>

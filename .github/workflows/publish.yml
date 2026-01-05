@@ -2,7 +2,7 @@ name: Render and Publish Portfolio
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build-deploy:

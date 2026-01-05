@@ -1,0 +1,23 @@
+project:
+  type: website
+
+website:
+  description: "Personal website - Lucas Hudson 🙂‍↔️"
+  site-url: lucas-hudsn.github.io" 
+  title: "lucas-hudsn"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/lucas-hudsn
+      - icon: linkedin
+        href: https://www.linkedin.com/in/lucas-hudson-0a1384183/
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+
+
+

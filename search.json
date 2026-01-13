@@ -7,17 +7,87 @@
     "text": "Data Scientist - Full Stack AI Engineer 🙂‍↔︎️"
   },
   {
+    "objectID": "posts/hello-world/index.html",
+    "href": "posts/hello-world/index.html",
+    "title": "Hello, World!",
+    "section": "",
+    "text": "print(\"Hello, world!\")\n\nHello, world!\n\n\nWelcome all to my website, I will be using this site to document my personal projects,about my thoughts and upload images of my travels\nIn 2026 I plan to further my development in AI and software engineering through self directed projects, some which will be built locally at my own leisure, and others which I will host and maintain with best engineering practices.\nIt is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks that have real world use cases.\nI plan on posting here at least weekly so please keep checking in if you are interested in what I am building, Thanks!\n\n\n\nhello-world"
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html",
+    "href": "posts/wave~reader/wave_reader_article.html",
+    "title": "wave~reader",
+    "section": "",
+    "text": "Screenshot"
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html#project-vision",
+    "href": "posts/wave~reader/wave_reader_article.html#project-vision",
+    "title": "wave~reader",
+    "section": "Project Vision",
+    "text": "Project Vision\nThe core vision of wave~reader is to democratize access to professional-grade surf forecasting through an intuitive, accessible interface. Rather than requiring users to interpret raw meteorological data or consult multiple sources, the application presents curated, AI-generated forecasts that consider complex interactions between ocean conditions, wind patterns, and geographic factors.\nThis current implementation is only a proof of concept, I am planning on building out more rigid features into the website with the hope of hosting and maintaining it when I feel it is ready."
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html#key-features",
+    "href": "posts/wave~reader/wave_reader_article.html#key-features",
+    "title": "wave~reader",
+    "section": "Key Features",
+    "text": "Key Features\n\nMulti-Agent Architecture: Four specialized agents working in concert\nReal-Time Data Integration: Live marine and weather data from Open-Meteo\nAI-Generated Forecasts: GPT-4o-mini powered analysis and predictions\nInteractive Visualizations: Charts and geographic maps for data exploration\nMinimal Frontend: Pure HTML/CSS/JavaScript with no build tools required\nLofi Aesthetic: Thoughtfully designed user interface with earthy color palette"
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html#system-design",
+    "href": "posts/wave~reader/wave_reader_article.html#system-design",
+    "title": "wave~reader",
+    "section": "System Design",
+    "text": "System Design\nwave~reader employs a modular, agent-based architecture that separates concerns and allows for independent scaling of components:\n┌─────────────────────────────────────────────────────────────┐\n│                    User Interface (Frontend)                │\n│         HTML/CSS/JavaScript • Lofi Aesthetic Design          │\n└────────────────────────┬────────────────────────────────────┘\n                         │\n┌────────────────────────▼────────────────────────────────────┐\n│                  FastAPI Backend (ASGI)                     │\n│              Async Request Handling & Routing               │\n└────────────────────────┬────────────────────────────────────┘\n                         │\n┌────────────────────────▼────────────────────────────────────┐\n│              LangGraph Multi-Agent Orchestrator             │\n│  ┌──────────────────────────────────────────────────────┐  │\n│  │ Agent 1: Description Generator (Geolocation & Context)  │\n│  │ Agent 2: Coordinate Resolver (Beach Geolocation)        │\n│  │ Agent 3: Weather Data Fetcher (Marine & Weather APIs)   │\n│  │ Agent 4: Forecast Synthesizer (AI Analysis)             │\n│  └──────────────────────────────────────────────────────┘  │\n└────────────────────────┬────────────────────────────────────┘\n                         │\n        ┌────────────────┴────────────────┐\n        │                                 │\n┌───────▼──────────────┐    ┌────────────▼────────────┐\n│  Open-Meteo Marine   │    │  Open-Meteo Weather     │\n│  API (Swell Data)    │    │  API (Wind Data)        │\n└──────────────────────┘    └─────────────────────────┘"
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html#technology-stack",
+    "href": "posts/wave~reader/wave_reader_article.html#technology-stack",
+    "title": "wave~reader",
+    "section": "Technology Stack",
+    "text": "Technology Stack\n\nBackend\n\nPython 3.14 with uv package manager for fast, deterministic dependency management\nFastAPI 0.128.0: Modern async web framework with automatic API documentation\nLangGraph 0.2.0: Multi-agent orchestration framework for coordinating specialized agents\nLangChain 0.3.0: LLM integration layer with OpenAI GPT-4o-mini\nJinja2 Templates: Server-side template rendering for dynamic HTML generation\n\n\n\nFrontend\n\nHTML5: Semantic markup with accessibility considerations\nCSS3: Custom lofi aesthetic with earthy color palette and block-style design\nVanilla JavaScript: No frameworks; minimal dependencies for maximum control\nChart.js 4.4.0: Progressive enhancement for data visualization\n\n\n\nData Sources\n\nOpen-Meteo Marine API: Wave height, period, and direction (hourly & daily aggregates)\nOpen-Meteo Weather API: Wind speed and direction at 10m elevation\nOpenAI API: GPT-4o-mini for description generation and forecast synthesis"
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html#agent-1-description-generator",
+    "href": "posts/wave~reader/wave_reader_article.html#agent-1-description-generator",
+    "title": "wave~reader",
+    "section": "Agent 1: Description Generator",
+    "text": "Agent 1: Description Generator\nPurpose: Gather contextual information about the requested beach Functionality: - Accepts beach name from user input - Uses GPT-4o-mini to generate rich descriptions - Considers geographic, cultural, and surfing context - Returns formatted description text\nInput: Beach name (string)\nOutput:\n{\n  \"description\": \"Bells Beach is a legendary...\",\n  \"context\": \"Historical and cultural information\"\n}\n\n\n\nBeach Description\n\n\nTo do:\n\nTry different models and use llm as a judge + domain knowledge to find best llm for task\nTry more structure prompt + one shot example"
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html#agent-2-coordinate-resolver",
+    "href": "posts/wave~reader/wave_reader_article.html#agent-2-coordinate-resolver",
+    "title": "wave~reader",
+    "section": "Agent 2: Coordinate Resolver",
+    "text": "Agent 2: Coordinate Resolver\nPurpose: Convert beach names to precise geographic coordinates\nFunctionality: - Takes beach name and description context - Uses GPT-4o-mini with coordinate-resolution prompting - Validates coordinate ranges (±90° latitude, ±180° longitude) - Handles ambiguous beach names through context\nInput: Beach name + description context\nOutput:\n{\n  \"latitude\": -38.1734,\n  \"longitude\": 144.3994,\n  \"beach_name\": \"Bells Beach, Victoria\"\n}"
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html#agent-3-weather-data-fetcher",
+    "href": "posts/wave~reader/wave_reader_article.html#agent-3-weather-data-fetcher",
+    "title": "wave~reader",
+    "section": "Agent 3: Weather Data Fetcher",
+    "text": "Agent 3: Weather Data Fetcher\nPurpose: Retrieve real-time swell and wind data from dual APIs\nFunctionality: - Makes two separate API calls (critical architectural decision): - Marine API (marine-api.open-meteo.com/v1/marine): - Wave height (meters) - Wave period (seconds) - Wave direction (degrees)\n\nWeather API (api.open-meteo.com/v1/forecast):\n\nWind speed at 10m (km/h)\nWind direction (degrees)\n\nMerges hourly data from both sources\nComputes daily maximum values\nIncludes proper error handling with graceful fallbacks\n\nInput: Latitude, Longitude\nOutput:\n{\n  \"latitude\": -38.1734,\n  \"longitude\": 144.3994,\n  \"timezone\": \"Australia/Melbourne\",\n  \"wave_height_max\": 2.8,\n  \"wave_period_max\": 12.3,\n  \"wind_speed_max\": 18.5,\n  \"wind_direction\": 270,\n  \"hourly\": {\n    \"time\": [\"2026-01-13T00:00\", \"2026-01-13T01:00\", ...],\n    \"wave_height\": [1.2, 1.3, 1.4, ...],\n    \"wave_period\": [10.5, 10.6, 10.7, ...],\n    \"wave_direction\": [265, 267, 269, ...],\n    \"wind_speed\": [15.2, 15.8, 16.1, ...],\n    \"wind_direction\": [268, 269, 270, ...]\n  }\n}\n\n\n\nForecast\n\n\nTo do:\n\nFix visualisations, seperated wind and swell, and use arrows to display wind"
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html#agent-4-forecast-synthesizer",
+    "href": "posts/wave~reader/wave_reader_article.html#agent-4-forecast-synthesizer",
+    "title": "wave~reader",
+    "section": "Agent 4: Forecast Synthesizer",
+    "text": "Agent 4: Forecast Synthesizer\nPurpose: Create human-readable forecast text using AI analysis\nFunctionality: - Accepts all weather data and beach context - Prompts GPT-4o-mini for professional forecast generation - Considers: - Wave conditions (height, period, direction) - Wind patterns and their effect on conditions - Optimal surfing windows - Safety considerations\nInput: All previous agent outputs + merged weather data\nOutput:\nTomorrow looks excellent for the exposed reefs with \n2-3m swells and light offshore winds in the morning. \nConditions clean up until midday, with ideal wind \nswitching onshore in the afternoon. Best windows: \nearly dawn to 11am. Crowds expected.\n\n\n\nDaily Forecast\n\n\nTo do:\n\nUse a more structured prompt, try different models"
+  },
+  {
+    "objectID": "posts/wave~reader/wave_reader_article.html#page-structure",
+    "href": "posts/wave~reader/wave_reader_article.html#page-structure",
+    "title": "wave~reader",
+    "section": "Page Structure",
+    "text": "Page Structure\n[INSERT SCREENSHOT: Full page view with header, search box, and results]\n\nHeader Section\n\nTypography: Block-style monospace (Courier New) heading\nColor Palette: Earthy browns (#8b7355), warm beige (#fef5e7)\nBorder Design: 3px solid borders with drop shadow effects\nTagline: “Read the Waves”\n\n\n\nSearch Interface\n\nInput Field: Full-width with focus states and validation\nButton: Solid background with hover transform effects\nHelp Text: Suggested beach names for exploration\n\n\n\nResults Grid\n\nResponsive Layout: CSS Grid with auto-fit for responsive columns\nCard-Based Design: Each data type in isolated cards with consistent styling\nVisibility Control: Results hidden until search submitted\n\n\nArticle compiled: January 13, 2026\nProject Status: Active Development\nLicense: MIT"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "lucas-hudsn",
     "section": "",
-    "text": "Hello World\n\n\n\nblog\n\n\n\n\n\n\n\n\n\nJan 6, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "posts/hello-world/index.html",
-    "href": "posts/hello-world/index.html",
-    "title": "Hello World",
-    "section": "",
-    "text": "print(\"Hello World!\")\n\nHello World!\n\n\nWelcome all to my website, I will be using this site to document my personal projects, blog about my thoughts and upload images of my travels\nIn 2026 I plan to further my development in AI and software engineering through self directed projects, some which will be built locally at my own leisure, and others which I will host and maintain with best engineering practices.\nIt is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks that have real world use cases.\nI plan on posting here at lease weekly so please keep checking in if you are interested in what I am building, Thanks!\n\n\n\nalt"
+    "text": "wave~reader\n\n\n\nAI\n\n\n\n\n\n\n\n\n\nJan 13, 2026\n\n\nLucas Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nHello, World!\n\n\n\nblog\n\n\n\n\n\n\n\n\n\nJan 6, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
   }
 ]

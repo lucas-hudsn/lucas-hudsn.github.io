@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/wave~reader/wave_reader_article.html",
       "/posts/hello-world/index.html"
     ]
   }

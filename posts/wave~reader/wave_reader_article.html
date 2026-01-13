@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Lucas Hudson">
-<meta name="dcterms.date" content="2026-01-06">
+<meta name="dcterms.date" content="2026-01-13">
 
-<title>Hello, World! – lucas-hudsn</title>
+<title>wave~reader – lucas-hudsn</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -152,9 +152,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Hello, World!</h1>
+      <h1 class="title">wave~reader</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">blog</div>
+                <div class="quarto-category">AI</div>
               </div>
                   </div>
   </div>
@@ -172,7 +172,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 6, 2026</p>
+        <p class="date">January 13, 2026</p>
       </div>
     </div>
     
@@ -191,24 +191,244 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div id="04554838" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello, world!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Hello, world!</code></pre>
-</div>
-</div>
-<p>Welcome all to my website, I will be using this site to document my personal projects,about my thoughts and upload images of my travels</p>
-<p>In 2026 I plan to further my development in AI and software engineering through self directed projects, some which will be built locally at my own leisure, and others which I will host and maintain with best engineering practices.</p>
-<p>It is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks that have real world use cases.</p>
-<p>I plan on posting here at least weekly so please keep checking in if you are interested in what I am building, Thanks!</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="hello-world.jpg" class="img-fluid figure-img"></p>
-<figcaption>hello-world</figcaption>
+<p><img src="wave~reader.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot</figcaption>
 </figure>
 </div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://github.com/lucas-hudsn/wave-reader"><img src="https://img.shields.io/badge/GitHub-wave~reader-181717?logo=github.png" class="img-fluid figure-img"></a></p>
+<figcaption>GitHub Repo</figcaption>
+</figure>
+</div>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>wave~reader is a simple agentic web application designed to well informed beach descriptions, surf forecast and daily surf report to a user by leveraging AI-powered analysis and real-time meteorological data. Built with a sophisticated multi-agent architecture, the application synthesizes wave data, wind patterns, and geographic information to deliver actionable insights for surfers.</p>
+<section id="project-vision" class="level2">
+<h2 class="anchored" data-anchor-id="project-vision">Project Vision</h2>
+<p>The core vision of wave~reader is to democratize access to professional-grade surf forecasting through an intuitive, accessible interface. Rather than requiring users to interpret raw meteorological data or consult multiple sources, the application presents curated, AI-generated forecasts that consider complex interactions between ocean conditions, wind patterns, and geographic factors.</p>
+<p>This current implementation is only a proof of concept, I am planning on building out more rigid features into the website with the hope of hosting and maintaining it when I feel it is ready.</p>
+</section>
+<section id="key-features" class="level2">
+<h2 class="anchored" data-anchor-id="key-features">Key Features</h2>
+<ul>
+<li><strong>Multi-Agent Architecture</strong>: Four specialized agents working in concert</li>
+<li><strong>Real-Time Data Integration</strong>: Live marine and weather data from Open-Meteo</li>
+<li><strong>AI-Generated Forecasts</strong>: GPT-4o-mini powered analysis and predictions</li>
+<li><strong>Interactive Visualizations</strong>: Charts and geographic maps for data exploration</li>
+<li><strong>Minimal Frontend</strong>: Pure HTML/CSS/JavaScript with no build tools required</li>
+<li><strong>Lofi Aesthetic</strong>: Thoughtfully designed user interface with earthy color palette</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="architecture-overview" class="level1">
+<h1>Architecture Overview</h1>
+<section id="system-design" class="level2">
+<h2 class="anchored" data-anchor-id="system-design">System Design</h2>
+<p>wave~reader employs a modular, agent-based architecture that separates concerns and allows for independent scaling of components:</p>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                    User Interface (Frontend)                │
+│         HTML/CSS/JavaScript • Lofi Aesthetic Design          │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+┌────────────────────────▼────────────────────────────────────┐
+│                  FastAPI Backend (ASGI)                     │
+│              Async Request Handling &amp; Routing               │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+┌────────────────────────▼────────────────────────────────────┐
+│              LangGraph Multi-Agent Orchestrator             │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │ Agent 1: Description Generator (Geolocation &amp; Context)  │
+│  │ Agent 2: Coordinate Resolver (Beach Geolocation)        │
+│  │ Agent 3: Weather Data Fetcher (Marine &amp; Weather APIs)   │
+│  │ Agent 4: Forecast Synthesizer (AI Analysis)             │
+│  └──────────────────────────────────────────────────────┘  │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+        ┌────────────────┴────────────────┐
+        │                                 │
+┌───────▼──────────────┐    ┌────────────▼────────────┐
+│  Open-Meteo Marine   │    │  Open-Meteo Weather     │
+│  API (Swell Data)    │    │  API (Wind Data)        │
+└──────────────────────┘    └─────────────────────────┘</code></pre>
+</section>
+<section id="technology-stack" class="level2">
+<h2 class="anchored" data-anchor-id="technology-stack">Technology Stack</h2>
+<section id="backend" class="level3">
+<h3 class="anchored" data-anchor-id="backend">Backend</h3>
+<ul>
+<li><strong>Python 3.14</strong> with <code>uv</code> package manager for fast, deterministic dependency management</li>
+<li><strong>FastAPI 0.128.0</strong>: Modern async web framework with automatic API documentation</li>
+<li><strong>LangGraph 0.2.0</strong>: Multi-agent orchestration framework for coordinating specialized agents</li>
+<li><strong>LangChain 0.3.0</strong>: LLM integration layer with OpenAI GPT-4o-mini</li>
+<li><strong>Jinja2 Templates</strong>: Server-side template rendering for dynamic HTML generation</li>
+</ul>
+</section>
+<section id="frontend" class="level3">
+<h3 class="anchored" data-anchor-id="frontend">Frontend</h3>
+<ul>
+<li><strong>HTML5</strong>: Semantic markup with accessibility considerations</li>
+<li><strong>CSS3</strong>: Custom lofi aesthetic with earthy color palette and block-style design</li>
+<li><strong>Vanilla JavaScript</strong>: No frameworks; minimal dependencies for maximum control</li>
+<li><strong>Chart.js 4.4.0</strong>: Progressive enhancement for data visualization</li>
+</ul>
+</section>
+<section id="data-sources" class="level3">
+<h3 class="anchored" data-anchor-id="data-sources">Data Sources</h3>
+<ul>
+<li><strong>Open-Meteo Marine API</strong>: Wave height, period, and direction (hourly &amp; daily aggregates)</li>
+<li><strong>Open-Meteo Weather API</strong>: Wind speed and direction at 10m elevation</li>
+<li><strong>OpenAI API</strong>: GPT-4o-mini for description generation and forecast synthesis</li>
+</ul>
+<hr>
+</section>
+</section>
+</section>
+<section id="the-four-agent-pipeline" class="level1">
+<h1>The Four-Agent Pipeline</h1>
+<section id="agent-1-description-generator" class="level2">
+<h2 class="anchored" data-anchor-id="agent-1-description-generator">Agent 1: Description Generator</h2>
+<p><strong>Purpose</strong>: Gather contextual information about the requested beach <strong>Functionality</strong>: - Accepts beach name from user input - Uses GPT-4o-mini to generate rich descriptions - Considers geographic, cultural, and surfing context - Returns formatted description text</p>
+<p><strong>Input</strong>: Beach name (string)</p>
+<p><strong>Output</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Bells Beach is a legendary..."</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"context"</span><span class="fu">:</span> <span class="st">"Historical and cultural information"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="beach-description.png" class="img-fluid figure-img"></p>
+<figcaption>Beach Description</figcaption>
+</figure>
+</div>
+<p><strong>To do:</strong></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Try different models and use llm as a judge + domain knowledge to find best llm for task</label></li>
+<li><label><input type="checkbox">Try more structure prompt + one shot example</label></li>
+</ul>
+</section>
+<section id="agent-2-coordinate-resolver" class="level2">
+<h2 class="anchored" data-anchor-id="agent-2-coordinate-resolver">Agent 2: Coordinate Resolver</h2>
+<p><strong>Purpose</strong>: Convert beach names to precise geographic coordinates</p>
+<p><strong>Functionality</strong>: - Takes beach name and description context - Uses GPT-4o-mini with coordinate-resolution prompting - Validates coordinate ranges (±90° latitude, ±180° longitude) - Handles ambiguous beach names through context</p>
+<p><strong>Input</strong>: Beach name + description context</p>
+<p><strong>Output</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"latitude"</span><span class="fu">:</span> <span class="fl">-38.1734</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"longitude"</span><span class="fu">:</span> <span class="fl">144.3994</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"beach_name"</span><span class="fu">:</span> <span class="st">"Bells Beach, Victoria"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="agent-3-weather-data-fetcher" class="level2">
+<h2 class="anchored" data-anchor-id="agent-3-weather-data-fetcher">Agent 3: Weather Data Fetcher</h2>
+<p><strong>Purpose</strong>: Retrieve real-time swell and wind data from dual APIs</p>
+<p><strong>Functionality</strong>: - Makes <strong>two separate API calls</strong> (critical architectural decision): - <strong>Marine API</strong> (<code>marine-api.open-meteo.com/v1/marine</code>): - Wave height (meters) - Wave period (seconds) - Wave direction (degrees)</p>
+<ul>
+<li><strong>Weather API</strong> (<code>api.open-meteo.com/v1/forecast</code>):
+<ul>
+<li>Wind speed at 10m (km/h)</li>
+<li>Wind direction (degrees)</li>
+</ul></li>
+<li>Merges hourly data from both sources</li>
+<li>Computes daily maximum values</li>
+<li>Includes proper error handling with graceful fallbacks</li>
+</ul>
+<p><strong>Input</strong>: Latitude, Longitude</p>
+<p><strong>Output</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"latitude"</span><span class="fu">:</span> <span class="fl">-38.1734</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"longitude"</span><span class="fu">:</span> <span class="fl">144.3994</span><span class="fu">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"timezone"</span><span class="fu">:</span> <span class="st">"Australia/Melbourne"</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"wave_height_max"</span><span class="fu">:</span> <span class="fl">2.8</span><span class="fu">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"wave_period_max"</span><span class="fu">:</span> <span class="fl">12.3</span><span class="fu">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"wind_speed_max"</span><span class="fu">:</span> <span class="fl">18.5</span><span class="fu">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"wind_direction"</span><span class="fu">:</span> <span class="dv">270</span><span class="fu">,</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"hourly"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"time"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"2026-01-13T00:00"</span><span class="ot">,</span> <span class="st">"2026-01-13T01:00"</span><span class="ot">,</span> <span class="er">...</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"wave_height"</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">1.2</span><span class="ot">,</span> <span class="fl">1.3</span><span class="ot">,</span> <span class="fl">1.4</span><span class="ot">,</span> <span class="er">...</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"wave_period"</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">10.5</span><span class="ot">,</span> <span class="fl">10.6</span><span class="ot">,</span> <span class="fl">10.7</span><span class="ot">,</span> <span class="er">...</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"wave_direction"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">265</span><span class="ot">,</span> <span class="dv">267</span><span class="ot">,</span> <span class="dv">269</span><span class="ot">,</span> <span class="er">...</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"wind_speed"</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">15.2</span><span class="ot">,</span> <span class="fl">15.8</span><span class="ot">,</span> <span class="fl">16.1</span><span class="ot">,</span> <span class="er">...</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"wind_direction"</span><span class="fu">:</span> <span class="ot">[</span><span class="dv">268</span><span class="ot">,</span> <span class="dv">269</span><span class="ot">,</span> <span class="dv">270</span><span class="ot">,</span> <span class="er">...</span><span class="ot">]</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="forecast.png" class="img-fluid figure-img"></p>
+<figcaption>Forecast</figcaption>
+</figure>
+</div>
+<p><strong>To do:</strong></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Fix visualisations, seperated wind and swell, and use arrows to display wind</label></li>
+</ul>
+</section>
+<section id="agent-4-forecast-synthesizer" class="level2">
+<h2 class="anchored" data-anchor-id="agent-4-forecast-synthesizer">Agent 4: Forecast Synthesizer</h2>
+<p><strong>Purpose</strong>: Create human-readable forecast text using AI analysis</p>
+<p><strong>Functionality</strong>: - Accepts all weather data and beach context - Prompts GPT-4o-mini for professional forecast generation - Considers: - Wave conditions (height, period, direction) - Wind patterns and their effect on conditions - Optimal surfing windows - Safety considerations</p>
+<p><strong>Input</strong>: All previous agent outputs + merged weather data</p>
+<p><strong>Output</strong>:</p>
+<pre><code>Tomorrow looks excellent for the exposed reefs with 
+2-3m swells and light offshore winds in the morning. 
+Conditions clean up until midday, with ideal wind 
+switching onshore in the afternoon. Best windows: 
+early dawn to 11am. Crowds expected.</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="report.png" class="img-fluid figure-img"></p>
+<figcaption>Daily Forecast</figcaption>
+</figure>
+</div>
+<p><strong>To do:</strong></p>
+<ul class="task-list">
+<li><label><input type="checkbox">Use a more structured prompt, try different models</label></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="frontend-architecture" class="level1">
+<h1>Frontend Architecture</h1>
+<section id="page-structure" class="level2">
+<h2 class="anchored" data-anchor-id="page-structure">Page Structure</h2>
+<p>[<strong>INSERT SCREENSHOT: Full page view with header, search box, and results</strong>]</p>
+<section id="header-section" class="level3">
+<h3 class="anchored" data-anchor-id="header-section">Header Section</h3>
+<ul>
+<li><strong>Typography</strong>: Block-style monospace (Courier New) heading</li>
+<li><strong>Color Palette</strong>: Earthy browns (#8b7355), warm beige (#fef5e7)</li>
+<li><strong>Border Design</strong>: 3px solid borders with drop shadow effects</li>
+<li><strong>Tagline</strong>: “Read the Waves”</li>
+</ul>
+</section>
+<section id="search-interface" class="level3">
+<h3 class="anchored" data-anchor-id="search-interface">Search Interface</h3>
+<ul>
+<li><strong>Input Field</strong>: Full-width with focus states and validation</li>
+<li><strong>Button</strong>: Solid background with hover transform effects</li>
+<li><strong>Help Text</strong>: Suggested beach names for exploration</li>
+</ul>
+</section>
+<section id="results-grid" class="level3">
+<h3 class="anchored" data-anchor-id="results-grid">Results Grid</h3>
+<ul>
+<li><strong>Responsive Layout</strong>: CSS Grid with <code>auto-fit</code> for responsive columns</li>
+<li><strong>Card-Based Design</strong>: Each data type in isolated cards with consistent styling</li>
+<li><strong>Visibility Control</strong>: Results hidden until search submitted</li>
+</ul>
+<hr>
+<p><strong>Article compiled</strong>: January 13, 2026<br>
+<strong>Project Status</strong>: Active Development<br>
+<strong>License</strong>: MIT</p>
 
 
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -3,7 +3,7 @@ title: "Hello World"
 author: "Lucas Hudson"
 date: "2026-01-06"
 categories: [blog]
-image: "image.jpg"
+image: "image.png"
 format:
   html:
     theme: lux
@@ -12,12 +12,15 @@ format:
 print("Hello World!")
 ```
 
-Welcome all to my website, I will be using this site to document my personal projects, blog about my thoughts and upload images of my travels
+Welcome all to my website, I will be using this site to document my personal projects and blog some of my thought around the tech industry, with a particular focus around ML, Deep Learning and AI.
 
-In 2026 I plan to further my development in AI and software engineering through self directed projects, some which will be built locally at my own leisure, and others which I will host and maintain with best engineering practices.
+I plan to further my development in AI, ML and Full Stack engineering through self directed projects, some which will be built locally at my own leisure, and others which I will endevour to host and maintain.
 
-It is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks that have real world use cases.
+I will mainly be building Full Stack applications using Python/FastAPI with a mixture of different frontends as I continue to learn them.
+I do my public ML development through the use of Jupyter Notebooks on kaggle data to showcase my ML model development step by step.
 
-I plan on posting here at lease weekly so please keep checking in if you are interested in what I am building, Thanks!
+It is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks to fit real world use cases.
 
-![alt](image.jpg)
+I plan on posting here at least weekly so please keep checking in if you are interested in what I am building, Thanks!
+
+![hello-world](image.png)

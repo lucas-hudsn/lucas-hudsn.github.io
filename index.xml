@@ -9,12 +9,12 @@
 <link>https://lucas-hudsn.github.io/</link>
 <atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Personal website - Lucas Hudson 🙂‍↔️</description>
-<generator>quarto-1.8.26</generator>
-<lastBuildDate>Mon, 12 Jan 2026 13:00:00 GMT</lastBuildDate>
+<generator>quarto-1.8.27</generator>
+<lastBuildDate>Sat, 10 Jan 2026 00:00:00 GMT</lastBuildDate>
 <item>
-  <title>wave~reader</title>
+  <title>wavereader</title>
   <dc:creator>Lucas Hudson</dc:creator>
-  <link>https://lucas-hudsn.github.io/posts/wave~reader/wave_reader_article.html</link>
+  <link>https://lucas-hudsn.github.io/posts/wave~reader/wavereader.html</link>
   <description><![CDATA[ 
 
 
@@ -23,501 +23,568 @@
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://lucas-hudsn.github.io/posts/wave~reader/wave~reader.png" class="img-fluid figure-img"></p>
-<figcaption>Screenshot</figcaption>
+<p><img src="https://lucas-hudsn.github.io/posts/wave~reader/homepage.png" class="img-fluid figure-img"></p>
+<figcaption>homepage</figcaption>
 </figure>
 </div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="https://github.com/lucas-hudsn/wave-reader"><img src="https://img.shields.io/badge/GitHub-wave~reader-181717?logo=github.png" class="img-fluid figure-img"></a></p>
-<figcaption>GitHub Repo</figcaption>
-</figure>
-</div>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>wave~reader is a simple agentic web application designed to well informed beach descriptions, surf forecast and daily surf report to a user by leveraging AI-powered analysis and real-time meteorological data. Built with a sophisticated multi-agent architecture, the application synthesizes wave data, wind patterns, and geographic information to deliver actionable insights for surfers.</p>
-<section id="project-vision" class="level2">
-<h2 class="anchored" data-anchor-id="project-vision">Project Vision</h2>
-<p>The core vision of wave~reader is to democratize access to professional-grade surf forecasting through an intuitive, accessible interface. Rather than requiring users to interpret raw meteorological data or consult multiple sources, the application presents curated, AI-generated forecasts that consider complex interactions between ocean conditions, wind patterns, and geographic factors.</p>
-<p>This current implementation is only a proof of concept, I am planning on building out more rigid features into the website with the hope of hosting and maintaining it when I feel it is ready.</p>
+<section id="wavereader" class="level1">
+<h1>wave~reader</h1>
+<p>AI-powered surf forecasting for 50+ Australian surf breaks. Combines a curated SQLite database with Google Gemini AI and Open-Meteo marine/weather data to generate personalized surf reports.</p>
+<section id="tech-stack" class="level2">
+<h2 class="anchored" data-anchor-id="tech-stack">Tech Stack</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Backend</td>
+<td>FastAPI, Jinja2, SQLite</td>
+</tr>
+<tr class="even">
+<td>Frontend</td>
+<td>Vanilla JavaScript, CSS, SVG charts</td>
+</tr>
+<tr class="odd">
+<td>APIs</td>
+<td>Google Gemini (forecasts), Open-Meteo (marine/weather)</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="key-features" class="level2">
-<h2 class="anchored" data-anchor-id="key-features">Key Features</h2>
+<section id="project-structure" class="level2">
+<h2 class="anchored" data-anchor-id="project-structure">Project Structure</h2>
+<pre><code>wavereader/
+├── main.py              # FastAPI app (API routes &amp; business logic)
+├── data/                # SQLite database
+├── data_gen/            # Data generation scripts
+├── templates/           # Jinja2 HTML templates
+└── static/              # CSS &amp; JavaScript files</code></pre>
+</section>
+<section id="api-endpoints" class="level2">
+<h2 class="anchored" data-anchor-id="api-endpoints">API Endpoints</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>GET /api/states</code></td>
+<td>List all states with surf breaks</td>
+</tr>
+<tr class="even">
+<td><code>GET /api/break/{name}</code></td>
+<td>Full break details + weather + AI forecast</td>
+</tr>
+<tr class="odd">
+<td><code>GET /{state}/{break_name}</code></td>
+<td>Surf break details page</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="features" class="level2">
+<h2 class="anchored" data-anchor-id="features">Features</h2>
 <ul>
-<li><strong>Multi-Agent Architecture</strong>: Four specialized agents working in concert</li>
-<li><strong>Real-Time Data Integration</strong>: Live marine and weather data from Open-Meteo</li>
-<li><strong>AI-Generated Forecasts</strong>: GPT-4o-mini powered analysis and predictions</li>
-<li><strong>Interactive Visualizations</strong>: Charts and geographic maps for data exploration</li>
-<li><strong>Minimal Frontend</strong>: Pure HTML/CSS/JavaScript with no build tools required</li>
-<li><strong>Lofi Aesthetic</strong>: Thoughtfully designed user interface with earthy color palette</li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="architecture-overview" class="level1">
-<h1>Architecture Overview</h1>
-<section id="system-design" class="level2">
-<h2 class="anchored" data-anchor-id="system-design">System Design</h2>
-<p>wave~reader employs a modular, agent-based architecture that separates concerns and allows for independent scaling of components:</p>
-<pre><code>┌─────────────────────────────────────────────────────────────┐
-│                    User Interface (Frontend)                │
-│         HTML/CSS/JavaScript • Lofi Aesthetic Design          │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-┌────────────────────────▼────────────────────────────────────┐
-│                  FastAPI Backend (ASGI)                     │
-│              Async Request Handling &amp; Routing               │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-┌────────────────────────▼────────────────────────────────────┐
-│              LangGraph Multi-Agent Orchestrator             │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │ Agent 1: Description Generator (Geolocation &amp; Context)  │
-│  │ Agent 2: Coordinate Resolver (Beach Geolocation)        │
-│  │ Agent 3: Weather Data Fetcher (Marine &amp; Weather APIs)   │
-│  │ Agent 4: Forecast Synthesizer (AI Analysis)             │
-│  └──────────────────────────────────────────────────────┘  │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-        ┌────────────────┴────────────────┐
-        │                                 │
-┌───────▼──────────────┐    ┌────────────▼────────────┐
-│  Open-Meteo Marine   │    │  Open-Meteo Weather     │
-│  API (Swell Data)    │    │  API (Wind Data)        │
-└──────────────────────┘    └─────────────────────────┘</code></pre>
-</section>
-<section id="technology-stack" class="level2">
-<h2 class="anchored" data-anchor-id="technology-stack">Technology Stack</h2>
-<section id="backend" class="level3">
-<h3 class="anchored" data-anchor-id="backend">Backend</h3>
-<ul>
-<li><strong>Python 3.14</strong> with <code>uv</code> package manager for fast, deterministic dependency management</li>
-<li><strong>FastAPI 0.128.0</strong>: Modern async web framework with automatic API documentation</li>
-<li><strong>LangGraph 0.2.0</strong>: Multi-agent orchestration framework for coordinating specialized agents</li>
-<li><strong>LangChain 0.3.0</strong>: LLM integration layer with OpenAI GPT-4o-mini</li>
-<li><strong>Jinja2 Templates</strong>: Server-side template rendering for dynamic HTML generation</li>
-</ul>
-</section>
-<section id="frontend" class="level3">
-<h3 class="anchored" data-anchor-id="frontend">Frontend</h3>
-<ul>
-<li><strong>HTML5</strong>: Semantic markup with accessibility considerations</li>
-<li><strong>CSS3</strong>: Custom lofi aesthetic with earthy color palette and block-style design</li>
-<li><strong>Vanilla JavaScript</strong>: No frameworks; minimal dependencies for maximum control</li>
-<li><strong>Chart.js 4.4.0</strong>: Progressive enhancement for data visualization</li>
+<li>Browse 50+ Australian surf breaks by state</li>
+<li>View detailed break characteristics (wave direction, bottom type, skill level)</li>
+<li>Weekly wave height and wind charts (SVG)</li>
+<li>AI-generated surf forecasts via Google Gemma</li>
+<li>Responsive retro monospace design</li>
 </ul>
 </section>
-<section id="data-sources" class="level3">
-<h3 class="anchored" data-anchor-id="data-sources">Data Sources</h3>
-<ul>
-<li><strong>Open-Meteo Marine API</strong>: Wave height, period, and direction (hourly &amp; daily aggregates)</li>
-<li><strong>Open-Meteo Weather API</strong>: Wind speed and direction at 10m elevation</li>
-<li><strong>OpenAI API</strong>: GPT-4o-mini for description generation and forecast synthesis</li>
-</ul>
-<hr>
+<section id="environment-variables" class="level2">
+<h2 class="anchored" data-anchor-id="environment-variables">Environment Variables</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>GOOGLE_API_KEY</code></td>
+<td>Google API key (required)</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
+<section id="prompt-engineering-for-surf-break-data-generation" class="level1">
+<h1>Prompt Engineering for Surf Break Data Generation</h1>
+<p>This document covers the prompting techniques used to populate the wave~reader database with 50+ Australian surf breaks.</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>Two prompting strategies were developed:</p>
+<ol type="1">
+<li><strong>Zero-shot</strong> - Explicit instructions without examples</li>
+<li><strong>One-shot</strong> - Single validated example to anchor output</li>
+</ol>
 </section>
-<section id="the-four-agent-pipeline" class="level1">
-<h1>The Four-Agent Pipeline</h1>
-<section id="agent-1-description-generator" class="level2">
-<h2 class="anchored" data-anchor-id="agent-1-description-generator">Agent 1: Description Generator</h2>
-<p><strong>Purpose</strong>: Gather contextual information about the requested beach <strong>Functionality</strong>: - Accepts beach name from user input - Uses GPT-4o-mini to generate rich descriptions - Considers geographic, cultural, and surfing context - Returns formatted description text</p>
-<p><strong>Input</strong>: Beach name (string)</p>
-<p><strong>Output</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+<section id="zero-shot-prompting" class="level2">
+<h2 class="anchored" data-anchor-id="zero-shot-prompting">Zero-Shot Prompting</h2>
+<p>Zero-shot prompting asks the model to perform a task using only instructions, relying on its pre-trained knowledge.</p>
+<section id="principles" class="level3">
+<h3 class="anchored" data-anchor-id="principles">Principles</h3>
+<p><strong>1. Structured Output</strong></p>
+<p>Define the exact JSON schema:</p>
+<pre><code>Return a JSON object with the following fields:
+- "description": A quick 2-3 sentence description
+- "state": The state/region where it's located
+- "coordinates": Object with "latitude" and "longitude"
+...</code></pre>
+<p><strong>2. Constrained Options</strong></p>
+<p>Limit valid values for categorical fields:</p>
+<pre><code>- "wave_direction": Either "left" or "right"
+- "bottom_type": Either "reef" or "sand"
+- "skill_level": Either "beginner", "intermediate", or "advanced"</code></pre>
+<p><strong>3. Format Examples</strong></p>
+<p>Provide inline hints for ambiguous fields:</p>
+<pre><code>- "ideal_swell_size": Ideal swell size range (e.g., "3-6 ft")</code></pre>
+<p><strong>4. Clear Output Instructions</strong></p>
+<p>Prevent markdown wrapping or explanatory text:</p>
+<pre><code>Return ONLY valid JSON, no markdown or additional text.</code></pre>
+</section>
+<section id="example-output" class="level3">
+<h3 class="anchored" data-anchor-id="example-output">Example Output</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">{</span></span>
-<span id="cb2-2">  <span class="dt" style="color: #AD0000;
+<span id="cb6-2">  <span class="dt" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">"description"</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">:</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Bells Beach is a legendary..."</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">"Bells Beach is a world-renowned right-hand point break..."</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">,</span></span>
-<span id="cb2-3">  <span class="dt" style="color: #AD0000;
+<span id="cb6-3">  <span class="dt" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">"context"</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">"state"</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">:</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Historical and cultural information"</span></span>
-<span id="cb2-4"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">}</span></span></code></pre></div></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://lucas-hudsn.github.io/posts/wave~reader/beach-description.png" class="img-fluid figure-img"></p>
-<figcaption>Beach Description</figcaption>
-</figure>
-</div>
-<p><strong>To do:</strong></p>
-<ul class="task-list">
-<li><label><input type="checkbox">Try different models and use llm as a judge + domain knowledge to find best llm for task</label></li>
-<li><label><input type="checkbox">Try more structure prompt + one shot example</label></li>
-</ul>
-</section>
-<section id="agent-2-coordinate-resolver" class="level2">
-<h2 class="anchored" data-anchor-id="agent-2-coordinate-resolver">Agent 2: Coordinate Resolver</h2>
-<p><strong>Purpose</strong>: Convert beach names to precise geographic coordinates</p>
-<p><strong>Functionality</strong>: - Takes beach name and description context - Uses GPT-4o-mini with coordinate-resolution prompting - Validates coordinate ranges (±90° latitude, ±180° longitude) - Handles ambiguous beach names through context</p>
-<p><strong>Input</strong>: Beach name + description context</p>
-<p><strong>Output</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">{</span></span>
-<span id="cb3-2">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"latitude"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">-38.1734</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">"Victoria"</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">,</span></span>
-<span id="cb3-3">  <span class="dt" style="color: #AD0000;
+<span id="cb6-4">  <span class="dt" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">"longitude"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">144.3994</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb3-4">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"beach_name"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Bells Beach, Victoria"</span></span>
-<span id="cb3-5"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">}</span></span></code></pre></div></div>
-</section>
-<section id="agent-3-weather-data-fetcher" class="level2">
-<h2 class="anchored" data-anchor-id="agent-3-weather-data-fetcher">Agent 3: Weather Data Fetcher</h2>
-<p><strong>Purpose</strong>: Retrieve real-time swell and wind data from dual APIs</p>
-<p><strong>Functionality</strong>: - Makes <strong>two separate API calls</strong> (critical architectural decision): - <strong>Marine API</strong> (<code>marine-api.open-meteo.com/v1/marine</code>): - Wave height (meters) - Wave period (seconds) - Wave direction (degrees)</p>
-<ul>
-<li><strong>Weather API</strong> (<code>api.open-meteo.com/v1/forecast</code>):
-<ul>
-<li>Wind speed at 10m (km/h)</li>
-<li>Wind direction (degrees)</li>
-</ul></li>
-<li>Merges hourly data from both sources</li>
-<li>Computes daily maximum values</li>
-<li>Includes proper error handling with graceful fallbacks</li>
-</ul>
-<p><strong>Input</strong>: Latitude, Longitude</p>
-<p><strong>Output</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">{</span></span>
-<span id="cb4-2">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"latitude"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">-38.1734</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-3">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"longitude"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">144.3994</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-4">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"timezone"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Australia/Melbourne"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-5">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"wave_height_max"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2.8</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-6">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"wave_period_max"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">12.3</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-7">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"wind_speed_max"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">18.5</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-8">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"wind_direction"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">270</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-9">  <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"hourly"</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">"coordinates"</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">:</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">{</span></span>
-<span id="cb4-10">    <span class="dt" style="color: #AD0000;
+font-style: inherit;">{</span> <span class="dt" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">"time"</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">"latitude"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">[</span><span class="st" style="color: #20794D;
+font-style: inherit;">-38.366</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">"2026-01-13T00:00"</span><span class="ot" style="color: #003B4F;
+font-style: inherit;">,</span> <span class="dt" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+font-style: inherit;">"longitude"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">"2026-01-13T01:00"</span><span class="ot" style="color: #003B4F;
+font-style: inherit;">:</span> <span class="fl" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">,</span> <span class="er" style="color: #AD0000;
+font-style: inherit;">144.279</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">...</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">]</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-11">    <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"wave_height"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">[</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.2</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.3</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1.4</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="er" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">...</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">]</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-12">    <span class="dt" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">"wave_period"</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">[</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">10.5</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">10.6</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">10.7</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="er" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">...</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">]</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-13">    <span class="dt" style="color: #AD0000;
+font-style: inherit;">},</span></span>
+<span id="cb6-5">  <span class="dt" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">"wave_direction"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">[</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">265</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">267</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">269</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="er" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">...</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">]</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">"right"</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">,</span></span>
-<span id="cb4-14">    <span class="dt" style="color: #AD0000;
+<span id="cb6-6">  <span class="dt" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">"wind_speed"</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">"bottom_type"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">[</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">15.2</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">15.8</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16.1</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">,</span> <span class="er" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">...</span><span class="ot" style="color: #003B4F;
-background-color: null;
-font-style: inherit;">]</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">"reef"</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">,</span></span>
-<span id="cb4-15">    <span class="dt" style="color: #AD0000;
+<span id="cb6-7">  <span class="dt" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">"wind_direction"</span><span class="fu" style="color: #4758AB;
+font-style: inherit;">"break_type"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">:</span> <span class="ot" style="color: #003B4F;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">[</span><span class="dv" style="color: #AD0000;
+font-style: inherit;">"point"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">268</span><span class="ot" style="color: #003B4F;
+font-style: inherit;">,</span></span>
+<span id="cb6-8">  <span class="dt" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
+font-style: inherit;">"skill_level"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">269</span><span class="ot" style="color: #003B4F;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">,</span> <span class="dv" style="color: #AD0000;
+font-style: inherit;">"advanced"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">270</span><span class="ot" style="color: #003B4F;
+font-style: inherit;">,</span></span>
+<span id="cb6-9">  <span class="dt" style="color: #AD0000;
 background-color: null;
-font-style: inherit;">,</span> <span class="er" style="color: #AD0000;
+font-style: inherit;">"ideal_wind"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">...</span><span class="ot" style="color: #003B4F;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">]</span></span>
-<span id="cb4-16">  <span class="fu" style="color: #4758AB;
+font-style: inherit;">"Light offshore (NW to N)"</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">}</span></span>
-<span id="cb4-17"><span class="fu" style="color: #4758AB;
+font-style: inherit;">,</span></span>
+<span id="cb6-10">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"ideal_tide"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Mid to high"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb6-11">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">"ideal_swell_size"</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"4-10 ft"</span></span>
+<span id="cb6-12"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">}</span></span></code></pre></div></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://lucas-hudsn.github.io/posts/wave~reader/forecast.png" class="img-fluid figure-img"></p>
-<figcaption>Forecast</figcaption>
-</figure>
-</div>
-<p><strong>To do:</strong></p>
-<ul class="task-list">
-<li><label><input type="checkbox">Fix visualisations, seperated wind and swell, and use arrows to display wind</label></li>
-</ul>
-</section>
-<section id="agent-4-forecast-synthesizer" class="level2">
-<h2 class="anchored" data-anchor-id="agent-4-forecast-synthesizer">Agent 4: Forecast Synthesizer</h2>
-<p><strong>Purpose</strong>: Create human-readable forecast text using AI analysis</p>
-<p><strong>Functionality</strong>: - Accepts all weather data and beach context - Prompts GPT-4o-mini for professional forecast generation - Considers: - Wave conditions (height, period, direction) - Wind patterns and their effect on conditions - Optimal surfing windows - Safety considerations</p>
-<p><strong>Input</strong>: All previous agent outputs + merged weather data</p>
-<p><strong>Output</strong>:</p>
-<pre><code>Tomorrow looks excellent for the exposed reefs with 
-2-3m swells and light offshore winds in the morning. 
-Conditions clean up until midday, with ideal wind 
-switching onshore in the afternoon. Best windows: 
-early dawn to 11am. Crowds expected.</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://lucas-hudsn.github.io/posts/wave~reader/report.png" class="img-fluid figure-img"></p>
-<figcaption>Daily Forecast</figcaption>
-</figure>
-</div>
-<p><strong>To do:</strong></p>
-<ul class="task-list">
-<li><label><input type="checkbox">Use a more structured prompt, try different models</label></li>
-</ul>
-<hr>
 </section>
 </section>
-<section id="frontend-architecture" class="level1">
-<h1>Frontend Architecture</h1>
-<section id="page-structure" class="level2">
-<h2 class="anchored" data-anchor-id="page-structure">Page Structure</h2>
-<p>[<strong>INSERT SCREENSHOT: Full page view with header, search box, and results</strong>]</p>
-<section id="header-section" class="level3">
-<h3 class="anchored" data-anchor-id="header-section">Header Section</h3>
+<section id="one-shot-prompting" class="level2">
+<h2 class="anchored" data-anchor-id="one-shot-prompting">One-Shot Prompting</h2>
+<p>One-shot prompting provides a single example input-output pair before the actual request.</p>
+<section id="why-one-shot" class="level3">
+<h3 class="anchored" data-anchor-id="why-one-shot">Why One-Shot?</h3>
+<p>When generating data for 50 surf breaks, one-shot offers advantages:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Benefit</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Consistency</td>
+<td>Output anchored to known-good example</td>
+</tr>
+<tr class="even">
+<td>Style matching</td>
+<td>Tone and detail level preserved</td>
+</tr>
+<tr class="odd">
+<td>Reduced ambiguity</td>
+<td>Model infers unstated expectations</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="implementation" class="level3">
+<h3 class="anchored" data-anchor-id="implementation">Implementation</h3>
+<p>Use a validated result as the example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">BELLS_BEACH_EXAMPLE <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb7-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"name"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Bells Beach"</span>,</span>
+<span id="cb7-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"description"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Bells Beach is a world-renowned right-hand point break..."</span>,</span>
+<span id="cb7-4">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"state"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Victoria"</span>,</span>
+<span id="cb7-5">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"coordinates"</span>: {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"latitude"</span>: <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">38.366</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"longitude"</span>: <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">144.279</span>},</span>
+<span id="cb7-6">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wave_direction"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"right"</span>,</span>
+<span id="cb7-7">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bottom_type"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"reef"</span>,</span>
+<span id="cb7-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"break_type"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"point"</span>,</span>
+<span id="cb7-9">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"skill_level"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"advanced"</span>,</span>
+<span id="cb7-10">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ideal_wind"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Light offshore (NW to N)"</span>,</span>
+<span id="cb7-11">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ideal_tide"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Mid to high"</span>,</span>
+<span id="cb7-12">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ideal_swell_size"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"4-10 ft"</span>,</span>
+<span id="cb7-13">}</span>
+<span id="cb7-14"></span>
+<span id="cb7-15">prompt <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"""Provide detailed information about a surf break.</span></span>
+<span id="cb7-16"></span>
+<span id="cb7-17"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">Here is an example for Bells Beach:</span></span>
+<span id="cb7-18"></span>
+<span id="cb7-19"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">Input: Bells Beach</span></span>
+<span id="cb7-20"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">Output:</span></span>
+<span id="cb7-21"><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>json<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>dumps(BELLS_BEACH_EXAMPLE, indent<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb7-22"></span>
+<span id="cb7-23"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">Now provide the same information for:</span></span>
+<span id="cb7-24"></span>
+<span id="cb7-25"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">Input: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>beach_name<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span></span>
+<span id="cb7-26"><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">Output:"""</span></span></code></pre></div></div>
+</section>
+<section id="inputoutput-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="inputoutput-pattern">Input/Output Pattern</h3>
+<p>The prompt follows a clear structure:</p>
+<ol type="1">
+<li>Task description</li>
+<li>Example (Input → Output)</li>
+<li>Actual request (Input → …)</li>
+</ol>
+<p>This pattern helps the model understand exactly what format to produce.</p>
+</section>
+</section>
+<section id="comparison" class="level2">
+<h2 class="anchored" data-anchor-id="comparison">Comparison</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Aspect</th>
+<th>Zero-Shot</th>
+<th>One-Shot</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Token usage</td>
+<td>Lower</td>
+<td>Higher (includes example)</td>
+</tr>
+<tr class="even">
+<td>Consistency</td>
+<td>Good with constraints</td>
+<td>Excellent</td>
+</tr>
+<tr class="odd">
+<td>Style matching</td>
+<td>Variable</td>
+<td>Anchored to example</td>
+</tr>
+<tr class="even">
+<td>Best for</td>
+<td>Single queries</td>
+<td>Batch processing</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="batch-processing" class="level2">
+<h2 class="anchored" data-anchor-id="batch-processing">Batch Processing</h2>
+<p>The one-shot script processes all 50 breaks with:</p>
 <ul>
-<li><strong>Typography</strong>: Block-style monospace (Courier New) heading</li>
-<li><strong>Color Palette</strong>: Earthy browns (#8b7355), warm beige (#fef5e7)</li>
-<li><strong>Border Design</strong>: 3px solid borders with drop shadow effects</li>
-<li><strong>Tagline</strong>: “Read the Waves”</li>
+<li><strong>Database storage</strong> - PostgreSQL upsert for reruns</li>
+<li><strong>Error handling</strong> - Individual failures don’t stop batch</li>
+<li><strong>Progress tracking</strong> - Console output shows progress</li>
 </ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">AUSTRALIAN_SURF_BREAKS <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb8-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Snapper Rocks"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Kirra"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Burleigh Heads"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Noosa"</span>,</span>
+<span id="cb8-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"North Narrabeen"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Bondi Beach"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Bells Beach"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Margaret River"</span>,</span>
+<span id="cb8-4">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># ... 50 total</span></span>
+<span id="cb8-5">]</span>
+<span id="cb8-6"></span>
+<span id="cb8-7"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i, beach <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">enumerate</span>(AUSTRALIAN_SURF_BREAKS, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>):</span>
+<span id="cb8-8">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"[</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>i<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/50] Fetching </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>beach<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">..."</span>)</span>
+<span id="cb8-9">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">try</span>:</span>
+<span id="cb8-10">        details <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> get_beach_details(beach)</span>
+<span id="cb8-11">        save_to_database(cursor, conn, details)</span>
+<span id="cb8-12">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Exception</span> <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> e:</span>
+<span id="cb8-13">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"  Error: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>e<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div></div>
 </section>
-<section id="search-interface" class="level3">
-<h3 class="anchored" data-anchor-id="search-interface">Search Interface</h3>
-<ul>
-<li><strong>Input Field</strong>: Full-width with focus states and validation</li>
-<li><strong>Button</strong>: Solid background with hover transform effects</li>
-<li><strong>Help Text</strong>: Suggested beach names for exploration</li>
-</ul>
-</section>
-<section id="results-grid" class="level3">
-<h3 class="anchored" data-anchor-id="results-grid">Results Grid</h3>
-<ul>
-<li><strong>Responsive Layout</strong>: CSS Grid with <code>auto-fit</code> for responsive columns</li>
-<li><strong>Card-Based Design</strong>: Each data type in isolated cards with consistent styling</li>
-<li><strong>Visibility Control</strong>: Results hidden until search submitted</li>
-</ul>
-<hr>
-<p><strong>Article compiled</strong>: January 13, 2026<br>
-<strong>Project Status</strong>: Active Development<br>
-<strong>License</strong>: MIT</p>
+<section id="scripts" class="level2">
+<h2 class="anchored" data-anchor-id="scripts">Scripts</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 37%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Script</th>
+<th>Approach</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>generate_bellsbeach_data_zeroshot.py</code></td>
+<td>Zero-shot</td>
+<td>Single break example</td>
+</tr>
+<tr class="even">
+<td><code>generate_australia_surfbreaks_oneshot.py</code></td>
+<td>One-shot</td>
+<td>Batch generation (50 breaks)</td>
+</tr>
+</tbody>
+</table>
+<p><img src="https://lucas-hudsn.github.io/posts/wave~reader/details.png" class="img-fluid" alt="details"> <img src="https://lucas-hudsn.github.io/posts/wave~reader/stats.png" class="img-fluid" alt="stats"> <img src="https://lucas-hudsn.github.io/posts/wave~reader/chart.png" class="img-fluid" alt="chart"> <img src="https://lucas-hudsn.github.io/posts/wave~reader/report.png" class="img-fluid" alt="report"></p>
 
 
-</section>
 </section>
 </section>
 
  ]]></description>
   <category>AI</category>
-  <guid>https://lucas-hudsn.github.io/posts/wave~reader/wave_reader_article.html</guid>
-  <pubDate>Mon, 12 Jan 2026 13:00:00 GMT</pubDate>
-  <media:content url="https://lucas-hudsn.github.io/posts/wave~reader/wave~reader.png" medium="image" type="image/png" height="84" width="144"/>
+  <category>Full Stack</category>
+  <guid>https://lucas-hudsn.github.io/posts/wave~reader/wavereader.html</guid>
+  <pubDate>Sat, 10 Jan 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://lucas-hudsn.github.io/posts/wave~reader/homepage.png" medium="image" type="image/png" height="96" width="144"/>
 </item>
 <item>
-  <title>Hello, World!</title>
+  <title>Hello World</title>
   <dc:creator>Lucas Hudson</dc:creator>
   <link>https://lucas-hudsn.github.io/posts/hello-world/</link>
   <description><![CDATA[ 
@@ -526,23 +593,24 @@ early dawn to 11am. Crowds expected.</code></pre>
 
 
 
-<div id="04554838" class="cell" data-execution_count="1">
+<div id="a7a56952" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"Hello, world!"</span>)</span></code></pre></div></div>
+font-style: inherit;">"Hello World!"</span>)</span></code></pre></div></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Hello, world!</code></pre>
+<pre><code>Hello World!</code></pre>
 </div>
 </div>
-<p>Welcome all to my website, I will be using this site to document my personal projects,about my thoughts and upload images of my travels</p>
-<p>In 2026 I plan to further my development in AI and software engineering through self directed projects, some which will be built locally at my own leisure, and others which I will host and maintain with best engineering practices.</p>
-<p>It is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks that have real world use cases.</p>
+<p>Welcome all to my website, I will be using this site to document my personal projects and blog some of my thought around the tech industry, with a particular focus around ML, Deep Learning and AI.</p>
+<p>I plan to further my development in AI, ML and Full Stack engineering through self directed projects, some which will be built locally at my own leisure, and others which I will endevour to host and maintain.</p>
+<p>I will mainly be building Full Stack applications using Python/FastAPI with a mixture of different frontends as I continue to learn them. I do my public ML development through the use of Jupyter Notebooks on kaggle data to showcase my ML model development step by step.</p>
+<p>It is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks to fit real world use cases.</p>
 <p>I plan on posting here at least weekly so please keep checking in if you are interested in what I am building, Thanks!</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://lucas-hudsn.github.io/posts/hello-world/hello-world.jpg" class="img-fluid figure-img"></p>
+<p><img src="https://lucas-hudsn.github.io/posts/hello-world/image.png" class="img-fluid figure-img"></p>
 <figcaption>hello-world</figcaption>
 </figure>
 </div>
@@ -552,8 +620,8 @@ font-style: inherit;">"Hello, world!"</span>)</span></code></pre></div></div>
  ]]></description>
   <category>blog</category>
   <guid>https://lucas-hudsn.github.io/posts/hello-world/</guid>
-  <pubDate>Mon, 05 Jan 2026 13:00:00 GMT</pubDate>
-  <media:content url="https://lucas-hudsn.github.io/posts/hello-world/hello-world.jpg" medium="image" type="image/jpeg"/>
+  <pubDate>Tue, 06 Jan 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://lucas-hudsn.github.io/posts/hello-world/image.png" medium="image" type="image/png" height="76" width="144"/>
 </item>
 </channel>
 </rss>

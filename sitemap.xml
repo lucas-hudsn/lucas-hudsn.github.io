@@ -2,18 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lucas-hudsn.github.io/about.html</loc>
-    <lastmod>2026-01-05T22:57:19.097Z</lastmod>
+    <lastmod>2026-01-20T06:24:58.117Z</lastmod>
   </url>
   <url>
     <loc>https://lucas-hudsn.github.io/posts/hello-world/index.html</loc>
-    <lastmod>2026-01-13T03:00:04.754Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucas-hudsn.github.io/posts/wave~reader/wave_reader_article.html</loc>
-    <lastmod>2026-01-13T03:02:24.637Z</lastmod>
+    <lastmod>2026-01-20T06:24:58.133Z</lastmod>
   </url>
   <url>
     <loc>https://lucas-hudsn.github.io/index.html</loc>
-    <lastmod>2026-01-05T22:57:19.098Z</lastmod>
+    <lastmod>2026-01-20T06:24:58.117Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucas-hudsn.github.io/posts/wave~reader/wavereader.html</loc>
+    <lastmod>2026-01-20T06:24:58.140Z</lastmod>
   </url>
 </urlset>

@@ -14,13 +14,6 @@
     "text": "print(\"Hello World!\")\n\nHello World!\n\n\nWelcome all to my website, I will be using this site to document my personal projects and blog some of my thought around the tech industry, with a particular focus around ML, Deep Learning and AI.\nI plan to further my development in AI, ML and Full Stack engineering through self directed projects, some which will be built locally at my own leisure, and others which I will endevour to host and maintain.\nI will mainly be building Full Stack applications using Python/FastAPI with a mixture of different frontends as I continue to learn them. I do my public ML development through the use of Jupyter Notebooks on kaggle data to showcase my ML model development step by step.\nIt is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks to fit real world use cases.\nI plan on posting here at least weekly so please keep checking in if you are interested in what I am building, Thanks!\n\n\n\nhello-world"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "lucas-hudsn",
-    "section": "",
-    "text": "wavereader\n\n\n\nAI\n\nFull Stack\n\n\n\n\n\n\n\n\n\nJan 10, 2026\n\n\nLucas Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nHello World\n\n\n\nblog\n\n\n\n\n\n\n\n\n\nJan 6, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "posts/wave~reader/wavereader.html",
     "href": "posts/wave~reader/wavereader.html",
     "title": "wavereader",
@@ -103,5 +96,12 @@
     "title": "wavereader",
     "section": "Scripts",
     "text": "Scripts\n\n\n\n\n\n\n\n\nScript\nApproach\nPurpose\n\n\n\n\ngenerate_bellsbeach_data_zeroshot.py\nZero-shot\nSingle break example\n\n\ngenerate_australia_surfbreaks_oneshot.py\nOne-shot\nBatch generation (50 breaks)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "lucas-hudsn",
+    "section": "",
+    "text": "wavereader\n\n\n\nAI\n\nFull Stack\n\n\n\n\n\n\n\n\n\nJan 10, 2026\n\n\nLucas Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nHello World\n\n\n\nblog\n\n\n\n\n\n\n\n\n\nJan 6, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
   }
 ]

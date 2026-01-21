@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://lucas-hudsn.github.io/posts/hello-world/index.html</loc>
-    <lastmod>2026-01-20T06:28:30.923Z</lastmod>
+    <loc>https://lucas-hudsn.github.io/CLAUDE.html</loc>
+    <lastmod>2026-01-21T06:11:16.788Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucas-hudsn.github.io/index.html</loc>
+    <lastmod>2026-01-21T06:11:39.406Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucas-hudsn.github.io/posts/wave~reader_datagen/wavereader_datagen.html</loc>
+    <lastmod>2026-01-21T05:06:03.798Z</lastmod>
   </url>
   <url>
     <loc>https://lucas-hudsn.github.io/posts/wave~reader/wavereader.html</loc>
     <lastmod>2026-01-21T05:05:57.296Z</lastmod>
   </url>
   <url>
-    <loc>https://lucas-hudsn.github.io/posts/wave~reader_datagen/wavereader_datagen.html</loc>
-    <lastmod>2026-01-21T05:06:03.798Z</lastmod>
+    <loc>https://lucas-hudsn.github.io/posts/hello-world/hello-world.html</loc>
+    <lastmod>2026-01-20T06:28:30.923Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucas-hudsn.github.io/about.html</loc>
+    <lastmod>2026-01-21T06:11:39.404Z</lastmod>
   </url>
 </urlset>

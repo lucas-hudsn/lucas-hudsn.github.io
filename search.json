@@ -1,0 +1,107 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Data Scientist - Full Stack AI Engineer 🙂‍↔︎️"
+  },
+  {
+    "objectID": "posts/hello-world/index.html",
+    "href": "posts/hello-world/index.html",
+    "title": "Hello World",
+    "section": "",
+    "text": "print(\"Hello World!\")\n\nHello World!\n\n\nWelcome all to my website, I will be using this site to document my personal projects and blog some of my thought around the tech industry, with a particular focus around ML, Deep Learning and AI.\nI plan to further my development in AI, ML and Full Stack engineering through self directed projects, some which will be built locally at my own leisure, and others which I will endevour to host and maintain.\nI will mainly be building Full Stack applications using Python/FastAPI with a mixture of different frontends as I continue to learn them. I do my public ML development through the use of Jupyter Notebooks on kaggle data to showcase my ML model development step by step.\nIt is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks to fit real world use cases.\nI plan on posting here at least weekly so please keep checking in if you are interested in what I am building, Thanks!\n\n\n\nhello-world"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html",
+    "href": "posts/wave~reader/wavereader.html",
+    "title": "wavereader",
+    "section": "",
+    "text": "homepage"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#tech-stack",
+    "href": "posts/wave~reader/wavereader.html#tech-stack",
+    "title": "wavereader",
+    "section": "Tech Stack",
+    "text": "Tech Stack\n\n\n\nLayer\nTechnology\n\n\n\n\nBackend\nFastAPI, Jinja2, SQLite\n\n\nFrontend\nVanilla JavaScript, CSS, SVG charts\n\n\nAPIs\nGoogle Gemini (forecasts), Open-Meteo (marine/weather)"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#project-structure",
+    "href": "posts/wave~reader/wavereader.html#project-structure",
+    "title": "wavereader",
+    "section": "Project Structure",
+    "text": "Project Structure\nwavereader/\n├── main.py              # FastAPI app (API routes & business logic)\n├── data/                # SQLite database\n├── data_gen/            # Data generation scripts\n├── templates/           # Jinja2 HTML templates\n└── static/              # CSS & JavaScript files"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#api-endpoints",
+    "href": "posts/wave~reader/wavereader.html#api-endpoints",
+    "title": "wavereader",
+    "section": "API Endpoints",
+    "text": "API Endpoints\n\n\n\nEndpoint\nDescription\n\n\n\n\nGET /api/states\nList all states with surf breaks\n\n\nGET /api/break/{name}\nFull break details + weather + AI forecast\n\n\nGET /{state}/{break_name}\nSurf break details page"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#features",
+    "href": "posts/wave~reader/wavereader.html#features",
+    "title": "wavereader",
+    "section": "Features",
+    "text": "Features\n\nBrowse 50+ Australian surf breaks by state\nView detailed break characteristics (wave direction, bottom type, skill level)\nWeekly wave height and wind charts (SVG)\nAI-generated surf forecasts via Google Gemma\nResponsive retro monospace design"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#environment-variables",
+    "href": "posts/wave~reader/wavereader.html#environment-variables",
+    "title": "wavereader",
+    "section": "Environment Variables",
+    "text": "Environment Variables\n\n\n\nVariable\nDescription\n\n\n\n\nGOOGLE_API_KEY\nGoogle API key (required)"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#overview",
+    "href": "posts/wave~reader/wavereader.html#overview",
+    "title": "wavereader",
+    "section": "Overview",
+    "text": "Overview\nTwo prompting strategies were developed:\n\nZero-shot - Explicit instructions without examples\nOne-shot - Single validated example to anchor output"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#zero-shot-prompting",
+    "href": "posts/wave~reader/wavereader.html#zero-shot-prompting",
+    "title": "wavereader",
+    "section": "Zero-Shot Prompting",
+    "text": "Zero-Shot Prompting\nZero-shot prompting asks the model to perform a task using only instructions, relying on its pre-trained knowledge.\n\nPrinciples\n1. Structured Output\nDefine the exact JSON schema:\nReturn a JSON object with the following fields:\n- \"description\": A quick 2-3 sentence description\n- \"state\": The state/region where it's located\n- \"coordinates\": Object with \"latitude\" and \"longitude\"\n...\n2. Constrained Options\nLimit valid values for categorical fields:\n- \"wave_direction\": Either \"left\" or \"right\"\n- \"bottom_type\": Either \"reef\" or \"sand\"\n- \"skill_level\": Either \"beginner\", \"intermediate\", or \"advanced\"\n3. Format Examples\nProvide inline hints for ambiguous fields:\n- \"ideal_swell_size\": Ideal swell size range (e.g., \"3-6 ft\")\n4. Clear Output Instructions\nPrevent markdown wrapping or explanatory text:\nReturn ONLY valid JSON, no markdown or additional text.\n\n\nExample Output\n{\n  \"description\": \"Bells Beach is a world-renowned right-hand point break...\",\n  \"state\": \"Victoria\",\n  \"coordinates\": { \"latitude\": -38.366, \"longitude\": 144.279 },\n  \"wave_direction\": \"right\",\n  \"bottom_type\": \"reef\",\n  \"break_type\": \"point\",\n  \"skill_level\": \"advanced\",\n  \"ideal_wind\": \"Light offshore (NW to N)\",\n  \"ideal_tide\": \"Mid to high\",\n  \"ideal_swell_size\": \"4-10 ft\"\n}"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#one-shot-prompting",
+    "href": "posts/wave~reader/wavereader.html#one-shot-prompting",
+    "title": "wavereader",
+    "section": "One-Shot Prompting",
+    "text": "One-Shot Prompting\nOne-shot prompting provides a single example input-output pair before the actual request.\n\nWhy One-Shot?\nWhen generating data for 50 surf breaks, one-shot offers advantages:\n\n\n\nBenefit\nDescription\n\n\n\n\nConsistency\nOutput anchored to known-good example\n\n\nStyle matching\nTone and detail level preserved\n\n\nReduced ambiguity\nModel infers unstated expectations\n\n\n\n\n\nImplementation\nUse a validated result as the example:\nBELLS_BEACH_EXAMPLE = {\n    \"name\": \"Bells Beach\",\n    \"description\": \"Bells Beach is a world-renowned right-hand point break...\",\n    \"state\": \"Victoria\",\n    \"coordinates\": {\"latitude\": -38.366, \"longitude\": 144.279},\n    \"wave_direction\": \"right\",\n    \"bottom_type\": \"reef\",\n    \"break_type\": \"point\",\n    \"skill_level\": \"advanced\",\n    \"ideal_wind\": \"Light offshore (NW to N)\",\n    \"ideal_tide\": \"Mid to high\",\n    \"ideal_swell_size\": \"4-10 ft\",\n}\n\nprompt = f\"\"\"Provide detailed information about a surf break.\n\nHere is an example for Bells Beach:\n\nInput: Bells Beach\nOutput:\n{json.dumps(BELLS_BEACH_EXAMPLE, indent=2)}\n\nNow provide the same information for:\n\nInput: {beach_name}\nOutput:\"\"\"\n\n\nInput/Output Pattern\nThe prompt follows a clear structure:\n\nTask description\nExample (Input → Output)\nActual request (Input → …)\n\nThis pattern helps the model understand exactly what format to produce."
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#comparison",
+    "href": "posts/wave~reader/wavereader.html#comparison",
+    "title": "wavereader",
+    "section": "Comparison",
+    "text": "Comparison\n\n\n\nAspect\nZero-Shot\nOne-Shot\n\n\n\n\nToken usage\nLower\nHigher (includes example)\n\n\nConsistency\nGood with constraints\nExcellent\n\n\nStyle matching\nVariable\nAnchored to example\n\n\nBest for\nSingle queries\nBatch processing"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#batch-processing",
+    "href": "posts/wave~reader/wavereader.html#batch-processing",
+    "title": "wavereader",
+    "section": "Batch Processing",
+    "text": "Batch Processing\nThe one-shot script processes all 50 breaks with:\n\nDatabase storage - PostgreSQL upsert for reruns\nError handling - Individual failures don’t stop batch\nProgress tracking - Console output shows progress\n\nAUSTRALIAN_SURF_BREAKS = [\n    \"Snapper Rocks\", \"Kirra\", \"Burleigh Heads\", \"Noosa\",\n    \"North Narrabeen\", \"Bondi Beach\", \"Bells Beach\", \"Margaret River\",\n    # ... 50 total\n]\n\nfor i, beach in enumerate(AUSTRALIAN_SURF_BREAKS, 1):\n    print(f\"[{i}/50] Fetching {beach}...\")\n    try:\n        details = get_beach_details(beach)\n        save_to_database(cursor, conn, details)\n    except Exception as e:\n        print(f\"  Error: {e}\")"
+  },
+  {
+    "objectID": "posts/wave~reader/wavereader.html#scripts",
+    "href": "posts/wave~reader/wavereader.html#scripts",
+    "title": "wavereader",
+    "section": "Scripts",
+    "text": "Scripts\n\n\n\n\n\n\n\n\nScript\nApproach\nPurpose\n\n\n\n\ngenerate_bellsbeach_data_zeroshot.py\nZero-shot\nSingle break example\n\n\ngenerate_australia_surfbreaks_oneshot.py\nOne-shot\nBatch generation (50 breaks)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "lucas-hudsn",
+    "section": "",
+    "text": "wavereader\n\n\n\nAI\n\nFull Stack\n\n\n\n\n\n\n\n\n\nJan 10, 2026\n\n\nLucas Hudson\n\n\n\n\n\n\n\n\n\n\n\n\nHello World\n\n\n\nblog\n\n\n\n\n\n\n\n\n\nJan 6, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
+  }
+]

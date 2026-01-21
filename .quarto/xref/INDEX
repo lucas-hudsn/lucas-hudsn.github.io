@@ -1,0 +1,23 @@
+{
+  "posts/wave~reader/article.qmd": {
+    "article.html": "7f9060cb"
+  },
+  "posts/hello-world/index.qmd": {
+    "index.html": "08e91a0f"
+  },
+  "index.qmd": {
+    "index.html": "815c51d6"
+  },
+  "about.qmd": {
+    "about.html": "42210673"
+  },
+  "posts/todo.qmd": {
+    "todo.html": "27f0e3fd"
+  },
+  "posts/wave~reader/Untitled.ipynb": {
+    "Untitled.html": "d420cf7b"
+  },
+  "posts/wave~reader/wavereader.ipynb": {
+    "wavereader.html": "07a9f241"
+  }
+}

@@ -5,6 +5,9 @@ description = "Data Science Portfolio"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "dotenv>=0.9.9",
+    "google>=3.0.0",
+    "google-genai>=1.59.0",
     "jupyter>=1.1.1",
     "jupyterlab-quarto>=0.3.5",
     "matplotlib>=3.10.0",

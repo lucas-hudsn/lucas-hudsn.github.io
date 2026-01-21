@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Lucas Hudson">
-<meta name="dcterms.date" content="2026-01-10">
+<meta name="dcterms.date" content="2026-01-20">
 
 <title>wavereader – lucas-hudsn</title>
 <style>
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -113,7 +78,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -128,8 +93,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../about.html"> 
-<span class="menu-text">About</span></a>
+    <span class="nav-link">
+<span class="menu-text">about.qmd</span>
+    </span>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/lucas-hudsn"> <i class="bi bi-github" role="img">
@@ -149,47 +115,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">wavereader</h1>
-                                <div class="quarto-categories">
-                <div class="quarto-category">AI</div>
-                <div class="quarto-category">Full Stack</div>
-              </div>
-                  </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>Lucas Hudson </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">January 10, 2026</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">wavereader</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">AI</div>
+    <div class="quarto-category">Full Stack</div>
+  </div>
+  </div>
 
 
 
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Lucas Hudson </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 20, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
 
 
 <div class="quarto-figure quarto-figure-center">
@@ -200,296 +165,135 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="wavereader" class="level1">
 <h1>wave~reader</h1>
-<p>AI-powered surf forecasting for 50+ Australian surf breaks. Combines a curated SQLite database with Google Gemini AI and Open-Meteo marine/weather data to generate personalized surf reports.</p>
-<section id="tech-stack" class="level2">
-<h2 class="anchored" data-anchor-id="tech-stack">Tech Stack</h2>
+<p>A full-stack web application that delivers AI-powered surf forecasts for 50+ Australian surf breaks. This project demonstrates end-to-end engineering—from database design and API architecture to real-time data integration and generative AI implementation.</p>
+<section id="architecture-overview" class="level2">
+<h2 class="anchored" data-anchor-id="architecture-overview">Architecture Overview</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                         Frontend                                │
+│  Vanilla JS  •  Dynamic SVG Charts  •  Responsive CSS           │
+└──────────────────────────┬──────────────────────────────────────┘
+                           │
+┌──────────────────────────▼──────────────────────────────────────┐
+│                      FastAPI Backend                            │
+│  RESTful API  •  Jinja2 Templates  •  Request Orchestration     │
+└───────┬─────────────────────────────────────────────┬───────────┘
+        │                                             │
+┌───────▼───────┐  ┌─────────────────┐  ┌─────────────▼───────────┐
+│    SQLite     │  │   Open-Meteo    │  │     Google Gemini       │
+│   Database    │  │   Marine API    │  │    Generative AI        │
+└───────────────┘  └─────────────────┘  └─────────────────────────┘</code></pre>
+</section>
+<section id="full-stack-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="full-stack-engineering">Full Stack Engineering</h2>
+<section id="backend-fastapi-python" class="level3">
+<h3 class="anchored" data-anchor-id="backend-fastapi-python">Backend (FastAPI + Python)</h3>
+<p>The backend serves as the orchestration layer, coordinating between the database, external APIs, and AI services:</p>
+<ul>
+<li><strong>RESTful API Design</strong>: Clean endpoint structure with proper separation between data retrieval (<code>/api/states</code>, <code>/api/break/{name}</code>) and page rendering (<code>/{state}/{break_name}</code>)</li>
+<li><strong>Async Request Handling</strong>: Concurrent fetching of marine and weather data from Open-Meteo to minimize response latency</li>
+<li><strong>Template Rendering</strong>: Server-side HTML generation with Jinja2 for fast initial page loads and SEO benefits</li>
+</ul>
+</section>
+<section id="database-layer-sqlite" class="level3">
+<h3 class="anchored" data-anchor-id="database-layer-sqlite">Database Layer (SQLite)</h3>
+<p>A curated SQLite database stores detailed surf break metadata:</p>
+<ul>
+<li>Geographic coordinates for weather API queries</li>
+<li>Break characteristics (wave direction, bottom type, optimal conditions)</li>
+<li>Skill level classifications and hazard information</li>
+</ul>
+</section>
+<section id="frontend-vanilla-javascript" class="level3">
+<h3 class="anchored" data-anchor-id="frontend-vanilla-javascript">Frontend (Vanilla JavaScript)</h3>
+<p>Built without frameworks to keep the bundle size minimal:</p>
+<ul>
+<li><strong>Dynamic SVG Charts</strong>: Client-side rendering of weekly wave height and wind speed visualizations</li>
+<li><strong>Progressive Enhancement</strong>: Core content works without JavaScript; charts enhance the experience</li>
+<li><strong>Responsive Design</strong>: Mobile-first approach with a retro monospace aesthetic</li>
+</ul>
+</section>
+</section>
+<section id="ai-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="ai-engineering">AI Engineering</h2>
+<section id="generative-forecasting-with-google-gemini" class="level3">
+<h3 class="anchored" data-anchor-id="generative-forecasting-with-google-gemini">Generative Forecasting with Google Gemini</h3>
+<p>The core differentiator is the AI-generated surf reports. Rather than displaying raw weather data, the application synthesizes multiple data sources into natural language forecasts:</p>
+<p><strong>Input Context Assembly</strong>:</p>
+<pre><code>Break metadata (direction, bottom, skill level)
+    + 7-day marine forecast (swell height, period, direction)
+    + 7-day weather forecast (wind speed, direction, precipitation)
+    = Structured prompt for Gemini</code></pre>
+<p><strong>Prompt Engineering</strong>: The system constructs prompts that include: - Break-specific characteristics that affect wave quality - Temporal context (which days look best) - Safety considerations based on skill level requirements</p>
+<p><strong>Output</strong>: Human-readable surf reports that interpret the data in context—explaining <em>why</em> Tuesday looks better than Wednesday, not just that the swell is bigger.</p>
+</section>
+</section>
+<section id="key-technical-decisions" class="level2">
+<h2 class="anchored" data-anchor-id="key-technical-decisions">Key Technical Decisions</h2>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Layer</th>
-<th>Technology</th>
+<th>Decision</th>
+<th>Rationale</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Backend</td>
-<td>FastAPI, Jinja2, SQLite</td>
+<td>FastAPI over Flask</td>
+<td>Native async support for parallel API calls</td>
 </tr>
 <tr class="even">
-<td>Frontend</td>
-<td>Vanilla JavaScript, CSS, SVG charts</td>
+<td>SQLite over PostgreSQL</td>
+<td>Single-file deployment, sufficient for read-heavy workload</td>
 </tr>
 <tr class="odd">
-<td>APIs</td>
-<td>Google Gemini (forecasts), Open-Meteo (marine/weather)</td>
+<td>Vanilla JS over React</td>
+<td>Minimal interactivity needs; faster load times</td>
+</tr>
+<tr class="even">
+<td>Server-side rendering</td>
+<td>Better SEO, faster first contentful paint</td>
+</tr>
+<tr class="odd">
+<td>Gemini over local models</td>
+<td>Quality of natural language output; managed infrastructure</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="project-structure" class="level2">
-<h2 class="anchored" data-anchor-id="project-structure">Project Structure</h2>
-<pre><code>wavereader/
-├── main.py              # FastAPI app (API routes &amp; business logic)
-├── data/                # SQLite database
-├── data_gen/            # Data generation scripts
-├── templates/           # Jinja2 HTML templates
-└── static/              # CSS &amp; JavaScript files</code></pre>
 </section>
 <section id="api-endpoints" class="level2">
 <h2 class="anchored" data-anchor-id="api-endpoints">API Endpoints</h2>
 <table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Endpoint</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>GET /api/states</code></td>
-<td>List all states with surf breaks</td>
-</tr>
-<tr class="even">
-<td><code>GET /api/break/{name}</code></td>
-<td>Full break details + weather + AI forecast</td>
-</tr>
-<tr class="odd">
-<td><code>GET /{state}/{break_name}</code></td>
-<td>Surf break details page</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="features" class="level2">
-<h2 class="anchored" data-anchor-id="features">Features</h2>
-<ul>
-<li>Browse 50+ Australian surf breaks by state</li>
-<li>View detailed break characteristics (wave direction, bottom type, skill level)</li>
-<li>Weekly wave height and wind charts (SVG)</li>
-<li>AI-generated surf forecasts via Google Gemma</li>
-<li>Responsive retro monospace design</li>
-</ul>
-</section>
-<section id="environment-variables" class="level2">
-<h2 class="anchored" data-anchor-id="environment-variables">Environment Variables</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Variable</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>GOOGLE_API_KEY</code></td>
-<td>Google API key (required)</td>
-</tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="prompt-engineering-for-surf-break-data-generation" class="level1">
-<h1>Prompt Engineering for Surf Break Data Generation</h1>
-<p>This document covers the prompting techniques used to populate the wave~reader database with 50+ Australian surf breaks.</p>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>Two prompting strategies were developed:</p>
-<ol type="1">
-<li><strong>Zero-shot</strong> - Explicit instructions without examples</li>
-<li><strong>One-shot</strong> - Single validated example to anchor output</li>
-</ol>
-</section>
-<section id="zero-shot-prompting" class="level2">
-<h2 class="anchored" data-anchor-id="zero-shot-prompting">Zero-Shot Prompting</h2>
-<p>Zero-shot prompting asks the model to perform a task using only instructions, relying on its pre-trained knowledge.</p>
-<section id="principles" class="level3">
-<h3 class="anchored" data-anchor-id="principles">Principles</h3>
-<p><strong>1. Structured Output</strong></p>
-<p>Define the exact JSON schema:</p>
-<pre><code>Return a JSON object with the following fields:
-- "description": A quick 2-3 sentence description
-- "state": The state/region where it's located
-- "coordinates": Object with "latitude" and "longitude"
-...</code></pre>
-<p><strong>2. Constrained Options</strong></p>
-<p>Limit valid values for categorical fields:</p>
-<pre><code>- "wave_direction": Either "left" or "right"
-- "bottom_type": Either "reef" or "sand"
-- "skill_level": Either "beginner", "intermediate", or "advanced"</code></pre>
-<p><strong>3. Format Examples</strong></p>
-<p>Provide inline hints for ambiguous fields:</p>
-<pre><code>- "ideal_swell_size": Ideal swell size range (e.g., "3-6 ft")</code></pre>
-<p><strong>4. Clear Output Instructions</strong></p>
-<p>Prevent markdown wrapping or explanatory text:</p>
-<pre><code>Return ONLY valid JSON, no markdown or additional text.</code></pre>
-</section>
-<section id="example-output" class="level3">
-<h3 class="anchored" data-anchor-id="example-output">Example Output</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"Bells Beach is a world-renowned right-hand point break..."</span><span class="fu">,</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"state"</span><span class="fu">:</span> <span class="st">"Victoria"</span><span class="fu">,</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"coordinates"</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">"latitude"</span><span class="fu">:</span> <span class="fl">-38.366</span><span class="fu">,</span> <span class="dt">"longitude"</span><span class="fu">:</span> <span class="fl">144.279</span> <span class="fu">},</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"wave_direction"</span><span class="fu">:</span> <span class="st">"right"</span><span class="fu">,</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"bottom_type"</span><span class="fu">:</span> <span class="st">"reef"</span><span class="fu">,</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"break_type"</span><span class="fu">:</span> <span class="st">"point"</span><span class="fu">,</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"skill_level"</span><span class="fu">:</span> <span class="st">"advanced"</span><span class="fu">,</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"ideal_wind"</span><span class="fu">:</span> <span class="st">"Light offshore (NW to N)"</span><span class="fu">,</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"ideal_tide"</span><span class="fu">:</span> <span class="st">"Mid to high"</span><span class="fu">,</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"ideal_swell_size"</span><span class="fu">:</span> <span class="st">"4-10 ft"</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-</section>
-<section id="one-shot-prompting" class="level2">
-<h2 class="anchored" data-anchor-id="one-shot-prompting">One-Shot Prompting</h2>
-<p>One-shot prompting provides a single example input-output pair before the actual request.</p>
-<section id="why-one-shot" class="level3">
-<h3 class="anchored" data-anchor-id="why-one-shot">Why One-Shot?</h3>
-<p>When generating data for 50 surf breaks, one-shot offers advantages:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Benefit</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Consistency</td>
-<td>Output anchored to known-good example</td>
-</tr>
-<tr class="even">
-<td>Style matching</td>
-<td>Tone and detail level preserved</td>
-</tr>
-<tr class="odd">
-<td>Reduced ambiguity</td>
-<td>Model infers unstated expectations</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="implementation" class="level3">
-<h3 class="anchored" data-anchor-id="implementation">Implementation</h3>
-<p>Use a validated result as the example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>BELLS_BEACH_EXAMPLE <span class="op">=</span> {</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"name"</span>: <span class="st">"Bells Beach"</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"description"</span>: <span class="st">"Bells Beach is a world-renowned right-hand point break..."</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"state"</span>: <span class="st">"Victoria"</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"coordinates"</span>: {<span class="st">"latitude"</span>: <span class="op">-</span><span class="fl">38.366</span>, <span class="st">"longitude"</span>: <span class="fl">144.279</span>},</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"wave_direction"</span>: <span class="st">"right"</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"bottom_type"</span>: <span class="st">"reef"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"break_type"</span>: <span class="st">"point"</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"skill_level"</span>: <span class="st">"advanced"</span>,</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ideal_wind"</span>: <span class="st">"Light offshore (NW to N)"</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ideal_tide"</span>: <span class="st">"Mid to high"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ideal_swell_size"</span>: <span class="st">"4-10 ft"</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="ss">f"""Provide detailed information about a surf break.</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="ss">Here is an example for Bells Beach:</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="ss">Input: Bells Beach</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="ss">Output:</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="sc">{</span>json<span class="sc">.</span>dumps(BELLS_BEACH_EXAMPLE, indent<span class="op">=</span><span class="dv">2</span>)<span class="sc">}</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="ss">Now provide the same information for:</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="ss">Input: </span><span class="sc">{</span>beach_name<span class="sc">}</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="ss">Output:"""</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="inputoutput-pattern" class="level3">
-<h3 class="anchored" data-anchor-id="inputoutput-pattern">Input/Output Pattern</h3>
-<p>The prompt follows a clear structure:</p>
-<ol type="1">
-<li>Task description</li>
-<li>Example (Input → Output)</li>
-<li>Actual request (Input → …)</li>
-</ol>
-<p>This pattern helps the model understand exactly what format to produce.</p>
-</section>
-</section>
-<section id="comparison" class="level2">
-<h2 class="anchored" data-anchor-id="comparison">Comparison</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Aspect</th>
-<th>Zero-Shot</th>
-<th>One-Shot</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Token usage</td>
-<td>Lower</td>
-<td>Higher (includes example)</td>
-</tr>
-<tr class="even">
-<td>Consistency</td>
-<td>Good with constraints</td>
-<td>Excellent</td>
-</tr>
-<tr class="odd">
-<td>Style matching</td>
-<td>Variable</td>
-<td>Anchored to example</td>
-</tr>
-<tr class="even">
-<td>Best for</td>
-<td>Single queries</td>
-<td>Batch processing</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="batch-processing" class="level2">
-<h2 class="anchored" data-anchor-id="batch-processing">Batch Processing</h2>
-<p>The one-shot script processes all 50 breaks with:</p>
-<ul>
-<li><strong>Database storage</strong> - PostgreSQL upsert for reruns</li>
-<li><strong>Error handling</strong> - Individual failures don’t stop batch</li>
-<li><strong>Progress tracking</strong> - Console output shows progress</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>AUSTRALIAN_SURF_BREAKS <span class="op">=</span> [</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Snapper Rocks"</span>, <span class="st">"Kirra"</span>, <span class="st">"Burleigh Heads"</span>, <span class="st">"Noosa"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"North Narrabeen"</span>, <span class="st">"Bondi Beach"</span>, <span class="st">"Bells Beach"</span>, <span class="st">"Margaret River"</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... 50 total</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, beach <span class="kw">in</span> <span class="bu">enumerate</span>(AUSTRALIAN_SURF_BREAKS, <span class="dv">1</span>):</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"[</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">/50] Fetching </span><span class="sc">{</span>beach<span class="sc">}</span><span class="ss">..."</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        details <span class="op">=</span> get_beach_details(beach)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        save_to_database(cursor, conn, details)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"  Error: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="scripts" class="level2">
-<h2 class="anchored" data-anchor-id="scripts">Scripts</h2>
-<table class="caption-top table">
 <colgroup>
-<col style="width: 29%">
-<col style="width: 37%">
-<col style="width: 33%">
+<col style="width: 32%">
+<col style="width: 25%">
+<col style="width: 41%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Script</th>
-<th>Approach</th>
-<th>Purpose</th>
+<th>Endpoint</th>
+<th>Method</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>generate_bellsbeach_data_zeroshot.py</code></td>
-<td>Zero-shot</td>
-<td>Single break example</td>
+<td><code>/api/states</code></td>
+<td>GET</td>
+<td>Returns all states with available surf breaks</td>
 </tr>
 <tr class="even">
-<td><code>generate_australia_surfbreaks_oneshot.py</code></td>
-<td>One-shot</td>
-<td>Batch generation (50 breaks)</td>
+<td><code>/api/break/{name}</code></td>
+<td>GET</td>
+<td>Full break details + weather data + AI forecast</td>
+</tr>
+<tr class="odd">
+<td><code>/{state}/{break_name}</code></td>
+<td>GET</td>
+<td>Rendered HTML page for a specific break</td>
 </tr>
 </tbody>
 </table>

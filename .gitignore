@@ -34,3 +34,6 @@ index.xml
 # IDE
 .vscode/
 .idea/
+
+/.quarto/
+**/*.quarto_ipynb

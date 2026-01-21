@@ -19,5 +19,14 @@
   },
   "posts/wave~reader/wavereader.ipynb": {
     "wavereader.html": "07a9f241"
+  },
+  "posts/wave~reader_datagen/wavereader_datagen.ipynb": {
+    "wavereader_datagen.html": "5c18ed4d"
+  },
+  "posts/hello-world/hello-world.qmd": {
+    "hello-world.html": "6a48210d"
+  },
+  "CLAUDE.md": {
+    "CLAUDE.html": "e34ca4ee"
   }
 }

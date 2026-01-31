@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Lucas Hudson">
-<meta name="dcterms.date" content="2026-01-06">
+<meta name="dcterms.date" content="2026-01-31">
 
-<title>Hello World – lucas-hudsn</title>
+<title>NCC_Bot – lucas-hudsn</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -128,9 +93,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <span class="nav-link">
-<span class="menu-text">about.qmd</span>
-    </span>
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/lucas-hudsn"> <i class="bi bi-github" role="img">
@@ -159,9 +123,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Hello World</h1>
+<h1 class="title">NCC_Bot</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">blog</div>
+    <div class="quarto-category">AI</div>
+    <div class="quarto-category">Full Stack</div>
   </div>
   </div>
 
@@ -179,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 6, 2026</p>
+      <p class="date">January 31, 2026</p>
     </div>
   </div>
   
@@ -191,25 +156,102 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="fdfff4e1" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hello World!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Hello World!</code></pre>
-</div>
-</div>
-<p>Welcome all to my website, I will be using this site to document my personal projects and blog some of my thought around the tech industry, with a particular focus around ML, Deep Learning and AI.</p>
-<p>I plan to further my development in AI, ML and Full Stack engineering through self directed projects, some which will be built locally at my own leisure, and others which I will endevour to host and maintain.</p>
-<p>I will mainly be building Full Stack applications using Python/FastAPI with a mixture of different frontends as I continue to learn them. I do my public ML development through the use of Jupyter Notebooks on kaggle data to showcase my ML model development step by step.</p>
-<p>It is a very exciting time in open source engineering with many powerful models being released weekly, I will endevour to implement a wide range of open source models and frameworks to fit real world use cases.</p>
-<p>I plan on posting here at least weekly so please keep checking in if you are interested in what I am building, Thanks!</p>
+<section id="ncc-bot" class="level1">
+<h1>NCC Bot</h1>
+<p>An agentic RAG system for querying the Australian National Construction Code (NCC). Built for architects, project managers, engineers, and building professionals who need fast, accurate answers with clause-level citations.</p>
+<section id="how-it-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-it-works">How It Works</h2>
+<ol type="1">
+<li><strong>Ingest</strong> — Download NCC volumes directly from <a href="https://ncc.abcb.gov.au">ncc.abcb.gov.au</a>, or upload your own PDFs. The system parses them with PyMuPDF/pdfplumber, semantically chunks the text while respecting clause boundaries, embeds the chunks, and stores them in ChromaDB.</li>
+<li><strong>Query</strong> — Ask a question through the chat UI. A PydanticAI agent retrieves relevant chunks from the vector store, self-grades their relevance, and optionally rewrites the query and re-retrieves if results are insufficient (up to 3 attempts).</li>
+<li><strong>Answer</strong> — The agent generates a cited answer referencing specific NCC clauses, streamed to the frontend via SSE.</li>
+</ol>
+</section>
+<section id="stack" class="level2">
+<h2 class="anchored" data-anchor-id="stack">Stack</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LLM</td>
+<td>Local Ollama (default: glm-4.7-flash)</td>
+</tr>
+<tr class="even">
+<td>Vector DB</td>
+<td>ChromaDB</td>
+</tr>
+<tr class="odd">
+<td>Embeddings</td>
+<td>Local <code>google/embeddinggemma-300m</code> via sentence-transformers</td>
+</tr>
+<tr class="even">
+<td>PDF Parsing</td>
+<td>PyMuPDF + pdfplumber</td>
+</tr>
+<tr class="odd">
+<td>Chunking</td>
+<td>semchunk (semantic)</td>
+</tr>
+<tr class="even">
+<td>Backend</td>
+<td>FastAPI, Python</td>
+</tr>
+<tr class="odd">
+<td>Frontend</td>
+<td>Vanilla HTML, CSS, JS</td>
+</tr>
+</tbody>
+</table>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="image.png" class="img-fluid figure-img"></p>
-<figcaption>hello-world</figcaption>
+<p><img src="ncc_homepage.png" class="img-fluid figure-img"></p>
+<figcaption>homepage</figcaption>
 </figure>
 </div>
+</section>
+<section id="project-structure" class="level2">
+<h2 class="anchored" data-anchor-id="project-structure">Project Structure</h2>
+<pre><code>ncc-bot/
+├── main.py                     # FastAPI app and routes
+├── app/
+│   ├── config.py               # Settings (env vars, defaults)
+│   ├── models.py               # Pydantic request/response schemas
+│   ├── agent.py                # PydanticAI agent with RAG tools
+│   ├── ingest/
+│   │   ├── parser.py           # PDF parsing + NCC PDF downloading
+│   │   ├── chunker.py          # Semantic chunking with clause boundaries
+│   │   ├── embedder.py         # Embedding generation + ChromaDB storage
+│   │   └── cli.py              # CLI for batch PDF ingestion
+│   └── retrieval/
+│       └── store.py            # ChromaDB query interface
+├── frontend/
+│   ├── index.html              # Chat UI
+│   ├── style.css               # Styles
+│   └── app.js                  # SSE streaming, rendering, file upload
+├── data/                       # NCC PDF files (gitignored)
+└── chroma_db/                  # Persistent vector store (gitignored)</code></pre>
+</section>
+<section id="agentic-rag-loop" class="level2">
+<h2 class="anchored" data-anchor-id="agentic-rag-loop">Agentic RAG Loop</h2>
+<p>The PydanticAI agent has two tools:</p>
+<ul>
+<li><strong><code>retrieve_chunks</code></strong> — Semantic search over ChromaDB with optional volume/section filters.</li>
+<li><strong><code>rewrite_query</code></strong> — Reformulates a query when retrieved chunks are insufficient.</li>
+</ul>
+<p>The agent decides autonomously whether to rewrite and re-retrieve based on the quality of initial results. This loop runs up to 3 retrieval attempts before generating a final answer. <img src="chat.png" class="img-fluid" alt="chat"> <img src="citation.png" class="img-fluid" alt="citation"></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

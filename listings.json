@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/NCC_bot/wavereader.html",
       "/posts/wave~reader/wavereader.html",
       "/posts/wave~reader_datagen/wavereader_datagen.html",
       "/posts/hello-world/hello-world.html"

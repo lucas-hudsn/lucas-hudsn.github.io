@@ -10,7 +10,120 @@
 <atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Personal website - Lucas Hudson 🙂‍↔️</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Mon, 19 Jan 2026 13:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 30 Jan 2026 13:00:00 GMT</lastBuildDate>
+<item>
+  <title>NCC_Bot</title>
+  <dc:creator>Lucas Hudson</dc:creator>
+  <link>https://lucas-hudsn.github.io/posts/NCC_bot/wavereader.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="ncc-bot" class="level1">
+<h1>NCC Bot</h1>
+<p>An agentic RAG system for querying the Australian National Construction Code (NCC). Built for architects, project managers, engineers, and building professionals who need fast, accurate answers with clause-level citations.</p>
+<section id="how-it-works" class="level2">
+<h2 class="anchored" data-anchor-id="how-it-works">How It Works</h2>
+<ol type="1">
+<li><strong>Ingest</strong> — Download NCC volumes directly from <a href="https://ncc.abcb.gov.au">ncc.abcb.gov.au</a>, or upload your own PDFs. The system parses them with PyMuPDF/pdfplumber, semantically chunks the text while respecting clause boundaries, embeds the chunks, and stores them in ChromaDB.</li>
+<li><strong>Query</strong> — Ask a question through the chat UI. A PydanticAI agent retrieves relevant chunks from the vector store, self-grades their relevance, and optionally rewrites the query and re-retrieves if results are insufficient (up to 3 attempts).</li>
+<li><strong>Answer</strong> — The agent generates a cited answer referencing specific NCC clauses, streamed to the frontend via SSE.</li>
+</ol>
+</section>
+<section id="stack" class="level2">
+<h2 class="anchored" data-anchor-id="stack">Stack</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LLM</td>
+<td>Local Ollama (default: glm-4.7-flash)</td>
+</tr>
+<tr class="even">
+<td>Vector DB</td>
+<td>ChromaDB</td>
+</tr>
+<tr class="odd">
+<td>Embeddings</td>
+<td>Local <code>google/embeddinggemma-300m</code> via sentence-transformers</td>
+</tr>
+<tr class="even">
+<td>PDF Parsing</td>
+<td>PyMuPDF + pdfplumber</td>
+</tr>
+<tr class="odd">
+<td>Chunking</td>
+<td>semchunk (semantic)</td>
+</tr>
+<tr class="even">
+<td>Backend</td>
+<td>FastAPI, Python</td>
+</tr>
+<tr class="odd">
+<td>Frontend</td>
+<td>Vanilla HTML, CSS, JS</td>
+</tr>
+</tbody>
+</table>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://lucas-hudsn.github.io/posts/NCC_bot/ncc_homepage.png" class="img-fluid figure-img"></p>
+<figcaption>homepage</figcaption>
+</figure>
+</div>
+</section>
+<section id="project-structure" class="level2">
+<h2 class="anchored" data-anchor-id="project-structure">Project Structure</h2>
+<pre><code>ncc-bot/
+├── main.py                     # FastAPI app and routes
+├── app/
+│   ├── config.py               # Settings (env vars, defaults)
+│   ├── models.py               # Pydantic request/response schemas
+│   ├── agent.py                # PydanticAI agent with RAG tools
+│   ├── ingest/
+│   │   ├── parser.py           # PDF parsing + NCC PDF downloading
+│   │   ├── chunker.py          # Semantic chunking with clause boundaries
+│   │   ├── embedder.py         # Embedding generation + ChromaDB storage
+│   │   └── cli.py              # CLI for batch PDF ingestion
+│   └── retrieval/
+│       └── store.py            # ChromaDB query interface
+├── frontend/
+│   ├── index.html              # Chat UI
+│   ├── style.css               # Styles
+│   └── app.js                  # SSE streaming, rendering, file upload
+├── data/                       # NCC PDF files (gitignored)
+└── chroma_db/                  # Persistent vector store (gitignored)</code></pre>
+</section>
+<section id="agentic-rag-loop" class="level2">
+<h2 class="anchored" data-anchor-id="agentic-rag-loop">Agentic RAG Loop</h2>
+<p>The PydanticAI agent has two tools:</p>
+<ul>
+<li><strong><code>retrieve_chunks</code></strong> — Semantic search over ChromaDB with optional volume/section filters.</li>
+<li><strong><code>rewrite_query</code></strong> — Reformulates a query when retrieved chunks are insufficient.</li>
+</ul>
+<p>The agent decides autonomously whether to rewrite and re-retrieve based on the quality of initial results. This loop runs up to 3 retrieval attempts before generating a final answer. <img src="https://lucas-hudsn.github.io/posts/NCC_bot/chat.png" class="img-fluid" alt="chat"> <img src="https://lucas-hudsn.github.io/posts/NCC_bot/citation.png" class="img-fluid" alt="citation"></p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>AI</category>
+  <category>Full Stack</category>
+  <guid>https://lucas-hudsn.github.io/posts/NCC_bot/wavereader.html</guid>
+  <pubDate>Fri, 30 Jan 2026 13:00:00 GMT</pubDate>
+  <media:content url="https://lucas-hudsn.github.io/posts/NCC_bot/ncc_homepage.png" medium="image" type="image/png" height="94" width="144"/>
+</item>
 <item>
   <title>wavereader</title>
   <dc:creator>Lucas Hudson</dc:creator>
@@ -1701,7 +1814,7 @@ font-style: inherit;">"__main__"</span>:</span>
 
 
 
-<div id="47377ebd" class="cell" data-execution_count="1">
+<div id="6eb18233" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="st" style="color: #20794D;

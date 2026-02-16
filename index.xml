@@ -10,11 +10,259 @@
 <atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Personal website - Lucas Hudson 🙂‍↔️</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Fri, 30 Jan 2026 13:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 14 Feb 2026 13:00:00 GMT</lastBuildDate>
+<item>
+  <title>kaggle-code</title>
+  <dc:creator>Lucas Hudson</dc:creator>
+  <link>https://lucas-hudsn.github.io/posts/kaggle-code/kagglecode.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="building-an-autonomous-kaggle-coding-agent-with-ralph-wiggum-loops" class="level1">
+<h1>Building an Autonomous Kaggle Coding Agent with Ralph Wiggum Loops</h1>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>After spending countless hours on Kaggle competitions, I wanted to build something that could autonomously work on these problems while I slept. The result is <strong>Kaggle Code Agent</strong> — a CLI tool that uses AI to iteratively solve Kaggle challenges using the Ralph Wiggum loop methodology.</p>
+</section>
+<section id="what-is-the-ralph-wiggum-loop" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-the-ralph-wiggum-loop">What is the Ralph Wiggum Loop?</h2>
+<p>The Ralph Wiggum loop is a methodology popularized by Geoffrey Huntley in 2025 for running autonomous AI coding agents. It works by:</p>
+<ol type="1">
+<li>Running an AI agent in a loop with a “stop hook” that intercepts exit attempts</li>
+<li>Feeding errors back into the next iteration so the agent can fix them</li>
+<li>Treating each iteration as a fresh context window</li>
+<li>Persisting state via Git and the filesystem instead of relying on context memory</li>
+</ol>
+<p>The key insight is that failures become data — if a test fails, the error message is fed back for the next iteration to fix. This allows for 14+ hour autonomous sessions.</p>
+</section>
+<section id="architecture-overview" class="level2">
+<h2 class="anchored" data-anchor-id="architecture-overview">Architecture Overview</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│  KAGGLE CODE AGENT v1.0                                     │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─ Tools ──────────────────────────────────────────────┐   │
+│  │ bash | python | kaggle | jupyter | web | codesearch │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌─ Orchestrator ──────────────────────────────────────┐   │
+│  │ Main Agent → Subagents (Data, Model, Feature, Eval) │   │
+│  └──────────────────────────────────────────────────────┘   │
+│  ┌─ Ralph Wiggum Loop ─────────────────────────────────┐   │
+│  │ Context → Execute → Log → Check Limits → Repeat    │   │
+│  └──────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘</code></pre>
+</section>
+<section id="key-features" class="level2">
+<h2 class="anchored" data-anchor-id="key-features">Key Features</h2>
+<section id="tool-integrations" class="level3">
+<h3 class="anchored" data-anchor-id="tool-integrations">1. Tool Integrations</h3>
+<p>The agent has access to multiple tools: - <strong>bash</strong>: Execute shell commands - <strong>python</strong>: Run Python scripts - <strong>kaggle</strong>: Competition CLI (download data, submit) - <strong>jupyter</strong>: Notebook management - <strong>webfetch</strong>: Web scraping for competition details - <strong>codesearch</strong>: Search code examples via Exa - <strong>websearch</strong>: Research solutions</p>
+</section>
+<section id="subagent-system" class="level3">
+<h3 class="anchored" data-anchor-id="subagent-system">2. Subagent System</h3>
+<p>The orchestrator can spawn specialized subagents: - <strong>Data Engineer</strong>: Data loading, cleaning, preprocessing - <strong>Model Trainer</strong>: Training, hyperparameter tuning - <strong>Feature Engineer</strong>: Feature creation and selection - <strong>Evaluator</strong>: Cross-validation, interpretation</p>
+</section>
+<section id="context-compaction" class="level3">
+<h3 class="anchored" data-anchor-id="context-compaction">3. Context Compaction</h3>
+<p>At 70% context limit, the system: - Keeps recent messages and artifacts - Summarizes old context - Preserves critical errors and scores</p>
+</section>
+<section id="state-persistence" class="level3">
+<h3 class="anchored" data-anchor-id="state-persistence">4. State Persistence</h3>
+<pre><code>project/
+├── PROMPT.md          # Task definition
+├── state.json         # Runtime state (tokens, cost, scores)
+├── history/           # Iteration logs
+│   ├── iter_0001.md
+│   └── iter_0002.md
+├── artifacts/         # Models, plots
+└── config.yaml        # Project config</code></pre>
+</section>
+</section>
+<section id="implementation-highlights" class="level2">
+<h2 class="anchored" data-anchor-id="implementation-highlights">Implementation Highlights</h2>
+<section id="cli-with-typer-and-rich" class="level3">
+<h3 class="anchored" data-anchor-id="cli-with-typer-and-rich">CLI with Typer and Rich</h3>
+<p>The terminal UI uses a cyberpunk aesthetic with neon colors:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">NEON_GREEN <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#00ff9f"</span></span>
+<span id="cb3-2">NEON_MAGENTA <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#ff00ff"</span></span>
+<span id="cb3-3">NEON_CYAN <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#00d4ff"</span></span></code></pre></div></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://lucas-hudsn.github.io/posts/kaggle-code/offline.png" class="img-fluid figure-img"></p>
+<figcaption>Offline (no API) Mock Mode</figcaption>
+</figure>
+</div>
+</section>
+<section id="tool-execution-pattern" class="level3">
+<h3 class="anchored" data-anchor-id="tool-execution-pattern">Tool Execution Pattern</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">result <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tool_registry.execute(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bash"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ls -la"</span>)</span>
+<span id="cb4-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> result.success:</span>
+<span id="cb4-3">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(result.output)</span>
+<span id="cb4-4"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span>:</span>
+<span id="cb4-5">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Error: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>result<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>error<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div></div>
+</section>
+<section id="agent-response-parsing" class="level3">
+<h3 class="anchored" data-anchor-id="agent-response-parsing">Agent Response Parsing</h3>
+<p>The agent outputs structured responses:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode xml code-with-copy"><code class="sourceCode xml"><span id="cb5-1">&lt;<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">thinking</span>&gt;Analyzing the data...&lt;/<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">thinking</span>&gt;</span>
+<span id="cb5-2">&lt;<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">action</span>&gt;python: train_model.py&lt;/<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">action</span>&gt;</span>
+<span id="cb5-3">&lt;<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">result</span>&gt;Accuracy: 0.85&lt;/<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">result</span>&gt;</span>
+<span id="cb5-4">&lt;<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">promise</span>&gt;COMPLETE&lt;/<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">promise</span>&gt;</span></code></pre></div></div>
+</section>
+</section>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Initialize project</span></span>
+<span id="cb6-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">kaggle-code</span> init <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> titanic <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-p</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Build a competitive model"</span></span>
+<span id="cb6-3"></span>
+<span id="cb6-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Run with mock (no API key needed)</span></span>
+<span id="cb6-5"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">kaggle-code</span> run <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--mock</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--max-iterations</span> 10</span>
+<span id="cb6-6"></span>
+<span id="cb6-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Run with real model</span></span>
+<span id="cb6-8"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">kaggle-code</span> run <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--max-iterations</span> 100 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--max-time</span> 120 <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--max-cost</span> 50</span>
+<span id="cb6-9"></span>
+<span id="cb6-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Fetch competition details</span></span>
+<span id="cb6-11"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">kaggle-code</span> comp titanic</span>
+<span id="cb6-12"></span>
+<span id="cb6-13"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Search HuggingFace</span></span>
+<span id="cb6-14"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">kaggle-code</span> hf <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bert sentiment classification"</span></span></code></pre></div></div>
+</section>
+<section id="cost-and-performance" class="level2">
+<h2 class="anchored" data-anchor-id="cost-and-performance">Cost and Performance</h2>
+<p>The Ralph Wiggum loop can consume significant API tokens: - Small tasks: $5-20 - Medium tasks: $20-50 - Large tasks: $50-100+</p>
+<p>The key is setting appropriate limits (<code>--max-iterations</code>, <code>--max-cost</code>) and monitoring progress.</p>
+</section>
+<section id="future-improvements" class="level2">
+<h2 class="anchored" data-anchor-id="future-improvements">Future Improvements</h2>
+<ul>
+<li><strong>Better context compaction</strong>: More intelligent summarization</li>
+<li><strong>Checkpointing</strong>: Save/restore loop state</li>
+<li><strong>Human-in-the-loop</strong>: Pause for approval on certain actions</li>
+<li><strong>Multi-model support</strong>: Claude, GPT-4, local models</li>
+</ul>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Building this agent was a fascinating exploration of autonomous AI systems. The Ralph Wiggum loop is a powerful pattern for tasks that are mechanical and verifiable — perfect for Kaggle competitions. While not suitable for creative or architectural decisions, it’s excellent for iterative, goal-oriented work.</p>
+<p>The full source code is available on GitHub, and I’m always looking for contributors to help improve the agent’s capabilities.</p>
+<hr>
+<p><em>Built with Python, Typer, Rich, and Minimax 2.5</em></p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>AI</category>
+  <guid>https://lucas-hudsn.github.io/posts/kaggle-code/kagglecode.html</guid>
+  <pubDate>Sat, 14 Feb 2026 13:00:00 GMT</pubDate>
+  <media:content url="https://lucas-hudsn.github.io/posts/kaggle-code/offline.png" medium="image" type="image/png" height="82" width="144"/>
+</item>
 <item>
   <title>NCC_Bot</title>
   <dc:creator>Lucas Hudson</dc:creator>
-  <link>https://lucas-hudsn.github.io/posts/NCC_bot/wavereader.html</link>
+  <link>https://lucas-hudsn.github.io/posts/NCC_bot/ncc-bot.html</link>
   <description><![CDATA[ 
 
 
@@ -120,7 +368,7 @@
  ]]></description>
   <category>AI</category>
   <category>Full Stack</category>
-  <guid>https://lucas-hudsn.github.io/posts/NCC_bot/wavereader.html</guid>
+  <guid>https://lucas-hudsn.github.io/posts/NCC_bot/ncc-bot.html</guid>
   <pubDate>Fri, 30 Jan 2026 13:00:00 GMT</pubDate>
   <media:content url="https://lucas-hudsn.github.io/posts/NCC_bot/ncc_homepage.png" medium="image" type="image/png" height="94" width="144"/>
 </item>
@@ -1814,7 +2062,7 @@ font-style: inherit;">"__main__"</span>:</span>
 
 
 
-<div id="6eb18233" class="cell" data-execution_count="1">
+<div id="f22200c7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="st" style="color: #20794D;

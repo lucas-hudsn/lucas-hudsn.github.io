@@ -10,7 +10,548 @@
 <atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Personal website - Lucas Hudson 🙂‍↔️</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Sat, 14 Feb 2026 13:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 06 Mar 2026 13:00:00 GMT</lastBuildDate>
+<item>
+  <title>Finetuning embeddinggemma-300m to improve document retrieval</title>
+  <dc:creator>Lucas Hudson</dc:creator>
+  <link>https://lucas-hudsn.github.io/posts/legal_retrieval_kaggle/legal_retrieval_kaggle.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="fine-tuning-an-embedding-model-for-legal-information-retrieval" class="level1">
+<h1>Fine-Tuning an Embedding Model for Legal Information Retrieval</h1>
+<p><strong>Competition:</strong> <a href="https://www.kaggle.com/competitions/llm-agentic-legal-information-retrieval">Kaggle — LLM Agentic Legal Information Retrieval</a> <strong>My Role:</strong> Embedding model (part of a group project with colleagues) <strong>Model:</strong> <code>unsloth/embeddinggemma-300m</code> fine-tuned with LoRA <strong>Hardware:</strong> Apple Silicon Mac (MPS backend, no CUDA)</p>
+<hr>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This was a group Kaggle competition where the core task was legal information retrieval: given a query from a legal document, retrieve the most relevant laws or court considerations from a corpus. My responsibility was the embedding model — fine-tuning a dense retrieval model that could learn what “relevant” means specifically in the German legal domain.</p>
+<p>The core idea was to take a pre-trained embedding model, feed it domain-specific (query, relevant passage) pairs, and use contrastive learning to push relevant query-document pairs closer together in vector space. I also wanted to use this as an opportunity to explore whether embedding fine-tuning on Apple Silicon was viable, since all my available compute was a MacBook — no cloud GPU budget.</p>
+<hr>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li><strong>Unsloth EmbeddingGemma guide:</strong> https://unsloth.ai/docs/new/embedding-finetuning — the primary recipe I followed for the training approach, LoRA configuration, and loss function.</li>
+<li><strong>mlx-tune (ARahim3):</strong> https://github.com/ARahim3/mlx-tune — a reference for adapting Unsloth-style training pipelines to run on Apple Silicon using PyTorch MPS instead of CUDA/Triton. The core insight from this project is using MPS as a prototyping bridge: develop locally, migrate to cloud for production scale.</li>
+</ul>
+<hr>
+</section>
+<section id="data-preparation-etl.py" class="level2">
+<h2 class="anchored" data-anchor-id="data-preparation-etl.py">Data Preparation (<code>etl.py</code>)</h2>
+<p>The competition provides three files: <code>train.csv</code> (queries with gold citation annotations), <code>laws_de.csv</code> (German law passages), and <code>court_considerations.csv</code> (court ruling passages). The gold citations in <code>train.csv</code> are semicolon-separated and can reference both laws and court considerations.</p>
+<p>The ETL pipeline does the following:</p>
+<ol type="1">
+<li><strong>Explodes multi-citation rows</strong> — each row in <code>train.csv</code> can have multiple gold citations joined by <code>;</code>. I split and explode these so each (query, citation) pair becomes its own row.</li>
+<li><strong>Merges against both corpora</strong> — the exploded rows are inner-joined against <code>laws_de.csv</code> on <code>citation</code>, then separately inner-joined against <code>court_considerations.csv</code>, and the results are concatenated. This produces a flat table of <code>(query, text)</code> pairs where <code>text</code> is the actual passage content for that citation.</li>
+<li><strong>Outputs <code>joined_data.csv</code></strong> — this becomes the training data for the model.</li>
+</ol>
+<p>The inner join approach means only queries with citations that exist in the corpora are kept. This is a reasonable tradeoff: it ensures every training pair is a genuine (query, ground-truth passage) pair, at the cost of dropping queries whose citations couldn’t be matched.</p>
+<hr>
+</section>
+<section id="training-pipeline-train.py" class="level2">
+<h2 class="anchored" data-anchor-id="training-pipeline-train.py">Training Pipeline (<code>train.py</code>)</h2>
+<section id="step-1-device-detection" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-device-detection">Step 1: Device Detection</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> torch.backends.mps.is_available():</span>
+<span id="cb1-2">    device <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"mps"</span></span>
+<span id="cb1-3"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">elif</span> torch.cuda.is_available():</span>
+<span id="cb1-4">    device <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cuda"</span></span>
+<span id="cb1-5"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span>:</span>
+<span id="cb1-6">    device <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cpu"</span></span></code></pre></div></div>
+<p>The script detects the available backend at runtime — MPS for Apple Silicon, CUDA for cloud/GPU machines, CPU as a fallback. This was deliberately written to be portable, following the mlx-tune philosophy: develop and validate locally on Mac, then run identical code on a cloud GPU. The actual Unsloth CUDA kernels aren’t used here because they require CUDA; instead, standard PyTorch MPS handles the GPU acceleration on Mac.</p>
+</section>
+<section id="step-2-data-loading-and-splitting" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-data-loading-and-splitting">Step 2: Data Loading and Splitting</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pd.read_csv(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"data/joined_data.csv"</span>)</span>
+<span id="cb2-2">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df.dropna(subset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"query"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span>])</span>
+<span id="cb2-3">df <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> df[[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"query"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span>]].reset_index(drop<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb2-4"></span>
+<span id="cb2-5">train_end <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>(n <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.70</span>)</span>
+<span id="cb2-6">eval_end  <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>(n <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.85</span>)</span></code></pre></div></div>
+<p>The dataset is split 70 / 15 / 15 into train, eval, and test. Only the <code>query</code> and <code>text</code> columns are kept — everything else (like the citation ID) is irrelevant to the model. The eval set drives the <code>InformationRetrievalEvaluator</code> during training, and the test set is held out for a final pre/post comparison.</p>
+</section>
+<section id="step-3-model-selection-embeddinggemma-300m" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-model-selection-embeddinggemma-300m">Step 3: Model Selection — EmbeddingGemma 300M</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">MODEL_NAME <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"unsloth/embeddinggemma-300m"</span></span>
+<span id="cb3-2">model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> SentenceTransformer(MODEL_NAME, device<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>device)</span></code></pre></div></div>
+<p>I chose <code>unsloth/embeddinggemma-300m</code> for several reasons:</p>
+<ul>
+<li><strong>Size fits on-device memory.</strong> At 300M parameters, it runs comfortably on Apple Silicon with MPS. Larger embedding models (e.g.&nbsp;7B) would be impractical without cloud compute.</li>
+<li><strong>Strong pre-trained representations.</strong> EmbeddingGemma is derived from Google’s Gemma family, which has strong language understanding. For a specialised domain like German law, you want a model with good multilingual/legal grounding before fine-tuning.</li>
+<li><strong>Unsloth’s recipe is proven.</strong> The Unsloth documentation specifically targets this model for LoRA embedding fine-tuning with MultipleNegativesRankingLoss, so I was following a validated path rather than experimenting with an untested combination.</li>
+</ul>
+</section>
+<section id="step-4-lora-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-lora-configuration">Step 4: LoRA Configuration</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">lora_config <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> LoraConfig(</span>
+<span id="cb4-2">    r<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">16</span>,</span>
+<span id="cb4-3">    lora_alpha<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">32</span>,</span>
+<span id="cb4-4">    target_modules<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"q_proj"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"k_proj"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"v_proj"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"o_proj"</span>],</span>
+<span id="cb4-5">    lora_dropout<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span>,</span>
+<span id="cb4-6">    bias<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span>,</span>
+<span id="cb4-7">    task_type<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>TaskType.FEATURE_EXTRACTION,</span>
+<span id="cb4-8">)</span>
+<span id="cb4-9">model[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].auto_model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> get_peft_model(model[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].auto_model, lora_config)</span></code></pre></div></div>
+<p>LoRA (Low-Rank Adaptation) freezes the base model weights and injects small trainable rank-decomposition matrices into selected layers. The key decisions here:</p>
+<ul>
+<li><strong><code>r=16</code>, <code>lora_alpha=32</code></strong> — rank 16 gives a reasonable expressivity-to-parameter trade-off. The alpha/rank ratio of 2 is a common default that scales the LoRA updates to a sensible magnitude.</li>
+<li><strong>Targeting all four attention projections</strong> (<code>q_proj</code>, <code>k_proj</code>, <code>v_proj</code>, <code>o_proj</code>) — for an embedding model, the attention mechanism is the primary driver of contextual representations. Adapting all four projections gives the model maximum flexibility to reshape how it attends to tokens, which is where domain-specific patterns are learned.</li>
+<li><strong><code>lora_dropout=0.0</code></strong> — the dataset is small and the model is already regularised via the contrastive loss structure. Adding dropout here would have added noise without clear benefit.</li>
+<li><strong><code>task_type=TaskType.FEATURE_EXTRACTION</code></strong> — correctly signals to PEFT that this is an embedding task, not a generation task.</li>
+<li><strong>LoRA instead of full fine-tuning</strong> — full fine-tuning a 300M model on Mac was feasible in theory but would have been significantly slower and risked catastrophic forgetting of the general representations. LoRA keeps the base model frozen, meaning the legal domain knowledge is added on top rather than overwriting the general language understanding.</li>
+</ul>
+</section>
+<section id="step-5-information-retrieval-evaluator" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-information-retrieval-evaluator">Step 5: Information Retrieval Evaluator</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> make_ir_evaluator(ds: Dataset, name: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> InformationRetrievalEvaluator:</span>
+<span id="cb5-2">    queries       <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {i: ds[i][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"query"</span>] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(ds))}</span>
+<span id="cb5-3">    corpus        <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {i: ds[i][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span>]  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(ds))}</span>
+<span id="cb5-4">    relevant_docs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {i: {i}            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(ds))}</span>
+<span id="cb5-5">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> InformationRetrievalEvaluator(...)</span></code></pre></div></div>
+<p>The <code>InformationRetrievalEvaluator</code> runs full retrieval evaluation at each checkpoint: it embeds all queries and corpus passages, then measures how well the model ranks the ground-truth passage for each query. The evaluator gives nDCG@10, MRR@10, MAP@100, and Accuracy@K metrics — all standard IR evaluation metrics.</p>
+<p>The <code>relevant_docs = {i: {i}}</code> construction treats each query-passage pair as its own isolated retrieval problem: query <code>i</code> has exactly one relevant document, which is corpus entry <code>i</code>. This is appropriate for this dataset because the training pairs are direct (query → passage) correspondences from the citation matching in the ETL step.</p>
+<p>I also run a baseline evaluation on the test set before training starts, so I can quantify exactly how much improvement fine-tuning provides.</p>
+</section>
+<section id="step-6-loss-function-multiplenegativesrankingloss" class="level3">
+<h3 class="anchored" data-anchor-id="step-6-loss-function-multiplenegativesrankingloss">Step 6: Loss Function — MultipleNegativesRankingLoss</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">loss <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> losses.MultipleNegativesRankingLoss(model)</span>
+<span id="cb6-2">train_for_loss <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> train_dataset.rename_column(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"query"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"anchor"</span>).rename_column(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"positive"</span>)</span></code></pre></div></div>
+<p>MultipleNegativesRankingLoss (MNRL) is the standard choice for embedding fine-tuning with (query, positive_passage) pairs. Within each batch, every other example’s positive passage is treated as a negative for the current query. This means:</p>
+<ul>
+<li><strong>No need to mine hard negatives</strong> — the in-batch negatives are automatically created, which keeps the data pipeline simple.</li>
+<li><strong><code>BatchSamplers.NO_DUPLICATES</code></strong> — ensures no two examples in a batch share the same query or passage, which is required for MNRL to work correctly (duplicate passages would be incorrectly treated as negatives when they’re actually positives).</li>
+<li><strong>Effective batch of 32</strong> — with <code>per_device_train_batch_size=4</code> and <code>gradient_accumulation_steps=8</code>, the model accumulates gradients over 32 examples before updating. Larger effective batches mean more in-batch negatives per update, which makes MNRL more effective. This was the main lever to improve training quality within the memory constraints of MPS.</li>
+</ul>
+</section>
+<section id="step-7-training-arguments" class="level3">
+<h3 class="anchored" data-anchor-id="step-7-training-arguments">Step 7: Training Arguments</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">training_args <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> SentenceTransformerTrainingArguments(</span>
+<span id="cb7-2">    max_steps<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>,</span>
+<span id="cb7-3">    learning_rate<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2e-5</span>,</span>
+<span id="cb7-4">    warmup_ratio<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.05</span>,</span>
+<span id="cb7-5">    lr_scheduler_type<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cosine"</span>,</span>
+<span id="cb7-6">    gradient_checkpointing<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb7-7">    bf16<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb7-8">    fp16<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb7-9">    dataloader_pin_memory<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>,</span>
+<span id="cb7-10">)</span></code></pre></div></div>
+<p>Several of these were forced by the MPS constraints:</p>
+<ul>
+<li><strong><code>bf16=False</code>, <code>fp16=False</code></strong> — MPS does not support mixed-precision training reliably. Training in float32 costs memory and speed but was the only stable option.</li>
+<li><strong><code>dataloader_pin_memory=False</code></strong> — pinned memory is a CUDA-specific optimisation that is unsupported on MPS and causes errors if enabled.</li>
+<li><strong><code>gradient_checkpointing=True</code></strong> — trades compute for memory by recomputing intermediate activations during the backward pass. On a memory-constrained Mac, this was necessary to keep the training from OOM-crashing.</li>
+<li><strong><code>max_steps=200</code></strong> — with only 200 steps I was primarily validating the pipeline and checking that the model could learn. Given more compute, I’d have run for far longer.</li>
+<li><strong><code>lr_scheduler_type="cosine"</code> with <code>warmup_ratio=0.05</code></strong> — cosine decay is a robust default that gradually reduces the learning rate as training progresses, reducing the risk of unstable updates late in training. The 5% warmup prevents large gradient spikes in the first few steps.</li>
+</ul>
+</section>
+<section id="step-8-mps-cache-callback" class="level3">
+<h3 class="anchored" data-anchor-id="step-8-mps-cache-callback">Step 8: MPS Cache Callback</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> MpsCacheCallback(TrainerCallback):</span>
+<span id="cb8-2">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> on_evaluate(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>, args, state, control, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>kwargs):</span>
+<span id="cb8-3">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> torch.backends.mps.is_available():</span>
+<span id="cb8-4">            torch.mps.empty_cache()</span></code></pre></div></div>
+<p>A small but necessary quality-of-life fix: the evaluator runs full corpus and query encoding on MPS, which consumes significant memory. Without explicitly clearing the MPS cache after each evaluation, memory fragmentation would accumulate and eventually crash the process. This callback calls <code>torch.mps.empty_cache()</code> after every eval step to reclaim that memory.</p>
+</section>
+<section id="step-9-post-training-evaluation-and-saving" class="level3">
+<h3 class="anchored" data-anchor-id="step-9-post-training-evaluation-and-saving">Step 9: Post-Training Evaluation and Saving</h3>
+<p>After training, the script re-evaluates on the held-out test set and computes the delta against the pre-training baseline. Both the baseline and post-training results are serialised to <code>output/test_results.json</code>, and the fine-tuned model (with LoRA adapters merged) is saved to <code>embeddinggemma_legal_lora/</code>.</p>
+<hr>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>The model was trained for 200 steps (~2.74 epochs) with eval checkpoints every 50 steps. The full metric progression on the eval set is shown below.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Epoch</th>
+<th>nDCG@10</th>
+<th>MRR@10</th>
+<th>MAP@100</th>
+<th>Acc@1</th>
+<th>Acc@5</th>
+<th>Acc@10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>50</td>
+<td>0.69</td>
+<td>0.2585</td>
+<td>0.2024</td>
+<td>0.2191</td>
+<td>0.1145</td>
+<td>0.3112</td>
+<td>0.4418</td>
+</tr>
+<tr class="even">
+<td>100</td>
+<td>1.37</td>
+<td>0.2707</td>
+<td>0.2146</td>
+<td>0.2324</td>
+<td>0.1265</td>
+<td>0.3233</td>
+<td>0.4538</td>
+</tr>
+<tr class="odd">
+<td>150</td>
+<td>2.06</td>
+<td>0.2743</td>
+<td>0.2175</td>
+<td>0.2356</td>
+<td>0.1285</td>
+<td>0.3293</td>
+<td>0.4598</td>
+</tr>
+<tr class="even">
+<td>200</td>
+<td>2.74</td>
+<td><strong>0.2736</strong></td>
+<td><strong>0.2165</strong></td>
+<td><strong>0.2346</strong></td>
+<td><strong>0.1265</strong></td>
+<td><strong>0.3273</strong></td>
+<td><strong>0.4598</strong></td>
+</tr>
+</tbody>
+</table>
+<section id="metric-improvements-step-50-step-200" class="level3">
+<h3 class="anchored" data-anchor-id="metric-improvements-step-50-step-200">Metric Improvements (step 50 → step 200)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Start</th>
+<th>End</th>
+<th>Delta</th>
+<th>% Change</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>nDCG@10</td>
+<td>0.2585</td>
+<td>0.2736</td>
+<td>+0.0151</td>
+<td>+5.8%</td>
+</tr>
+<tr class="even">
+<td>MRR@10</td>
+<td>0.2024</td>
+<td>0.2165</td>
+<td>+0.0141</td>
+<td>+7.0%</td>
+</tr>
+<tr class="odd">
+<td>MAP@100</td>
+<td>0.2191</td>
+<td>0.2346</td>
+<td>+0.0155</td>
+<td>+7.1%</td>
+</tr>
+<tr class="even">
+<td>Acc@1</td>
+<td>0.1145</td>
+<td>0.1265</td>
+<td>+0.0120</td>
+<td>+10.5%</td>
+</tr>
+<tr class="odd">
+<td>Acc@3</td>
+<td>0.2450</td>
+<td>0.2651</td>
+<td>+0.0201</td>
+<td>+8.2%</td>
+</tr>
+<tr class="even">
+<td>Acc@5</td>
+<td>0.3112</td>
+<td>0.3273</td>
+<td>+0.0161</td>
+<td>+5.2%</td>
+</tr>
+<tr class="odd">
+<td>Acc@10</td>
+<td>0.4418</td>
+<td>0.4598</td>
+<td>+0.0181</td>
+<td>+4.1%</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="assessment" class="level2">
+<h2 class="anchored" data-anchor-id="assessment">Assessment</h2>
+<section id="what-worked" class="level3">
+<h3 class="anchored" data-anchor-id="what-worked">What Worked</h3>
+<p>The pipeline itself was a success. Getting LoRA embedding fine-tuning to run stably on MPS — with gradient checkpointing, cache management, and a full IR evaluator — required navigating several Apple Silicon-specific constraints that aren’t well-documented. The training was stable throughout: loss dropped consistently from ~0.63 at step 10 to ~0.44 by the end, and every retrieval metric improved monotonically from checkpoint to checkpoint (at least up to step 150).</p>
+<p>The metric gains are modest but real. A ~7% improvement in MRR@10 and MAP@100 from 200 steps is encouraging, and the Acc@1 gain of 10.5% is meaningful — it means the model is substantially more likely to rank the exact correct passage first.</p>
+<p>The eval loss also decreased steadily (0.492 → 0.419), confirming the model was genuinely learning and not just overfitting to the training set. The fact that eval metrics track training loss closely suggests the LoRA adapter is generalising rather than memorising.</p>
+</section>
+<section id="what-didnt-work" class="level3">
+<h3 class="anchored" data-anchor-id="what-didnt-work">What Didn’t Work</h3>
+<p>The absolute performance numbers are low. An nDCG@10 of 0.27 and Acc@1 of 0.13 means the model fails to rank the correct passage first the vast majority of the time. For a production retrieval system this would be inadequate. There are a few likely causes:</p>
+<ol type="1">
+<li><p><strong>Only 200 steps.</strong> The metrics had not plateaued by step 150 — the best nDCG@10 (0.2743) actually appeared at step 150, not step 200, hinting that more training with proper validation-based early stopping would have been beneficial. This was a hard constraint of my local hardware and the time I had available.</p></li>
+<li><p><strong>The IR evaluator construction is too easy and too hard at the same time.</strong> The <code>relevant_docs = {i: {i}}</code> mapping means the retrieval problem is evaluated by searching only ~15% of the dataset as the corpus. With a small eval corpus, there’s less discrimination needed — but the “ground truth” is also narrowly defined as a single exact passage. In reality, multiple passages can be relevant to the same legal query, and this setup doesn’t capture that.</p></li>
+<li><p><strong>No hard negative mining.</strong> MNRL with random in-batch negatives is the simplest contrastive learning approach. In specialised domains like law, where many passages are superficially similar (same legal area, overlapping terminology), hard negatives — passages that are plausible but wrong — are important for teaching the model to make fine-grained distinctions. I didn’t implement this.</p></li>
+<li><p><strong>Float32 training on MPS.</strong> Not using mixed precision (bf16 or fp16) significantly slowed training and limited the batch size I could afford. On CUDA, I could have run with bf16 and a larger effective batch, which generally improves MNRL quality.</p></li>
+<li><p><strong>No baseline comparison in the report.</strong> The <code>test_results.json</code> wasn’t captured (the baseline evaluation ran at startup but the delta summary wasn’t persisted in the report), so I can’t quote the exact improvement from zero-shot to fine-tuned on the test set — only the progression across eval checkpoints during training.</p></li>
+</ol>
+</section>
+<section id="what-i-would-do-differently" class="level3">
+<h3 class="anchored" data-anchor-id="what-i-would-do-differently">What I Would Do Differently</h3>
+<ul>
+<li><strong>Run on cloud GPU with the actual Unsloth library.</strong> The mlx-tune philosophy of prototyping locally and then migrating is sound, and I validated the pipeline locally. The next step would be to spin up a Colab or cloud instance and run with the real Unsloth <code>FastSentenceTransformer</code>, which would give 1.8–3.3x speed improvement and enable bf16 — allowing more steps, larger effective batch sizes, and faster iteration.</li>
+<li><strong>Train for significantly more steps</strong> with validation-based early stopping rather than a fixed step cap.</li>
+<li><strong>Mine hard negatives</strong> using BM25 or a zero-shot embedding model to find plausible but incorrect passages, then feed those as explicit negatives to the loss function.</li>
+<li><strong>Experiment with QLoRA</strong> (4-bit quantisation + LoRA) to fit a larger base model into the same memory envelope, potentially giving better starting representations.</li>
+<li><strong>Fix the test set delta reporting</strong> — the script saves <code>test_results.json</code> with baseline and post-training metrics, but the report generation step wasn’t plumbed to read it. Adding that would complete the picture.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This project achieved its main goals: I built and validated an end-to-end embedding fine-tuning pipeline on Apple Silicon, proved that LoRA adapter training for dense retrieval is feasible with MPS as a compute backend, and delivered measurable retrieval improvements on legal data. The absolute performance numbers leave significant room for improvement, but given the hardware constraints and the 200-step training budget, the consistent upward trend across all metrics demonstrates the approach is sound. The natural next step is scaling the same pipeline to cloud GPU hardware with full Unsloth support.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>ML</category>
+  <guid>https://lucas-hudsn.github.io/posts/legal_retrieval_kaggle/legal_retrieval_kaggle.html</guid>
+  <pubDate>Fri, 06 Mar 2026 13:00:00 GMT</pubDate>
+</item>
 <item>
   <title>kaggle-code</title>
   <dc:creator>Lucas Hudson</dc:creator>
@@ -257,7 +798,7 @@ font-style: inherit;">"bert sentiment classification"</span></span></code></pre>
   <category>AI</category>
   <guid>https://lucas-hudsn.github.io/posts/kaggle-code/kagglecode.html</guid>
   <pubDate>Sat, 14 Feb 2026 13:00:00 GMT</pubDate>
-  <media:content url="https://lucas-hudsn.github.io/posts/kaggle-code/offline.png" medium="image" type="image/png" height="82" width="144"/>
+  <media:content url="https://lucas-hudsn.github.io/posts/kaggle-code/offline.png" medium="image" type="image/png"/>
 </item>
 <item>
   <title>NCC_Bot</title>
@@ -2062,7 +2603,7 @@ font-style: inherit;">"__main__"</span>:</span>
 
 
 
-<div id="f22200c7" class="cell" data-execution_count="1">
+<div id="4e5ea9b3" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="st" style="color: #20794D;

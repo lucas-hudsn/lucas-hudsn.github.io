@@ -1,32 +1,12 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
 # Environment and secrets
 .env
-
-# Python virtual environment
-.venv/
-venv/
-__pycache__/
-*.pyc
-
-# Quarto build outputs
-_site/
-site_libs/
-.quarto/
-
-# Quarto freeze (optional - remove this line if you want reproducible builds)
-_freeze/
-
-# Generated HTML files (built from .qmd/.ipynb)
-*.html
-!posts/**/*.html
-
-# Generated metadata
-search.json
-listings.json
-sitemap.xml
-index.xml
-
-# Jupyter
-.ipynb_checkpoints/
+*.local
 
 # macOS
 .DS_Store
@@ -34,6 +14,19 @@ index.xml
 # IDE
 .vscode/
 .idea/
+
+# Quarto (legacy)
+_site/
+_freeze/
+.quarto/
+site_libs/
+
+# Python (legacy)
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
 
 /.quarto/
 **/*.quarto_ipynb

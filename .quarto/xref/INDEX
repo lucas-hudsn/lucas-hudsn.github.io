@@ -28,5 +28,17 @@
   },
   "CLAUDE.md": {
     "CLAUDE.html": "e34ca4ee"
+  },
+  "posts/NCC_bot/wavereader.ipynb": {
+    "wavereader.html": "f1fad25a"
+  },
+  "posts/kaggle-code/kagglecode.ipynb": {
+    "kagglecode.html": "d37a2bff"
+  },
+  "posts/NCC_bot/ncc-bot.ipynb": {
+    "ncc-bot.html": "532f3abe"
+  },
+  "posts/legal_retrieval_kaggle/legal_retrieval_kaggle.md": {
+    "legal_retrieval_kaggle.html": "5513e24c"
   }
 }

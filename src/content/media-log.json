@@ -1,0 +1,54 @@
+[
+  {
+    "title": "Designing Data-Intensive Applications",
+    "creator": "Martin Kleppmann",
+    "type": "book",
+    "status": "reading",
+    "date": "2026-02-20",
+    "note": "Essential reading for understanding distributed systems and data architecture."
+  },
+  {
+    "title": "Attention Is All You Need",
+    "creator": "Vaswani et al.",
+    "type": "article",
+    "status": "finished",
+    "date": "2026-01-15",
+    "url": "https://arxiv.org/abs/1706.03762",
+    "note": "The transformer paper. Re-read for the third time."
+  },
+  {
+    "title": "Fast.ai Practical Deep Learning",
+    "creator": "Jeremy Howard",
+    "type": "course",
+    "status": "finished",
+    "date": "2026-01-05",
+    "url": "https://course.fast.ai/",
+    "note": "Top-down approach to deep learning. Great for building intuition."
+  },
+  {
+    "title": "3Blue1Brown: Neural Networks",
+    "creator": "Grant Sanderson",
+    "type": "video",
+    "status": "finished",
+    "date": "2026-01-20",
+    "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi",
+    "note": "Best visual explanation of neural networks out there."
+  },
+  {
+    "title": "The Pragmatic Programmer",
+    "creator": "David Thomas & Andrew Hunt",
+    "type": "book",
+    "status": "finished",
+    "date": "2026-02-01",
+    "note": "Timeless software engineering wisdom."
+  },
+  {
+    "title": "Andrej Karpathy: Let's build GPT",
+    "creator": "Andrej Karpathy",
+    "type": "video",
+    "status": "finished",
+    "date": "2026-02-10",
+    "url": "https://www.youtube.com/watch?v=kCc8FmEb1nY",
+    "note": "Building a GPT from scratch in Python. Incredible walkthrough."
+  }
+]

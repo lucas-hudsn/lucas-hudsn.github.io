@@ -10,7 +10,604 @@
 <atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Personal website - Lucas Hudson 🙂‍↔️</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Fri, 06 Mar 2026 13:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 10 Mar 2026 13:00:00 GMT</lastBuildDate>
+<item>
+  <title>EURORG</title>
+  <dc:creator>Lucas Hudson</dc:creator>
+  <link>https://lucas-hudsn.github.io/posts/eurorg/eurorg.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Planning an international move is a project in its own right. Visa applications, lease terminations, pet care arrangements, packing timelines — the logistics compound fast. Spreadsheets work, but they don’t <em>help</em> you think. I wanted something that could track tasks across time-bound phases, answer planning questions on the fly, and pull in my existing calendar and files without switching tabs.</p>
+<p><strong>eurorg</strong> is that something: a local-first, full-stack web app built for my partner and me as we plan our move from Australia to Germany on a working holiday visa. It combines a phased task timeline, a streaming AI assistant powered by Claude, and a Google Workspace integration layer — all in roughly 965 lines of application code.</p>
+<p>This article walks through the motivations, architecture, and key implementation patterns behind the project.</p>
+</section>
+<section id="the-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem">The Problem</h2>
+<p>My partner and I are moving from Australia to Germany on 28 May 2026 for a working holiday. We have a cat, a lease to break, a German bureaucracy to navigate, and a departure date that isn’t moving. Things needed to happen in a specific order: visa stuff first, then lease notice, then pack and move to my parents’ for the last month, then somehow our cat sorted.</p>
+<p>I tried a spreadsheet. It worked but it didn’t help me <em>think</em>. I tried a notes app. Total chaos. Jira felt like using a forklift to move a couch.</p>
+<p>What I actually wanted was pretty simple:</p>
+<ol type="1">
+<li><strong>Tasks grouped by phase</strong> — not one giant list, but “stuff to do in March”, “stuff to do in April”, etc.</li>
+<li><strong>Someone to ask questions</strong> — like “what’s the actual process for bringing a dog to Europe” without opening seventeen browser tabs.</li>
+<li><strong>My calendar and emails in one place</strong> — I kept switching tabs to check if I’d already booked something.</li>
+<li><strong>Nothing to maintain</strong> — no cloud deploys, no databases, no accounts. It just runs on my laptop.</li>
+</ol>
+</section>
+<section id="architecture-overview" class="level2">
+<h2 class="anchored" data-anchor-id="architecture-overview">Architecture Overview</h2>
+<p>eurorg is a classic two-tier app: a React single-page application talks to a FastAPI backend over REST and Server-Sent Events.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-architecture" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-architecture">flowchart LR
+    subgraph Frontend
+        A[React 19 + TypeScript] --&gt; B[Vite Dev Server]
+    end
+    subgraph Backend
+        C[FastAPI] --&gt; D[JSON File Storage]
+        C --&gt; E[claude CLI]
+        C --&gt; F[gws CLI]
+    end
+    B -- "/api proxy" --&gt; C
+    E --&gt; G[Claude AI]
+    F --&gt; H[Google Workspace]
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-architecture-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: High-level architecture of eurorg
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>What makes the architecture unusual is the absence of API keys and databases. The backend shells out to two CLIs:</p>
+<ul>
+<li><strong><code>claude --print</code></strong> for AI responses (uses an existing Claude subscription)</li>
+<li><strong><code>gws</code></strong> for Google Workspace operations (Drive, Calendar, Gmail)</li>
+</ul>
+<p>Data persists as plain JSON files protected by <code>asyncio.Lock</code> for concurrent write safety. The entire backend state fits in two files totalling under 6 KB.</p>
+</section>
+<section id="tech-stack" class="level2">
+<h2 class="anchored" data-anchor-id="tech-stack">Tech Stack</h2>
+<div id="tbl-stack" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-stack-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Technology choices and rationale
+</figcaption>
+<div aria-describedby="tbl-stack-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 47%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Technology</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Frontend framework</td>
+<td>React 19 + TypeScript</td>
+<td>Type safety, hooks-based state, large ecosystem</td>
+</tr>
+<tr class="even">
+<td>Build tool</td>
+<td>Vite 6</td>
+<td>Fast HMR, zero-config TypeScript, proxy support</td>
+</tr>
+<tr class="odd">
+<td>Routing</td>
+<td>React Router v7</td>
+<td>Lazy-loaded pages, nested layouts</td>
+</tr>
+<tr class="even">
+<td>Animations</td>
+<td>Framer Motion</td>
+<td>Declarative page transitions and micro-interactions</td>
+</tr>
+<tr class="odd">
+<td>Styling</td>
+<td>CSS Modules + custom tokens</td>
+<td>Scoped styles without framework overhead</td>
+</tr>
+<tr class="even">
+<td>Backend</td>
+<td>FastAPI (Python)</td>
+<td>Async-first, automatic OpenAPI docs, Pydantic validation</td>
+</tr>
+<tr class="odd">
+<td>Data</td>
+<td>JSON files</td>
+<td>Zero setup, portable, perfectly adequate for single-user</td>
+</tr>
+<tr class="even">
+<td>AI</td>
+<td>Claude CLI</td>
+<td>No API key management, uses existing subscription</td>
+</tr>
+<tr class="odd">
+<td>Google APIs</td>
+<td>gws CLI</td>
+<td>Pre-authenticated, supports Drive/Calendar/Gmail</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="the-four-pages" class="level2">
+<h2 class="anchored" data-anchor-id="the-four-pages">The Four Pages</h2>
+<section id="dashboard" class="level3">
+<h3 class="anchored" data-anchor-id="dashboard">Dashboard</h3>
+<p>The landing page provides an at-a-glance summary: a countdown timer to departure, overall task progress as a percentage, the next uncompleted task, traveller information, and quick-action links.</p>
+<p>The countdown hook recalculates every second using <code>date-fns</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">// useCountdown.ts — real-time countdown to departure</span></span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">export</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">useCountdown</span>(targetDate<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">string</span>) {</span>
+<span id="cb1-3">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">const</span> [timeLeft<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> setTimeLeft] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">useState</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">calculateTimeLeft</span>(targetDate))<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb1-4"></span>
+<span id="cb1-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">useEffect</span>(() <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">=&gt;</span> {</span>
+<span id="cb1-6">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">const</span> timer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">setInterval</span>(</span>
+<span id="cb1-7">      () <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">=&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setTimeLeft</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">calculateTimeLeft</span>(targetDate))<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb1-8">      <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span></span>
+<span id="cb1-9">    )<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb1-10">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> () <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">=&gt;</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">clearInterval</span>(timer)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb1-11">  }<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> [targetDate])<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb1-12"></span>
+<span id="cb1-13">  <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> timeLeft<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb1-14">}</span></code></pre></div></div>
+</section>
+<section id="timeline" class="level3">
+<h3 class="anchored" data-anchor-id="timeline">Timeline</h3>
+<p>The core planning view. Tasks are organised into six phases:</p>
+<ol type="1">
+<li><strong>Now — Mid March 2026</strong> (visa, dentist, vet, lease notice)</li>
+<li><strong>Late March — Early April 2026</strong> (insurance, flights, international licence)</li>
+<li><strong>1–15 April 2026</strong> (pack current place, finalise lease)</li>
+<li><strong>15 April — Move to Parents</strong></li>
+<li><strong>May 2026</strong> (Europe accommodation, documents, phone)</li>
+<li><strong>Final Week — 21–28 May 2026</strong> (final packing, Badu handover)</li>
+</ol>
+<p>Phase definitions live in two places — the backend’s <code>PHASES</code> list and the frontend’s <code>PHASE_ORDER</code> constant — and must stay in sync. This is a deliberate trade-off: duplicating a six-element array is simpler than introducing a shared schema package for a single-user app.</p>
+<p>Each task supports create, toggle (complete/incomplete), and delete operations. The backend acquires an async lock, reads the JSON file, mutates, and writes back:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># tasks.py — concurrent-safe task mutation</span></span>
+<span id="cb2-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> _save_tasks(tasks: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">list</span>[<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb2-3">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> _lock:</span>
+<span id="cb2-4">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> aiofiles.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">open</span>(TASKS_PATH, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"w"</span>) <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> f:</span>
+<span id="cb2-5">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> f.write(json.dumps(tasks, indent<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>))</span></code></pre></div></div>
+</section>
+<section id="assistant" class="level3">
+<h3 class="anchored" data-anchor-id="assistant">Assistant</h3>
+<p>The chat page connects to Claude through a streaming pipeline:</p>
+<ol type="1">
+<li>The frontend sends the full conversation history to <code>POST /api/chat</code>.</li>
+<li>The backend spawns <code>claude --print --no-input</code> as a subprocess with a system prompt containing trip context.</li>
+<li>Stdout is yielded chunk-by-chunk as SSE events.</li>
+<li>The frontend consumes the stream via a <code>ReadableStream</code> reader and accumulates text into the assistant message.</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># chat.py — SSE streaming from Claude CLI</span></span>
+<span id="cb3-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> _stream_claude(prompt: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb3-3">    proc <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> asyncio.create_subprocess_exec(</span>
+<span id="cb3-4">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"claude"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"--print"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"--no-input"</span>, prompt,</span>
+<span id="cb3-5">        stdout<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>asyncio.subprocess.PIPE,</span>
+<span id="cb3-6">        stderr<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>asyncio.subprocess.PIPE,</span>
+<span id="cb3-7">    )</span>
+<span id="cb3-8">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> chunk <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> proc.stdout:</span>
+<span id="cb3-9">        text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> chunk.decode()</span>
+<span id="cb3-10">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">yield</span> <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"data: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>json<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>dumps({<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'text'</span>: text})<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n\n</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span></code></pre></div></div>
+<p>On the frontend, a custom <code>useChat</code> hook manages conversation state and delegates streaming to the API layer:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode typescript code-with-copy"><code class="sourceCode typescript"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">// api.ts — SSE stream consumer</span></span>
+<span id="cb4-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">export</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">function</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">apiStream</span>(</span>
+<span id="cb4-3">  path<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">string</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-4">  body<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">unknown</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-5">  onChunk<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> (text<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">string</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">=&gt;</span> <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">void</span></span>
+<span id="cb4-6">) {</span>
+<span id="cb4-7">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">const</span> res <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fetch</span>(<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`/api</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">${</span>path<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {</span>
+<span id="cb4-8">    method<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"POST"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-9">    headers<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> { <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Content-Type"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"application/json"</span> }<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-10">    body<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">JSON</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">stringify</span>(body)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-11">  })<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb4-12">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">const</span> reader <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> res<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">body</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getReader</span>()<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb4-13">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">const</span> decoder <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">new</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">TextDecoder</span>()<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb4-14">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">// ... read loop, parse SSE frames, call onChunk</span></span>
+<span id="cb4-15">}</span></code></pre></div></div>
+<p>This approach gives a responsive, token-by-token display without polling or WebSockets.</p>
+</section>
+<section id="workspace" class="level3">
+<h3 class="anchored" data-anchor-id="workspace">Workspace</h3>
+<p>The workspace page has three tabs — Drive, Calendar, and Gmail — each backed by a <code>gws</code> CLI call through the backend proxy.</p>
+<p>The proxy router is security-conscious by design:</p>
+<ul>
+<li>Commands run via <code>asyncio.create_subprocess_exec</code> (never <code>shell=True</code>, preventing injection).</li>
+<li>A 15-second timeout kills hung processes.</li>
+<li>Output is parsed as JSON where possible, with raw text as fallback.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># gws_proxy.py — safe CLI execution</span></span>
+<span id="cb5-2">proc <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> asyncio.create_subprocess_exec(</span>
+<span id="cb5-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gws"</span>, service, resource, method, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>flags,</span>
+<span id="cb5-4">    stdout<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>asyncio.subprocess.PIPE,</span>
+<span id="cb5-5">    stderr<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>asyncio.subprocess.PIPE,</span>
+<span id="cb5-6">)</span>
+<span id="cb5-7"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">try</span>:</span>
+<span id="cb5-8">    stdout, stderr <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> asyncio.wait_for(</span>
+<span id="cb5-9">        proc.communicate(), timeout<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15.0</span></span>
+<span id="cb5-10">    )</span>
+<span id="cb5-11"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">except</span> asyncio.<span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">TimeoutError</span>:</span>
+<span id="cb5-12">    proc.kill()</span>
+<span id="cb5-13">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">raise</span> HTTPException(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">504</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"GWS command timed out"</span>)</span></code></pre></div></div>
+</section>
+</section>
+<section id="design-system" class="level2">
+<h2 class="anchored" data-anchor-id="design-system">Design System</h2>
+<p>The visual design uses a minimal, typographic approach:</p>
+<ul>
+<li><strong>Playfair Display</strong> for headings (serif, editorial feel)</li>
+<li><strong>Inter</strong> for body text (clean sans-serif)</li>
+<li>Warm white background (<code>#FAFAF8</code>) with blue (<code>#1A1AFF</code>) and orange (<code>#FF4D2D</code>) accents</li>
+<li>Dark mode support via a <code>data-theme</code> attribute</li>
+<li>Smooth easing throughout: <code>cubic-bezier(0.22, 1, 0.36, 1)</code></li>
+</ul>
+<p>All styling is handled through CSS Modules (one <code>.module.css</code> per component) and global design tokens in a single <code>global.css</code> file. No Tailwind, no component library — just CSS.</p>
+</section>
+<section id="what-id-do-differently" class="level2">
+<h2 class="anchored" data-anchor-id="what-id-do-differently">What I’d Do Differently</h2>
+<p><strong>Shared phase definitions.</strong> The duplicated phase arrays haven’t caused issues yet, but a shared JSON schema or codegen step would be safer for a longer-lived project.</p>
+<p><strong>Database.</strong> JSON files work perfectly at this scale, but a SQLite database (perhaps via <code>sqlmodel</code>) would make querying and filtering tasks easier if the app grew.</p>
+<p><strong>Authentication.</strong> Since this runs locally, there’s no auth layer. For deployment, even a simple token gate would be necessary.</p>
+<p><strong>Tests.</strong> The project has no automated tests. For a personal tool with a fixed end date, manual testing has been sufficient, but it’s the first thing I’d add if the scope expanded.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>eurorg is a reminder that useful software doesn’t need to be complex. Under 1,000 lines of code, no database, no API keys, no deployment pipeline — and it handles phased task management, streaming AI chat, and Google Workspace integration for a real move to another continent.</p>
+<p>The key decisions that kept it simple:</p>
+<ul>
+<li><strong>JSON files</strong> instead of a database</li>
+<li><strong>CLI subprocesses</strong> instead of API client libraries</li>
+<li><strong>Custom hooks</strong> instead of a state management library</li>
+<li><strong>CSS Modules</strong> instead of a CSS framework</li>
+<li><strong>Local-first</strong> instead of cloud-deployed</li>
+</ul>
+<p>Sometimes the best architecture is the one with the fewest moving parts.</p>
+<hr>
+<p><em>eurorg is open source and available on <a href="https://github.com/lucashud/eurorg">GitHub</a>. Built with React, FastAPI, Claude, and a healthy sense of deadline pressure.</em></p>
+
+
+</section>
+
+ ]]></description>
+  <category>AI</category>
+  <category>Full-Stack</category>
+  <guid>https://lucas-hudsn.github.io/posts/eurorg/eurorg.html</guid>
+  <pubDate>Tue, 10 Mar 2026 13:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Fine-Tuning EmbeddingGemma-300M for Legal Information Retrieval</title>
   <dc:creator>Lucas Hudson</dc:creator>
@@ -2603,7 +3200,7 @@ font-style: inherit;">"__main__"</span>:</span>
 
 
 
-<div id="8a31d054" class="cell" data-execution_count="1">
+<div id="11177dd5" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">print</span>(<span class="st" style="color: #20794D;

@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/eurorg/eurorg.html",
       "/posts/legal_retrieval_kaggle/legal_retrieval_kaggle.html",
       "/posts/kaggle-code/kagglecode.html",
       "/posts/NCC_bot/ncc-bot.html",

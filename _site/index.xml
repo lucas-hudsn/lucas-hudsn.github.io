@@ -6,15 +6,15 @@
       version="2.0">
 <channel>
 <title>blog</title>
-<link>https://your-website-url.example.com/</link>
-<atom:link href="https://your-website-url.example.com/index.xml" rel="self" type="application/rss+xml"/>
-<description>A blog built with Quarto</description>
+<link>https://lucas-hudsn.github.io/</link>
+<atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
+<description>Lucas Hudson - Data Science, Open Source AI Projects, and Blog.</description>
 <generator>quarto-1.8.27</generator>
 <lastBuildDate>Fri, 10 Apr 2026 14:00:00 GMT</lastBuildDate>
 <item>
   <title>Post With Code</title>
   <dc:creator>Harlow Malloc</dc:creator>
-  <link>https://your-website-url.example.com/posts/post-with-code/</link>
+  <link>https://lucas-hudsn.github.io/posts/post-with-code/</link>
   <description><![CDATA[ 
 
 
@@ -29,29 +29,40 @@
   <category>news</category>
   <category>code</category>
   <category>analysis</category>
-  <guid>https://your-website-url.example.com/posts/post-with-code/</guid>
+  <guid>https://lucas-hudsn.github.io/posts/post-with-code/</guid>
   <pubDate>Fri, 10 Apr 2026 14:00:00 GMT</pubDate>
-  <media:content url="https://your-website-url.example.com/posts/post-with-code/image.jpg" medium="image" type="image/jpeg"/>
+  <media:content url="https://lucas-hudsn.github.io/posts/post-with-code/image.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
-  <title>Welcome To My Blog</title>
-  <dc:creator>Tristan O&#39;Malley</dc:creator>
-  <link>https://your-website-url.example.com/posts/welcome/</link>
+  <title>Resetting This Blog</title>
+  <dc:creator>Lucas Hudson</dc:creator>
+  <link>https://lucas-hudsn.github.io/posts/reset/</link>
   <description><![CDATA[ 
 
 
 
 
 
-<p>This is the first post in a Quarto blog. Welcome!</p>
-<p><img src="https://your-website-url.example.com/posts/welcome/thumbnail.jpg" class="img-fluid"></p>
-<p>Since this post doesn’t specify an explicit <code>image</code>, the first image in the post will be used in the listing page of posts.</p>
+<section id="why-have-i-reset-this-blog" class="level3">
+<h3 class="anchored" data-anchor-id="why-have-i-reset-this-blog">Why have I reset this blog?</h3>
+<p>I am resetting this blog to restart with guiding principals. I started blogging and posting projects early this year, however with the recent explosion of AI use in coding and implemetation in every IDE, I found it impossible to not let it take over half the posts and projects I was doing.</p>
+<p>I want to ensure that each line of code, and each word spoken in this blog is my own, to reflect my learning and growth as a developer, and to ensure that I am not just regurgitating AI generated content.</p>
+<p>From now on, my posts will be entirely hand written and fall into the following three categories: - Personal Blog - Data Science and Machine Learning Projects - Open Source AI Engineering Projects</p>
+<p>I have also temporarily given up on the idea of learning front end development, I was not finding it enjoyable and I want to ensure that I maintain interest and passion for the projects I am working on, so I will be focusing on back end dev / AI engineering and data science for the foreseeable future.</p>
+<p>Thanks!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://lucas-hudsn.github.io/posts/reset/cyber-wizard.png" class="img-fluid figure-img"></p>
+<figcaption>Qwen3.6-Plus Generated Image - Prompt: ‘Cartoon Cyber Wizard developing AI on a laptop’</figcaption>
+</figure>
+</div>
 
 
+</section>
 
  ]]></description>
-  <category>news</category>
-  <guid>https://your-website-url.example.com/posts/welcome/</guid>
+  <category>blog</category>
+  <guid>https://lucas-hudsn.github.io/posts/reset/</guid>
   <pubDate>Tue, 07 Apr 2026 14:00:00 GMT</pubDate>
 </item>
 </channel>

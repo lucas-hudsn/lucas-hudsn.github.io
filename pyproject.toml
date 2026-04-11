@@ -1,0 +1,7 @@
+[project]
+name = "lucas-hudsn-github-io"
+version = "0.1.0"
+description = "Blog and Portfolio"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []

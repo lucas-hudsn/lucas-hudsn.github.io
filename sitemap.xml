@@ -1,43 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://lucas-hudsn.github.io/CLAUDE.html</loc>
-    <lastmod>2026-01-21T06:11:16.788Z</lastmod>
+    <loc>https://lucas-hudsn.github.io/about.html</loc>
+    <lastmod>2026-04-11T01:03:09.726Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucas-hudsn.github.io/posts/reset/index.html</loc>
+    <lastmod>2026-04-11T01:22:48.213Z</lastmod>
+  </url>
+  <url>
+    <loc>https://lucas-hudsn.github.io/posts/post-with-code/index.html</loc>
+    <lastmod>2026-04-11T00:36:55.877Z</lastmod>
   </url>
   <url>
     <loc>https://lucas-hudsn.github.io/index.html</loc>
-    <lastmod>2026-01-21T06:11:39.406Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucas-hudsn.github.io/posts/NCC_bot/ncc-bot.html</loc>
-    <lastmod>2026-01-31T01:22:31.080Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucas-hudsn.github.io/posts/hello-world/hello-world.html</loc>
-    <lastmod>2026-03-07T05:51:10.049Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucas-hudsn.github.io/posts/legal_retrieval_kaggle/legal_retrieval_kaggle.html</loc>
-    <lastmod>2026-03-07T05:51:11.306Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucas-hudsn.github.io/posts/wave~reader/wavereader.html</loc>
-    <lastmod>2026-01-21T05:05:57.296Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucas-hudsn.github.io/posts/wave~reader_datagen/wavereader_datagen.html</loc>
-    <lastmod>2026-03-07T05:57:52.573Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucas-hudsn.github.io/posts/kaggle-code/kagglecode.html</loc>
-    <lastmod>2026-03-07T05:59:18.145Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucas-hudsn.github.io/posts/eurorg/eurorg.html</loc>
-    <lastmod>2026-03-11T08:03:59.920Z</lastmod>
-  </url>
-  <url>
-    <loc>https://lucas-hudsn.github.io/about.html</loc>
-    <lastmod>2026-01-21T06:11:39.404Z</lastmod>
+    <lastmod>2026-04-11T01:03:47.199Z</lastmod>
   </url>
 </urlset>

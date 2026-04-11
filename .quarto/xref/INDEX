@@ -1,44 +1,14 @@
 {
-  "posts/wave~reader/article.qmd": {
-    "article.html": "7f9060cb"
+  "posts/post-with-code/index.qmd": {
+    "index.html": "64af3c4f"
   },
-  "posts/hello-world/index.qmd": {
-    "index.html": "08e91a0f"
+  "posts/welcome/index.qmd": {
+    "index.html": "22b36a85"
   },
   "index.qmd": {
-    "index.html": "815c51d6"
+    "index.html": "ce1a8280"
   },
   "about.qmd": {
-    "about.html": "42210673"
-  },
-  "posts/todo.qmd": {
-    "todo.html": "27f0e3fd"
-  },
-  "posts/wave~reader/Untitled.ipynb": {
-    "Untitled.html": "d420cf7b"
-  },
-  "posts/wave~reader/wavereader.ipynb": {
-    "wavereader.html": "07a9f241"
-  },
-  "posts/wave~reader_datagen/wavereader_datagen.ipynb": {
-    "wavereader_datagen.html": "5c18ed4d"
-  },
-  "posts/hello-world/hello-world.qmd": {
-    "hello-world.html": "6a48210d"
-  },
-  "CLAUDE.md": {
-    "CLAUDE.html": "e34ca4ee"
-  },
-  "posts/NCC_bot/wavereader.ipynb": {
-    "wavereader.html": "f1fad25a"
-  },
-  "posts/kaggle-code/kagglecode.ipynb": {
-    "kagglecode.html": "d37a2bff"
-  },
-  "posts/NCC_bot/ncc-bot.ipynb": {
-    "ncc-bot.html": "532f3abe"
-  },
-  "posts/legal_retrieval_kaggle/legal_retrieval_kaggle.md": {
-    "legal_retrieval_kaggle.html": "5513e24c"
+    "about.html": "b3c9524e"
   }
 }

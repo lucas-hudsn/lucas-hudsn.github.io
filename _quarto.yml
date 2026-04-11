@@ -2,20 +2,20 @@ project:
   type: website
 
 website:
-  description: "Personal website - Lucas Hudson 🙂‍↔️"
-  site-url: "https://lucas-hudsn.github.io" 
-  title: "lucas-hudsn"
+  description: "A blog built with Quarto"
+  site-url: https://your-website-url.example.com # you must change this appropriately for RSS feeds to work properly
+  title: "blog"
   navbar:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/lucas-hudsn
-      - icon: linkedin
-        href: https://www.linkedin.com/in/lucas-hudson-0a1384183/
+        href: https://github.com/
+      - icon: twitter
+        href: https://twitter.com
 format:
   html:
     theme:
-      - cosmo
+      - lux
       - brand
     css: styles.css
 

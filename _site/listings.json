@@ -2,12 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/legal_retrieval_kaggle/legal_retrieval_kaggle.html",
-      "/posts/kaggle-code/kagglecode.html",
-      "/posts/NCC_bot/ncc-bot.html",
-      "/posts/wave~reader/wavereader.html",
-      "/posts/wave~reader_datagen/wavereader_datagen.html",
-      "/posts/hello-world/hello-world.html"
+      "/posts/post-with-code/index.html",
+      "/posts/welcome/index.html"
     ]
   }
 ]

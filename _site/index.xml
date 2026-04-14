@@ -10,28 +10,279 @@
 <atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Lucas Hudson - Data Science, Open Source AI Projects, and Blog.</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Fri, 10 Apr 2026 14:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 14 Apr 2026 14:00:00 GMT</lastBuildDate>
 <item>
-  <title>Post With Code</title>
-  <dc:creator>Harlow Malloc</dc:creator>
-  <link>https://lucas-hudsn.github.io/posts/post-with-code/</link>
+  <title>V-Shape Orchestration</title>
+  <dc:creator>Lucas Hudson</dc:creator>
+  <link>https://lucas-hudsn.github.io/posts/v-shape/vshape_orchestration.html</link>
   <description><![CDATA[ 
 
 
 
 
 
-<p>This is a post with executable code.</p>
+<section id="v-shape-development" class="level2">
+<h2 class="anchored" data-anchor-id="v-shape-development">V-Shape Development</h2>
+<p>V-Shape development was a popular approach to software development in the 1990s and early 2000s. It is a linear, sequential process that emphasizes the importance of testing and validation at each stage of development. The V-Shape model is often depicted as a V-shaped diagram, with the left side representing the development phases and the right side representing the testing phases.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://lucas-hudsn.github.io/posts/v-shape/vshape.png" class="img-fluid figure-img"></p>
+<figcaption>V-Shape Diagram</figcaption>
+</figure>
+</div>
+<section id="the-9-phases" class="level3">
+<h3 class="anchored" data-anchor-id="the-9-phases">The 9 Phases</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 30%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Phase</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><strong>Requirements</strong></td>
+<td>Gather and analyze requirements - functional and non-functional</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><strong>System Analysis</strong></td>
+<td>Identify components, interactions, and high-level architecture</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><strong>Software Design</strong></td>
+<td>Create detailed design documents and component interfaces</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><strong>Module Design</strong></td>
+<td>Define data structures, algorithms, and function signatures</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><strong>Coding</strong></td>
+<td>Write the actual code based on design documents</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><strong>Unit Testing</strong></td>
+<td>Test individual modules with pytest and Vitest</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><strong>Integration Testing</strong></td>
+<td>Test module interactions with TestClient</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td><strong>System Testing</strong></td>
+<td>End-to-end testing with Playwright</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td><strong>Acceptance</strong></td>
+<td>Demo to user and confirm against criteria</td>
+</tr>
+</tbody>
+</table>
+<p>The V-Shape model emphasizes the importance of testing and validation at each stage. This ensures high-quality software that meets user needs. However, it can be rigid and may not suit projects requiring rapid iteration.</p>
+<hr>
+</section>
+</section>
+<section id="ai-orchestration" class="level2">
+<h2 class="anchored" data-anchor-id="ai-orchestration">AI Orchestration</h2>
+<p>With the rise of AI in software development, I believe the V-Shape model now serves well as an orchestration format for AI engineering projects:</p>
+<ul>
+<li><strong>Left side of V</strong>: Development and training phases of the AI model</li>
+<li><strong>Right side of V</strong>: Testing and validation phases</li>
+</ul>
+<p>This structured approach ensures AI models are developed systematically, with rigorous testing at each stage.</p>
+<blockquote class="blockquote">
+<p><strong>Note:</strong> I built a series of commands that allow seamless progression through each stage. Find the repo <a href="https://github.com/lucas-hudsn/vshape-orchestration">here</a>.</p>
+</blockquote>
+<hr>
+</section>
+<section id="stage-commands" class="level2">
+<h2 class="anchored" data-anchor-id="stage-commands">Stage Commands</h2>
+<p>Each command corresponds to a phase in the V-Shape model.</p>
+<section id="stage-1-requirements" class="level3">
+<h3 class="anchored" data-anchor-id="stage-1-requirements">Stage 1 — Requirements</h3>
+<blockquote class="blockquote">
+<p><strong>Description:</strong> V-model phase 1 — Requirements</p>
+<p>Write down what the feature does, who uses it, inputs/outputs, acceptance criteria. Confirm with the user before moving on.</p>
+<ul>
+<li><strong>Artifact:</strong> <code>docs/features/&lt;feature-slug&gt;/01-requirements.md</code></li>
+<li><strong>For new applications:</strong> project scaffolding (uv init, Vite create, Postgres + Alembic baseline) — not a feature</li>
+<li><strong>Before moving to <code>/stage2</code>:</strong> commit artifact, advise user to run <code>/clear</code>. The doc on disk is the handoff.</li>
+</ul>
+</blockquote>
+</section>
+<section id="stage-2-system-design" class="level3">
+<h3 class="anchored" data-anchor-id="stage-2-system-design">Stage 2 — System Design</h3>
+<blockquote class="blockquote">
+<p><strong>Description:</strong> V-model phase 2 — System design</p>
+<p>API contract (FastAPI routes + schemas), DB tables/migrations, frontend screens + data flow. One short doc — no diagrams unless asked.</p>
+<ul>
+<li><strong>Prerequisite:</strong> Read <code>docs/features/&lt;feature-slug&gt;/01-requirements.md</code></li>
+<li><strong>Artifact:</strong> <code>docs/features/&lt;feature-slug&gt;/02-system-design.md</code></li>
+<li><strong>Matching validation phase:</strong> <code>/stage8</code> (system tests)</li>
+<li><strong>Before moving to <code>/stage3</code>:</strong> commit artifact, advise user to run <code>/clear</code></li>
+</ul>
+</blockquote>
+</section>
+<section id="stage-3-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="stage-3-architecture">Stage 3 — Architecture</h3>
+<blockquote class="blockquote">
+<p><strong>Description:</strong> V-model phase 3 — Architecture</p>
+<p>Module layout: backend packages (<code>routers/</code>, <code>services/</code>, <code>models/</code>, <code>schemas/</code>), React component tree, shared types.</p>
+<ul>
+<li><strong>Prerequisite:</strong> Read <code>01-requirements.md</code> and <code>02-system-design.md</code></li>
+<li><strong>Artifact:</strong> <code>docs/features/&lt;feature-slug&gt;/03-architecture.md</code></li>
+<li><strong>Matching validation phase:</strong> <code>/stage7</code> (integration tests)</li>
+<li><strong>Before moving to <code>/stage4</code>:</strong> commit artifact, advise user to run <code>/clear</code></li>
+</ul>
+</blockquote>
+</section>
+<section id="stage-4-module-design" class="level3">
+<h3 class="anchored" data-anchor-id="stage-4-module-design">Stage 4 — Module Design</h3>
+<blockquote class="blockquote">
+<p><strong>Description:</strong> V-model phase 4 — Module design</p>
+<p>Function signatures, React component props/state, key SQL queries. Just enough to code from.</p>
+<ul>
+<li><strong>Prerequisite:</strong> Read prior phase artifacts under <code>docs/features/&lt;feature-slug&gt;/</code></li>
+<li><strong>Artifact:</strong> <code>docs/features/&lt;feature-slug&gt;/04-module-design.md</code></li>
+<li><strong>Matching validation phase:</strong> <code>/stage6</code> (unit tests)</li>
+<li><strong>Before moving to <code>/stage5</code>:</strong> commit artifact, advise user to run <code>/clear</code></li>
+</ul>
+</blockquote>
+</section>
+<section id="stage-5-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="stage-5-implementation">Stage 5 — Implementation</h3>
+<blockquote class="blockquote">
+<p><strong>Description:</strong> V-model phase 5 — Implementation</p>
+<p>Write the code.</p>
+<ul>
+<li><strong>Prerequisite:</strong> Read prior phase artifacts</li>
+<li><strong>Artifact:</strong> <code>docs/features/&lt;feature-slug&gt;/05-implementation.md</code> — key decisions, deviations, follow-ups</li>
+<li><strong>Rule:</strong> Red-green-refactor. Write the failing test first when practical; minimum write the test in the same change as the code.</li>
+<li><strong>Before moving to <code>/stage6</code>:</strong> commit artifact, advise user to run <code>/clear</code></li>
+</ul>
+</blockquote>
+</section>
+<section id="stage-6-unit-tests" class="level3">
+<h3 class="anchored" data-anchor-id="stage-6-unit-tests">Stage 6 — Unit Tests</h3>
+<blockquote class="blockquote">
+<p><strong>Description:</strong> V-model phase 6 — Unit tests</p>
+<p>pytest for every service/util function; Vitest + RTL for every component with non-trivial logic.</p>
+<ul>
+<li><strong>Answers:</strong> <code>/stage4</code> (module design)</li>
+<li><strong>Prerequisite:</strong> Read <code>04-module-design.md</code> and <code>05-implementation.md</code></li>
+<li><strong>Artifact:</strong> <code>docs/features/&lt;feature-slug&gt;/06-unit-tests.md</code> — what’s covered, what’s not, how to run</li>
+<li><strong>Before moving to <code>/stage7</code>:</strong> commit artifact, advise user to run <code>/clear</code></li>
+</ul>
+</blockquote>
+</section>
+<section id="stage-7-integration-tests" class="level3">
+<h3 class="anchored" data-anchor-id="stage-7-integration-tests">Stage 7 — Integration Tests</h3>
+<blockquote class="blockquote">
+<p><strong>Description:</strong> V-model phase 7 — Integration tests</p>
+<p>FastAPI <code>TestClient</code> against a real Postgres (Docker); frontend tests that hit a mocked or test API.</p>
+<ul>
+<li><strong>Answers:</strong> <code>/stage3</code> (architecture)</li>
+<li><strong>Prerequisite:</strong> Read <code>03-architecture.md</code></li>
+<li><strong>Artifact:</strong> <code>docs/features/&lt;feature-slug&gt;/07-integration-tests.md</code></li>
+<li><strong>Before moving to <code>/stage8</code>:</strong> commit artifact, advise user to run <code>/clear</code></li>
+</ul>
+</blockquote>
+</section>
+<section id="stage-8-system-tests" class="level3">
+<h3 class="anchored" data-anchor-id="stage-8-system-tests">Stage 8 — System Tests</h3>
+<blockquote class="blockquote">
+<p><strong>Description:</strong> V-model phase 8 — System tests</p>
+<p>End-to-end with Playwright: real backend, real DB, real browser. At least the golden path.</p>
+<ul>
+<li><strong>Answers:</strong> <code>/stage2</code> (system design)</li>
+<li><strong>Prerequisite:</strong> Read <code>02-system-design.md</code></li>
+<li><strong>Artifact:</strong> <code>docs/features/&lt;feature-slug&gt;/08-system-tests.md</code></li>
+<li><strong>Before moving to <code>/stage9</code>:</strong> commit artifact, advise user to run <code>/clear</code></li>
+</ul>
+</blockquote>
+</section>
+<section id="stage-9-acceptance" class="level3">
+<h3 class="anchored" data-anchor-id="stage-9-acceptance">Stage 9 — Acceptance</h3>
+<blockquote class="blockquote">
+<p><strong>Description:</strong> V-model phase 9 — Acceptance</p>
+<p>Demo to the user against the criteria from <code>/stage1</code>. <strong>Do not start the next feature until the user explicitly accepts.</strong></p>
+<ul>
+<li><strong>Answers:</strong> <code>/stage1</code> (requirements)</li>
+<li><strong>Prerequisite:</strong> Read <code>01-requirements.md</code></li>
+<li><strong>Artifact:</strong> <code>docs/features/&lt;feature-slug&gt;/09-acceptance.md</code> — criteria ticked off, user’s acceptance quote, date</li>
+<li><strong>“Done” means:</strong> acceptance criteria met, all four test levels passing, and user has said “accepted”</li>
+</ul>
+</blockquote>
+<hr>
+<p><strong>Quick Reference Table</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Dev Phase</th>
+<th>Stage</th>
+<th>Validation Phase</th>
+<th>Test Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Requirements</td>
+<td><code>/stage1</code></td>
+<td><code>/stage9</code></td>
+<td>Acceptance</td>
+</tr>
+<tr class="even">
+<td>System Design</td>
+<td><code>/stage2</code></td>
+<td><code>/stage8</code></td>
+<td>System</td>
+</tr>
+<tr class="odd">
+<td>Architecture</td>
+<td><code>/stage3</code></td>
+<td><code>/stage7</code></td>
+<td>Integration</td>
+</tr>
+<tr class="even">
+<td>Module Design</td>
+<td><code>/stage4</code></td>
+<td><code>/stage6</code></td>
+<td>Unit</td>
+</tr>
+<tr class="odd">
+<td>Implementation</td>
+<td><code>/stage5</code></td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>source /Users/lucashud/Desktop/projects/lucas-hudsn.github.io/.venv/bin/activate.fish</p>
 
 
+</section>
+</section>
 
  ]]></description>
-  <category>news</category>
-  <category>code</category>
-  <category>analysis</category>
-  <guid>https://lucas-hudsn.github.io/posts/post-with-code/</guid>
-  <pubDate>Fri, 10 Apr 2026 14:00:00 GMT</pubDate>
-  <media:content url="https://lucas-hudsn.github.io/posts/post-with-code/image.jpg" medium="image" type="image/jpeg"/>
+  <category>AI</category>
+  <guid>https://lucas-hudsn.github.io/posts/v-shape/vshape_orchestration.html</guid>
+  <pubDate>Tue, 14 Apr 2026 14:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Resetting This Blog</title>

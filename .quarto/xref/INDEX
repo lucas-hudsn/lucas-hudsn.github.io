@@ -13,5 +13,35 @@
   },
   "posts/reset/index.qmd": {
     "index.html": "c3c205fb"
+  },
+  "posts/v-shape/vshape_orchestration.qmd": {
+    "vshape_orchestration.html": "c916ea22"
+  },
+  "posts/v-shape/commands/stage9.md": {
+    "stage9.html": "22ac54c3"
+  },
+  "posts/v-shape/commands/stage8.md": {
+    "stage8.html": "ffae2075"
+  },
+  "posts/v-shape/commands/stage3.md": {
+    "stage3.html": "9caafd5c"
+  },
+  "posts/v-shape/commands/stage7.md": {
+    "stage7.html": "3e644fec"
+  },
+  "posts/v-shape/commands/stage6.md": {
+    "stage6.html": "38d3d487"
+  },
+  "posts/v-shape/commands/stage2.md": {
+    "stage2.html": "bb375bf9"
+  },
+  "posts/v-shape/commands/stage5.md": {
+    "stage5.html": "bc9e8b96"
+  },
+  "posts/v-shape/commands/stage1.md": {
+    "stage1.html": "1a0192f9"
+  },
+  "posts/v-shape/commands/stage4.md": {
+    "stage4.html": "a06e346d"
   }
 }

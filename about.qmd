@@ -11,4 +11,6 @@ about:
       text: Github
       href: https://github.com/lucas-hudsn
 ---
+Lucas Hudson | Masters of Data Science - Monash University | Australian Government Data Scientist (AI Engineering)
+
 Please feel free to reach out to me on LinkedIn or GitHub if you have any questions or would like to connect!

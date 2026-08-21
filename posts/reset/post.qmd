@@ -2,7 +2,7 @@
 title: "Berlin - a Fresh Start"
 author: "Lucas Hudson"
 date: "2026-08-19"
-categories: [blog]
+categories: [Blog]
 ---
 
 ### Berlin - a Fresh Start

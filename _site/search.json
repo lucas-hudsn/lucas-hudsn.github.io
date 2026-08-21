@@ -7,17 +7,73 @@
     "text": "Lucas Hudson | Masters of Data Science - Monash University | Australian Government Data Scientist (AI Engineering)\nPlease feel free to reach out to me on LinkedIn or GitHub if you have any questions or would like to connect!"
   },
   {
-    "objectID": "posts/reset/index.html",
-    "href": "posts/reset/index.html",
+    "objectID": "posts/reset/post.html",
+    "href": "posts/reset/post.html",
     "title": "Berlin - a Fresh Start",
     "section": "",
     "text": "Berlin - a Fresh Start\n\n\n\nTempellhofer Feld on the night of the Solar Eclipse (28-07-2026)\n\n\nMy partner and I have made the difficult decision to leave our lives, jobs and cat 🤕 in Melbourne, and journey over to Berlin for a new life and new experiences. The past 10 years in Melbourne (and Canberra) have been transformative, from High School graduates through to Masters-educated practising professionals in our respective fields (Data Science and Architecture) we cannot thank our home country enough for the opportunities and experiences.\nHowever, we had always wondered what opportunities and lifestyle changes may come from moving overseas and always had a vague plan to seek them. Last year, we decided it was time to organise and make some definitive plans to move, Lucy exhausted herself building matrices that cross checked lifestyle and culturual factors with opportunities and cost of living. This allowed us to easily decide on Berlin as the city which suited us the best, and since then had built plans to move.\nNow, having moved in just a week ago, it feels like we have made an excellent decision. Walking around the streets of Kreuzberg I am overcome with feelings of inspiration, excitement and spontanaeity. I am determined to build myself into this city through engaging with the many events, cultural experiences, meetups and work opportunities, as well as let the city educate and shape a new way of life for me and guide my approach in life decisions.\nThis brings me to resetting my blog, I decided the cheap efforted projects I have done in the past do not align with the new approach I want to use when building personal projects. I was to make use of my skills to build projects that:\n\nServe the community\nOnly use open source models\nAre taylored towards small local models\nDo not require big cloud providers\nI use myself\n\nAside from this, I want to be studying new areas of computer science and using this blog to collate my notes. So from this day onwards, expect posts much more frequently with fun projects I find enjoyable as well as my learnings.\nFirst up, my next project being built is a local application users can practise German with, democratizing Voice and STT models to English speaking users learning German, as well as notes from my studies on AI Ethics.\nHopefully will post with an update again this week!\nLucas."
+  },
+  {
+    "objectID": "posts/deustch-class/post.html",
+    "href": "posts/deustch-class/post.html",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "",
+    "text": "Having recently moved to Berlin, I wanted to practice and expand my German vocabulary, I was struggling prioritizing between my German practise and ML projects. So I built Deutsch Class: a fully local German learning app with a Postgres-backed vocabulary database, a FastAPI REST API, and a terminal UI. Everything runs on my machine.\n\n\n\nTUI main view — word list, filters, and detail panel"
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#is-there-any-need-for-yet-another-language-learning-platform",
+    "href": "posts/deustch-class/post.html#is-there-any-need-for-yet-another-language-learning-platform",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "",
+    "text": "Having recently moved to Berlin, I wanted to practice and expand my German vocabulary, I was struggling prioritizing between my German practise and ML projects. So I built Deutsch Class: a fully local German learning app with a Postgres-backed vocabulary database, a FastAPI REST API, and a terminal UI. Everything runs on my machine.\n\n\n\nTUI main view — word list, filters, and detail panel"
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#architecture",
+    "href": "posts/deustch-class/post.html#architecture",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "Architecture",
+    "text": "Architecture\nThe whole thing is three small pieces:\n┌───────────┐   HTTP    ┌──────────────┐   SQL    ┌────────────────┐\n│  TUI      │ ────────► │  FastAPI     │ ───────► │  PostgreSQL    │\n│ (Textual) │           │  api/main.py │          │  deutsch_class │\n└───────────┘           └──────────────┘          └────────────────┘\n\nPostgreSQL stores ~1,000 words seeded from a JSON file (402 easy · 402 medium · 196 difficult), each with a phonetic transcription, English translation, and a learned flag.\nFastAPI exposes listing, search, filtering, CRUD, random draws, and stats.\nTextual drives the terminal frontend against the live API.\n\nThe schema is deliberately simple, with difficulty constrained at the database level:\nCREATE TABLE words (\n    id          SERIAL PRIMARY KEY,\n    word        TEXT NOT NULL,\n    phonetic    TEXT,\n    translation TEXT,\n    difficulty  TEXT NOT NULL CHECK (difficulty IN ('easy', 'medium', 'difficult')),\n    learned     BOOLEAN NOT NULL DEFAULT FALSE,\n    UNIQUE (word, difficulty)\n);\nOne entry point (main.py) starts the API and launches the TUI together, so uv run main.py is all you need."
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#the-tui",
+    "href": "posts/deustch-class/post.html#the-tui",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "The TUI",
+    "text": "The TUI\nTextual made the terminal frontend genuinely pleasant to build. The main screen has a filterable word table, a search box, and a detail panel for the selected word.\nKeybindings are kept minimal:\n\n\n\nKey\nAction\n\n\n\n\nr\nDraw a random word\n\n\nl\nToggle learned on selected word\n\n\np\nPronounce the selected word (TTS)\n\n\nt\nTest pronunciation of the selected word (mic+ASR)\n\n\n/\nFocus the search box\n\n\nF5\nRefresh the word list\n\n\nq\nQuit\n\n\n\nRandom draw mode is where most of the studying happens — pull a random unlearned word at your chosen difficulty, hear it spoken, mark it learned when you’ve got it."
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#text-to-speech",
+    "href": "posts/deustch-class/post.html#text-to-speech",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "Text-to-speech",
+    "text": "Text-to-speech\nEvery word shown is announced aloud using macOS say with a German voice. Pressing p replays the currently selected word. It’s a tiny feature but it completely changes how the app feels — you’re not just reading, you’re hearing the language constantly."
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#pronunciation-testing-with-on-device-whisper",
+    "href": "posts/deustch-class/post.html#pronunciation-testing-with-on-device-whisper",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "Pronunciation testing with on-device Whisper",
+    "text": "Pronunciation testing with on-device Whisper\nThis is the part I’m most happy with. Press t and the app records 3 seconds from your microphone, transcribes the audio locally with mlx-whisper using whisper-large-v3-turbo-german-f16 (a German-optimized model that runs fast on Apple Silicon), then scores your attempt against the target word via character-level edit distance:\n\n≥ 80% — green\n50–79% — yellow\n&lt; 50% — red\n\nNo audio ever leaves the machine. The first run downloads the ~1.6 GB model; after that it’s instant."
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#the-api",
+    "href": "posts/deustch-class/post.html#the-api",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "The API",
+    "text": "The API\nThe API is thin but complete — interactive docs come free with FastAPI at /docs.\n\n\n\n\n\n\n\n\nMethod\nEndpoint\nDescription\n\n\n\n\nGET\n/words\nList/filter/search words\n\n\nGET\n/words/random\nRandom word (filter by difficulty, unlearned only)\n\n\nPOST\n/words\nCreate a word\n\n\nPATCH\n/words/{id}\nUpdate any subset of fields\n\n\nPOST\n/words/{id}/toggle-learned\nFlip the learned flag\n\n\nDELETE\n/words/{id}\nDelete a word\n\n\nGET\n/stats\nCounts per difficulty + learned + total\n\n\n\ncurl \"localhost:8000/words/random?difficulty=easy&unlearned_only=true\"\n# {\"word\":\"geradeaus\",\"phonetic\":\"ɡərˈɑdeːˌaʊs\",\"translation\":\"straight ahead\",\n#  \"difficulty\":\"easy\",\"id\":294,\"learned\":false}"
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#whats-next",
+    "href": "posts/deustch-class/post.html#whats-next",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "What’s next",
+    "text": "What’s next\n\nWeb frontend — HTMX + CSS served by FastAPI, replacing the TUI as the primary client\nPhrases — full sentences with categories (ordering coffee, directions, shopping…) alongside single words\nListening & reading/writing exercises\nSpaced repetition built on top of the learned flag\n\nThe code is on GitHub. If you have an Apple Silicon Mac and a Postgres instance lying around, uv sync && uv run main.py gets you using it right away."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "lucas hudson blog",
     "section": "",
-    "text": "Berlin - a Fresh Start\n\n\n\nblog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
+    "text": "Deutsch Class: Fully Local German Vocabulary Trainer\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - a Fresh Start\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
   }
 ]

@@ -43,5 +43,11 @@
   },
   "posts/v-shape/commands/stage4.md": {
     "stage4.html": "a06e346d"
+  },
+  "posts/deustch-class/post.qmd": {
+    "post.html": "1162b4e0"
+  },
+  "posts/reset/post.qmd": {
+    "post.html": "e81de2ed"
   }
 }

@@ -7,11 +7,39 @@
     "text": "Lucas Hudson | Masters of Data Science - Monash University | Australian Government Data Scientist (AI Engineering)\nPlease feel free to reach out to me on LinkedIn or GitHub if you have any questions or would like to connect!"
   },
   {
-    "objectID": "posts/reset/post.html",
-    "href": "posts/reset/post.html",
-    "title": "Berlin - a Fresh Start",
+    "objectID": "posts/movie-club/post.html",
+    "href": "posts/movie-club/post.html",
+    "title": "Movie Club: Building My Deployed Full-Stack App",
     "section": "",
-    "text": "Berlin - a Fresh Start\n\n\n\nTempellhofer Feld on the night of the Solar Eclipse (28-07-2026)\n\n\nMy partner and I have made the difficult decision to leave our lives, jobs and cat 🤕 in Melbourne, and journey over to Berlin for a new life and new experiences. The past 10 years in Melbourne (and Canberra) have been transformative, from High School graduates through to Masters-educated practising professionals in our respective fields (Data Science and Architecture) we cannot thank our home country enough for the opportunities and experiences.\nHowever, we had always wondered what opportunities and lifestyle changes may come from moving overseas and always had a vague plan to seek them. Last year, we decided it was time to organise and make some definitive plans to move, Lucy exhausted herself building matrices that cross checked lifestyle and culturual factors with opportunities and cost of living. This allowed us to easily decide on Berlin as the city which suited us the best, and since then had built plans to move.\nNow, having moved in just a week ago, it feels like we have made an excellent decision. Walking around the streets of Kreuzberg I am overcome with feelings of inspiration, excitement and spontanaeity. I am determined to build myself into this city through engaging with the many events, cultural experiences, meetups and work opportunities, as well as let the city educate and shape a new way of life for me and guide my approach in life decisions.\nThis brings me to resetting my blog, I decided the cheap efforted projects I have done in the past do not align with the new approach I want to use when building personal projects. I was to make use of my skills to build projects that:\n\nServe the community\nOnly use open source models\nAre taylored towards small local models\nDo not require big cloud providers\nI use myself\n\nAside from this, I want to be studying new areas of computer science and using this blog to collate my notes. So from this day onwards, expect posts much more frequently with fun projects I find enjoyable as well as my learnings.\nFirst up, my next project being built is a local application users can practise German with, democratizing Voice and STT models to English speaking users learning German, as well as notes from my studies on AI Ethics.\nHopefully will post with an update again this week!\nLucas."
+    "text": "I spend most of my time as a data scientist / AI engineer: notebooks, models, pipelines. But every model I ship eventually needs an actual application around it, and my ability to build that part has always been limited. So I built one from scratch: Movie Club, a server-rendered FastAPI app that runs a monthly film competition for my friends and me.\nThe dashboard — submission phase, phosphor-green CRT theme."
+  },
+  {
+    "objectID": "posts/movie-club/post.html#what-is-movie-club",
+    "href": "posts/movie-club/post.html#what-is-movie-club",
+    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "section": "What is Movie Club?",
+    "text": "What is Movie Club?\nHaving moved from Melbourne to Berlin, I am no longer able to meet my friends for our monthly movie club competition, so I thought it is a good opportunity for my first deployed application to make an app for us. ### The Rules: Every month each team member submits one movie. Everyone watches and ranks all the picks best → worst. The top film wins; the bottom film sends its submitter to the bench (they still vote next month, but can’t submit). Repeat forever.\nLive: https://movieclub.fastapicloud.dev"
+  },
+  {
+    "objectID": "posts/movie-club/post.html#the-product",
+    "href": "posts/movie-club/post.html#the-product",
+    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "section": "The product",
+    "text": "The product\nThe whole thing runs on a three-phase cycle lifecycle:\n\nSUBMITTING — each member picks one film via live search against the OMDB API. One pick per person, no duplicates.\nRANKING — an admin locks submissions, then everyone drags their ballot into order with ▲▼ controls.\nCLOSED — points are tallied by Borda count: position 1 of N films gets N−1 points, last place gets 0. Winner crowned, loser evicted, next cycle auto-created.\n\nJoining is invite-only via a team code, and an all-time leaderboard tracks wins and losses per member.\n The /vote ballot page, built as HTMX partials so reordering never reloads the page.\n The all-time leaderboard. Bragging rights are permanent."
+  },
+  {
+    "objectID": "posts/movie-club/post.html#the-stack",
+    "href": "posts/movie-club/post.html#the-stack",
+    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "section": "The stack",
+    "text": "The stack\nI deliberately avoided React. The goal was to learn how a “real” web app works at the request/response level, not to learn a frontend framework:\n\n\n\nLayer\nChoice\n\n\n\n\nHosting\nFastAPI Cloud\n\n\nBackend\nFastAPI + Jinja2 templates + HTMX fragments\n\n\nDatabase\nPostgreSQL via SQLAlchemy 2.0, Alembic migrations (Supabase in prod)\n\n\nAuth\nArgon2 password hashing + signed session cookie (itsdangerous)\n\n\nMovies\nOMDB API\n\n\nStyling\nHand-rolled CSS, black/phosphor-green CRT theme\n\n\n\nThe architecture is refreshingly boring:\nbrowser → router → SQLAlchemy model → template or redirect\nRoutes return either full pages or HTML fragments. HTMX swaps fragments into placeholders (#ballot, #search-results) — no SPA, no client state, no build step. For a voting app where interactions are small and local, this felt exactly right."
+  },
+  {
+    "objectID": "posts/movie-club/post.html#next-building-a-recommender-system",
+    "href": "posts/movie-club/post.html#next-building-a-recommender-system",
+    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "section": "Next: Building a Recommender System",
+    "text": "Next: Building a Recommender System\nHere’s the part I’m most excited about. This little club is quietly generating a dataset:\n\nEvery member’s full ranking of shared movies, every month, indefinitely\nImplicit signals: abstentions, submission choices, win/loss history\nA growing matrix of members × movies with ordinal preferences\n\nThe obvious problem with a 6-person club is sparsity — six months in, we might have 30 movies total. The fix: Letterboxd exports. Letterboxd lets any user export their entire diary and ratings as CSV (title, year, rating, watched date). Importing those gives every member hundreds of rated films immediately.\nThe plan:\n\nMembers upload their Letterboxd export (or connect via the unofficial API).\nNormalize ratings onto a common scale and align with OMDB/IMDb IDs.\nTrain an implicit-feedback model (probably start with simple matrix factorization, then something like implicit ALS or a neural CF model) on the union of club rankings + Letterboxd ratings.\n\nSuddenly the cold-start problem mostly disappears: a new member arrives with years of taste already attached."
   },
   {
     "objectID": "posts/deustch-class/post.html",
@@ -70,10 +98,17 @@
     "text": "What’s next\n\nWeb frontend — HTMX + CSS served by FastAPI, replacing the TUI as the primary client\nPhrases — full sentences with categories (ordering coffee, directions, shopping…) alongside single words\nListening & reading/writing exercises\nSpaced repetition built on top of the learned flag\n\nThe code is on GitHub. If you have an Apple Silicon Mac and a Postgres instance lying around, uv sync && uv run main.py gets you using it right away."
   },
   {
+    "objectID": "posts/reset/post.html",
+    "href": "posts/reset/post.html",
+    "title": "Berlin - a Fresh Start",
+    "section": "",
+    "text": "Berlin - a Fresh Start\n\n\n\nTempellhofer Feld on the night of the Solar Eclipse (28-07-2026)\n\n\nMy partner and I have made the difficult decision to leave our lives, jobs and cat 🤕 in Melbourne, and journey over to Berlin for a new life and new experiences. The past 10 years in Melbourne (and Canberra) have been transformative, from High School graduates through to Masters-educated practising professionals in our respective fields (Data Science and Architecture) we cannot thank our home country enough for the opportunities and experiences.\nHowever, we had always wondered what opportunities and lifestyle changes may come from moving overseas and always had a vague plan to seek them. Last year, we decided it was time to organise and make some definitive plans to move, Lucy exhausted herself building matrices that cross checked lifestyle and culturual factors with opportunities and cost of living. This allowed us to easily decide on Berlin as the city which suited us the best, and since then had built plans to move.\nNow, having moved in just a week ago, it feels like we have made an excellent decision. Walking around the streets of Kreuzberg I am overcome with feelings of inspiration, excitement and spontanaeity. I am determined to build myself into this city through engaging with the many events, cultural experiences, meetups and work opportunities, as well as let the city educate and shape a new way of life for me and guide my approach in life decisions.\nThis brings me to resetting my blog, I decided the cheap efforted projects I have done in the past do not align with the new approach I want to use when building personal projects. I was to make use of my skills to build projects that:\n\nServe the community\nOnly use open source models\nAre taylored towards small local models\nDo not require big cloud providers\nI use myself\n\nAside from this, I want to be studying new areas of computer science and using this blog to collate my notes. So from this day onwards, expect posts much more frequently with fun projects I find enjoyable as well as my learnings.\nFirst up, my next project being built is a local application users can practise German with, democratizing Voice and STT models to English speaking users learning German, as well as notes from my studies on AI Ethics.\nHopefully will post with an update again this week!\nLucas."
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "lucas hudson blog",
     "section": "",
-    "text": "Deutsch Class: Fully Local German Vocabulary Trainer\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - a Fresh Start\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
+    "text": "Movie Club: Building My Deployed Full-Stack App\n\n\nMonthly group-based movie club Web Application\n\n\n\nfull-stack\n\n\n\n\n\n\n\n\n\nAug 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDeutsch Class: Fully Local German Vocabulary Trainer\n\n\n\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - a Fresh Start\n\n\n\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
   }
 ]

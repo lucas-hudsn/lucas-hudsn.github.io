@@ -10,7 +10,102 @@
 <atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Lucas Hudson - Data Science, Open Source AI Projects, and Blog.</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Thu, 20 Aug 2026 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 25 Aug 2026 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>Movie Club: Building My Deployed Full-Stack App</title>
+  <link>https://lucas-hudsn.github.io/posts/movie-club/post.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>I spend most of my time as a data scientist / AI engineer: notebooks, models, pipelines. But every model I ship eventually needs an actual application around it, and my ability to build that part has always been limited. So I built one from scratch: <strong>Movie Club</strong>, a server-rendered FastAPI app that runs a monthly film competition for my friends and me.</p>
+<p><img src="https://lucas-hudsn.github.io/posts/movie-club/images/dashboard.png" class="img-fluid"> <em>The dashboard — submission phase, phosphor-green CRT theme.</em></p>
+<section id="what-is-movie-club" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-movie-club">What is Movie Club?</h2>
+<p>Having moved from Melbourne to Berlin, I am no longer able to meet my friends for our monthly movie club competition, so I thought it is a good opportunity for my first deployed application to make an app for us. ### The Rules: Every month each team member submits one movie. Everyone watches and ranks all the picks best → worst. The top film wins; the bottom film sends its submitter to the bench (they still vote next month, but can’t submit). Repeat forever.</p>
+<p><strong>Live:</strong> <a href="https://movieclub.fastapicloud.dev" class="uri">https://movieclub.fastapicloud.dev</a></p>
+</section>
+<section id="the-product" class="level2">
+<h2 class="anchored" data-anchor-id="the-product">The product</h2>
+<p>The whole thing runs on a three-phase cycle lifecycle:</p>
+<ol type="1">
+<li><strong>SUBMITTING</strong> — each member picks one film via live search against the <a href="https://www.omdbapi.com/">OMDB API</a>. One pick per person, no duplicates.</li>
+<li><strong>RANKING</strong> — an admin locks submissions, then everyone drags their ballot into order with ▲▼ controls.</li>
+<li><strong>CLOSED</strong> — points are tallied by <strong>Borda count</strong>: position 1 of <em>N</em> films gets <em>N−1</em> points, last place gets 0. Winner crowned, loser evicted, next cycle auto-created.</li>
+</ol>
+<p>Joining is invite-only via a team code, and an all-time leaderboard tracks wins and losses per member.</p>
+<p><img src="https://lucas-hudsn.github.io/posts/movie-club/images/vote.png" class="img-fluid"> <em>The <code>/vote</code> ballot page, built as HTMX partials so reordering never reloads the page.</em></p>
+<p><img src="https://lucas-hudsn.github.io/posts/movie-club/images/leaderboard.png" class="img-fluid"> <em>The all-time leaderboard. Bragging rights are permanent.</em></p>
+</section>
+<section id="the-stack" class="level2">
+<h2 class="anchored" data-anchor-id="the-stack">The stack</h2>
+<p>I deliberately avoided React. The goal was to learn how a “real” web app works at the request/response level, not to learn a frontend framework:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hosting</td>
+<td><a href="https://fastapicloud.com">FastAPI Cloud</a></td>
+</tr>
+<tr class="even">
+<td>Backend</td>
+<td>FastAPI + Jinja2 templates + HTMX fragments</td>
+</tr>
+<tr class="odd">
+<td>Database</td>
+<td>PostgreSQL via SQLAlchemy 2.0, Alembic migrations (Supabase in prod)</td>
+</tr>
+<tr class="even">
+<td>Auth</td>
+<td>Argon2 password hashing + signed session cookie (<code>itsdangerous</code>)</td>
+</tr>
+<tr class="odd">
+<td>Movies</td>
+<td>OMDB API</td>
+</tr>
+<tr class="even">
+<td>Styling</td>
+<td>Hand-rolled CSS, black/phosphor-green CRT theme</td>
+</tr>
+</tbody>
+</table>
+<p>The architecture is refreshingly boring:</p>
+<pre><code>browser → router → SQLAlchemy model → template or redirect</code></pre>
+<p>Routes return either full pages or HTML fragments. HTMX swaps fragments into placeholders (<code>#ballot</code>, <code>#search-results</code>) — no SPA, no client state, no build step. For a voting app where interactions are small and local, this felt exactly right.</p>
+</section>
+<section id="next-building-a-recommender-system" class="level2">
+<h2 class="anchored" data-anchor-id="next-building-a-recommender-system">Next: Building a Recommender System</h2>
+<p>Here’s the part I’m most excited about. This little club is quietly generating a dataset:</p>
+<ul>
+<li>Every member’s <strong>full ranking of shared movies</strong>, every month, indefinitely</li>
+<li>Implicit signals: abstentions, submission choices, win/loss history</li>
+<li>A growing matrix of <em>members × movies</em> with ordinal preferences</li>
+</ul>
+<p>The obvious problem with a 6-person club is sparsity — six months in, we might have 30 movies total. The fix: <strong>Letterboxd exports</strong>. Letterboxd lets any user export their entire diary and ratings as CSV (title, year, rating, watched date). Importing those gives every member hundreds of rated films immediately.</p>
+<p>The plan:</p>
+<ol type="1">
+<li>Members upload their Letterboxd export (or connect via the unofficial API).</li>
+<li>Normalize ratings onto a common scale and align with OMDB/IMDb IDs.</li>
+<li>Train an implicit-feedback model (probably start with simple matrix factorization, then something like implicit ALS or a neural CF model) on the union of club rankings + Letterboxd ratings.</li>
+</ol>
+<p>Suddenly the cold-start problem mostly disappears: a new member arrives with years of taste already attached.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>full-stack</category>
+  <guid>https://lucas-hudsn.github.io/posts/movie-club/post.html</guid>
+  <pubDate>Tue, 25 Aug 2026 22:00:00 GMT</pubDate>
+  <media:content url="https://lucas-hudsn.github.io/posts/movie-club/images/dashboard.png" medium="image" type="image/png" height="82" width="144"/>
+</item>
 <item>
   <title>Deutsch Class: Fully Local German Vocabulary Trainer</title>
   <link>https://lucas-hudsn.github.io/posts/deustch-class/post.html</link>

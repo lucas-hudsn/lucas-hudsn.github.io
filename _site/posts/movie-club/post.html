@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2026-08-26">
 
-<title>lucas hudson blog – blog</title>
+<title>Movie Club: Building My Deployed Full-Stack App – blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-26827f95213357c060b998e0666f8ebe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-26827f95213357c060b998e0666f8ebe.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,68 +69,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-subtitle','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="blog" href="index.xml" data-external="1"></head>
+<link rel="stylesheet" href="../../styles.css">
+</head>
 
 <body class="nav-fixed quarto-light">
 
@@ -140,7 +81,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">blog</span>
     </a>
   </div>
@@ -151,7 +92,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">Contact Details</span></a>
   </li>  
   <li class="nav-item compact">
@@ -174,135 +115,133 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">lucas hudson blog</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Movie Club: Building My Deployed Full-Stack App</h1>
+            <p class="subtitle lead">Monthly group-based movie club Web Application</p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">full-stack</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 26, 2026</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="QmxvZw==">Blog <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZnVsbC1zdGFjaw==">full-stack <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TUwlMjBFbmdpbmVlcmluZw==">ML Engineering <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-movie-club" id="toc-what-is-movie-club" class="nav-link active" data-scroll-target="#what-is-movie-club">What is Movie Club?</a></li>
+  <li><a href="#the-product" id="toc-the-product" class="nav-link" data-scroll-target="#the-product">The product</a></li>
+  <li><a href="#the-stack" id="toc-the-stack" class="nav-link" data-scroll-target="#the-stack">The stack</a></li>
+  <li><a href="#next-building-a-recommender-system" id="toc-next-building-a-recommender-system" class="nav-link" data-scroll-target="#next-building-a-recommender-system">Next: Building a Recommender System</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<p>I spend most of my time as a data scientist / AI engineer: notebooks, models, pipelines. But every model I ship eventually needs an actual application around it, and my ability to build that part has always been limited. So I built one from scratch: <strong>Movie Club</strong>, a server-rendered FastAPI app that runs a monthly film competition for my friends and me.</p>
+<p><img src="images/dashboard.png" class="img-fluid"> <em>The dashboard — submission phase, phosphor-green CRT theme.</em></p>
+<section id="what-is-movie-club" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-movie-club">What is Movie Club?</h2>
+<p>Having moved from Melbourne to Berlin, I am no longer able to meet my friends for our monthly movie club competition, so I thought it is a good opportunity for my first deployed application to make an app for us. ### The Rules: Every month each team member submits one movie. Everyone watches and ranks all the picks best → worst. The top film wins; the bottom film sends its submitter to the bench (they still vote next month, but can’t submit). Repeat forever.</p>
+<p><strong>Live:</strong> <a href="https://movieclub.fastapicloud.dev" class="uri">https://movieclub.fastapicloud.dev</a></p>
+</section>
+<section id="the-product" class="level2">
+<h2 class="anchored" data-anchor-id="the-product">The product</h2>
+<p>The whole thing runs on a three-phase cycle lifecycle:</p>
+<ol type="1">
+<li><strong>SUBMITTING</strong> — each member picks one film via live search against the <a href="https://www.omdbapi.com/">OMDB API</a>. One pick per person, no duplicates.</li>
+<li><strong>RANKING</strong> — an admin locks submissions, then everyone drags their ballot into order with ▲▼ controls.</li>
+<li><strong>CLOSED</strong> — points are tallied by <strong>Borda count</strong>: position 1 of <em>N</em> films gets <em>N−1</em> points, last place gets 0. Winner crowned, loser evicted, next cycle auto-created.</li>
+</ol>
+<p>Joining is invite-only via a team code, and an all-time leaderboard tracks wins and losses per member.</p>
+<p><img src="images/vote.png" class="img-fluid"> <em>The <code>/vote</code> ballot page, built as HTMX partials so reordering never reloads the page.</em></p>
+<p><img src="images/leaderboard.png" class="img-fluid"> <em>The all-time leaderboard. Bragging rights are permanent.</em></p>
+</section>
+<section id="the-stack" class="level2">
+<h2 class="anchored" data-anchor-id="the-stack">The stack</h2>
+<p>I deliberately avoided React. The goal was to learn how a “real” web app works at the request/response level, not to learn a frontend framework:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hosting</td>
+<td><a href="https://fastapicloud.com">FastAPI Cloud</a></td>
+</tr>
+<tr class="even">
+<td>Backend</td>
+<td>FastAPI + Jinja2 templates + HTMX fragments</td>
+</tr>
+<tr class="odd">
+<td>Database</td>
+<td>PostgreSQL via SQLAlchemy 2.0, Alembic migrations (Supabase in prod)</td>
+</tr>
+<tr class="even">
+<td>Auth</td>
+<td>Argon2 password hashing + signed session cookie (<code>itsdangerous</code>)</td>
+</tr>
+<tr class="odd">
+<td>Movies</td>
+<td>OMDB API</td>
+</tr>
+<tr class="even">
+<td>Styling</td>
+<td>Hand-rolled CSS, black/phosphor-green CRT theme</td>
+</tr>
+</tbody>
+</table>
+<p>The architecture is refreshingly boring:</p>
+<pre><code>browser → router → SQLAlchemy model → template or redirect</code></pre>
+<p>Routes return either full pages or HTML fragments. HTMX swaps fragments into placeholders (<code>#ballot</code>, <code>#search-results</code>) — no SPA, no client state, no build step. For a voting app where interactions are small and local, this felt exactly right.</p>
+</section>
+<section id="next-building-a-recommender-system" class="level2">
+<h2 class="anchored" data-anchor-id="next-building-a-recommender-system">Next: Building a Recommender System</h2>
+<p>Here’s the part I’m most excited about. This little club is quietly generating a dataset:</p>
+<ul>
+<li>Every member’s <strong>full ranking of shared movies</strong>, every month, indefinitely</li>
+<li>Implicit signals: abstentions, submission choices, win/loss history</li>
+<li>A growing matrix of <em>members × movies</em> with ordinal preferences</li>
+</ul>
+<p>The obvious problem with a 6-person club is sparsity — six months in, we might have 30 movies total. The fix: <strong>Letterboxd exports</strong>. Letterboxd lets any user export their entire diary and ratings as CSV (title, year, rating, watched date). Importing those gives every member hundreds of rated films immediately.</p>
+<p>The plan:</p>
+<ol type="1">
+<li>Members upload their Letterboxd export (or connect via the unofficial API).</li>
+<li>Normalize ratings onto a common scale and align with OMDB/IMDb IDs.</li>
+<li>Train an implicit-feedback model (probably start with simple matrix factorization, then something like implicit ALS or a neural CF model) on the union of club rankings + Letterboxd ratings.</li>
+</ol>
+<p>Suddenly the cold-start problem mostly disappears: a new member arrives with years of taste already attached.</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="ZnVsbC1zdGFjaw==" data-listing-date-sort="1787695200000" data-listing-file-modified-sort="1787739718170" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="560">
-<div class="thumbnail"><a href="./posts/movie-club/post.html" class="no-external">
-
-<img loading="lazy" src="./posts/movie-club/images/dashboard.png" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/movie-club/post.html" class="no-external">Movie Club: Building My Deployed Full-Stack App</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/movie-club/post.html" class="no-external">Monthly group-based movie club Web Application</a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZnVsbC1zdGFjaw=='); return false;">full-stack</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/movie-club/post.html" class="no-external">
-I spend most of my time as a data scientist / AI engineer: notebooks, models, pipelines. But every model I ship eventually needs an actual application around it, and my…<strong></strong>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/movie-club/post.html" class="no-external">
-<div class="listing-date">
-Aug 26, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="TUwlMjBFbmdpbmVlcmluZw==" data-listing-date-sort="1787263200000" data-listing-file-modified-sort="1787738883613" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1283">
-<div class="thumbnail"><a href="./posts/deustch-class/post.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/deustch-class/tui-main.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/deustch-class/post.html" class="no-external">Deutsch Class: Fully Local German Vocabulary Trainer</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/deustch-class/post.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TUwlMjBFbmdpbmVlcmluZw=='); return false;">ML Engineering</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/deustch-class/post.html" class="no-external">
-<p>Expand and test your German vocab - fully locally!</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/deustch-class/post.html" class="no-external">
-<div class="listing-date">
-Aug 21, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="QmxvZw==" data-listing-date-sort="1787090400000" data-listing-file-modified-sort="1787317392520" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="390">
-<div class="thumbnail"><a href="./posts/reset/post.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/reset/IMG_9000.jpg"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/reset/post.html" class="no-external">Berlin - a Fresh Start</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/reset/post.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('QmxvZw=='); return false;">Blog</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/reset/post.html" class="no-external">
-My partner and I have made the difficult decision to leave our lives, jobs and cat 🤕 in Melbourne, and journey over to Berlin for a new life and new experiences. The past…
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/reset/post.html" class="no-external">
-<div class="listing-date">
-Aug 19, 2026
-</div>
-<div class="listing-author">
-Lucas Hudson
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

@@ -49,5 +49,8 @@
   },
   "posts/reset/post.qmd": {
     "post.html": "e81de2ed"
+  },
+  "posts/movie-club/post.qmd": {
+    "post.html": "20875dcd"
   }
 }

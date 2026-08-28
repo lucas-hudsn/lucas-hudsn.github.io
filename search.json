@@ -9,35 +9,35 @@
   {
     "objectID": "posts/movie-club/post.html",
     "href": "posts/movie-club/post.html",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "",
     "text": "I spend most of my time as a data scientist / AI engineer: notebooks, models, pipelines. But every model I ship eventually needs an actual application around it, and my ability to build that part has always been limited. So I built one from scratch: Movie Club, a server-rendered FastAPI app that runs a monthly film competition for my friends and me.\nThe dashboard — submission phase, phosphor-green CRT theme."
   },
   {
     "objectID": "posts/movie-club/post.html#what-is-movie-club",
     "href": "posts/movie-club/post.html#what-is-movie-club",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "What is Movie Club?",
     "text": "What is Movie Club?\nHaving moved from Melbourne to Berlin, I am no longer able to meet my friends for our monthly movie club competition, so I thought it is a good opportunity for my first deployed application to make an app for us. ### The Rules: Every month each team member submits one movie. Everyone watches and ranks all the picks best → worst. The top film wins; the bottom film sends its submitter to the bench (they still vote next month, but can’t submit). Repeat forever.\nLive: https://movieclub.fastapicloud.dev"
   },
   {
     "objectID": "posts/movie-club/post.html#the-product",
     "href": "posts/movie-club/post.html#the-product",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "The product",
     "text": "The product\nThe whole thing runs on a three-phase cycle lifecycle:\n\nSUBMITTING — each member picks one film via live search against the OMDB API. One pick per person, no duplicates.\nRANKING — an admin locks submissions, then everyone drags their ballot into order with ▲▼ controls.\nCLOSED — points are tallied by Borda count: position 1 of N films gets N−1 points, last place gets 0. Winner crowned, loser evicted, next cycle auto-created.\n\nJoining is invite-only via a team code, and an all-time leaderboard tracks wins and losses per member.\n The /vote ballot page, built as HTMX partials so reordering never reloads the page.\n The all-time leaderboard. Bragging rights are permanent."
   },
   {
     "objectID": "posts/movie-club/post.html#the-stack",
     "href": "posts/movie-club/post.html#the-stack",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "The stack",
     "text": "The stack\nI deliberately avoided React. The goal was to learn how a “real” web app works at the request/response level, not to learn a frontend framework:\n\n\n\nLayer\nChoice\n\n\n\n\nHosting\nFastAPI Cloud\n\n\nBackend\nFastAPI + Jinja2 templates + HTMX fragments\n\n\nDatabase\nPostgreSQL via SQLAlchemy 2.0, Alembic migrations (Supabase in prod)\n\n\nAuth\nArgon2 password hashing + signed session cookie (itsdangerous)\n\n\nMovies\nOMDB API\n\n\nStyling\nHand-rolled CSS, black/phosphor-green CRT theme\n\n\n\nThe architecture is refreshingly boring:\nbrowser → router → SQLAlchemy model → template or redirect\nRoutes return either full pages or HTML fragments. HTMX swaps fragments into placeholders (#ballot, #search-results) — no SPA, no client state, no build step. For a voting app where interactions are small and local, this felt exactly right."
   },
   {
     "objectID": "posts/movie-club/post.html#next-building-a-recommender-system",
     "href": "posts/movie-club/post.html#next-building-a-recommender-system",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "Next: Building a Recommender System",
     "text": "Next: Building a Recommender System\nHere’s the part I’m most excited about. This little club is quietly generating a dataset:\n\nEvery member’s full ranking of shared movies, every month, indefinitely\nImplicit signals: abstentions, submission choices, win/loss history\nA growing matrix of members × movies with ordinal preferences\n\nThe obvious problem with a 6-person club is sparsity — six months in, we might have 30 movies total. The fix: Letterboxd exports. Letterboxd lets any user export their entire diary and ratings as CSV (title, year, rating, watched date). Importing those gives every member hundreds of rated films immediately.\nThe plan:\n\nMembers upload their Letterboxd export (or connect via the unofficial API).\nNormalize ratings onto a common scale and align with OMDB/IMDb IDs.\nTrain an implicit-feedback model (probably start with simple matrix factorization, then something like implicit ALS or a neural CF model) on the union of club rankings + Letterboxd ratings.\n\nSuddenly the cold-start problem mostly disappears: a new member arrives with years of taste already attached."
   },
@@ -130,6 +130,6 @@
     "href": "index.html",
     "title": "Lucas Hudson’s Blog",
     "section": "",
-    "text": "I Hate React and JS\n\n\nAny Data Scientist Learning AI Engineering should learn HTMX First\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nMovie Club: Building My Deployed Full-Stack App\n\n\nMonthly group-based movie club Web Application\n\n\n\nFull Stack\n\n\n\n\n\n\n\n\n\nAug 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDeutsch Class: Fully Local German Vocabulary Trainer\n\n\n\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - Blog Refresh\n\n\n\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
+    "text": "I Hate React and JS\n\n\nAny Data Scientist Learning AI Engineering should learn HTMX First\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nMovie Club: My First Deployed Full-Stack Web App\n\n\nMonthly group-based movie club Web Application\n\n\n\nFull Stack\n\n\n\n\n\n\n\n\n\nAug 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDeutsch Class: Fully Local German Vocabulary Trainer\n\n\n\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - Blog Refresh\n\n\n\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
   }
 ]

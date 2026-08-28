@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-08-26">
+<meta name="dcterms.date" content="2026-08-28">
 
-<title>Movie Club: Building My Deployed Full-Stack App – blog</title>
+<title>I Hate React and JS – blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -116,10 +151,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Movie Club: Building My Deployed Full-Stack App</h1>
-            <p class="subtitle lead">Monthly group-based movie club Web Application</p>
+      <h1 class="title">I Hate React and JS</h1>
+            <p class="subtitle lead">Any Data Scientist Learning AI Engineering should learn HTMX</p>
                                 <div class="quarto-categories">
-                <div class="quarto-category">Full Stack</div>
+                <div class="quarto-category">Blog</div>
               </div>
                   </div>
   </div>
@@ -131,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 26, 2026</p>
+        <p class="date">August 28, 2026</p>
       </div>
     </div>
     
@@ -147,10 +182,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-movie-club" id="toc-what-is-movie-club" class="nav-link active" data-scroll-target="#what-is-movie-club">What is Movie Club?</a></li>
-  <li><a href="#the-product" id="toc-the-product" class="nav-link" data-scroll-target="#the-product">The product</a></li>
-  <li><a href="#the-stack" id="toc-the-stack" class="nav-link" data-scroll-target="#the-stack">The stack</a></li>
-  <li><a href="#next-building-a-recommender-system" id="toc-next-building-a-recommender-system" class="nav-link" data-scroll-target="#next-building-a-recommender-system">Next: Building a Recommender System</a></li>
+  <li><a href="#the-vibe-coding-react-trap" id="toc-the-vibe-coding-react-trap" class="nav-link active" data-scroll-target="#the-vibe-coding-react-trap">The Vibe Coding / React Trap</a></li>
+  <li><a href="#htmx-as-an-alternative" id="toc-htmx-as-an-alternative" class="nav-link" data-scroll-target="#htmx-as-an-alternative">HTMX as an Alternative</a></li>
+  <li><a href="#building-movieclub" id="toc-building-movieclub" class="nav-link" data-scroll-target="#building-movieclub">Building MovieClub</a></li>
+  <li><a href="#what-i-recommend-it-over-react" id="toc-what-i-recommend-it-over-react" class="nav-link" data-scroll-target="#what-i-recommend-it-over-react">What I Recommend it over React</a></li>
+  <li><a href="#where-react-falls-short" id="toc-where-react-falls-short" class="nav-link" data-scroll-target="#where-react-falls-short">Where React Falls short</a></li>
   </ul>
 </nav>
     </div>
@@ -161,82 +197,83 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>I spend most of my time as a data scientist / AI engineer: notebooks, models, pipelines. But every model I ship eventually needs an actual application around it, and my ability to build that part has always been limited. So I built one from scratch: <strong>Movie Club</strong>, a server-rendered FastAPI app that runs a monthly film competition for my friends and me.</p>
-<p><img src="images/dashboard.png" class="img-fluid"> <em>The dashboard — submission phase, phosphor-green CRT theme.</em></p>
-<section id="what-is-movie-club" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-movie-club">What is Movie Club?</h2>
-<p>Having moved from Melbourne to Berlin, I am no longer able to meet my friends for our monthly movie club competition, so I thought it is a good opportunity for my first deployed application to make an app for us. ### The Rules: Every month each team member submits one movie. Everyone watches and ranks all the picks best → worst. The top film wins; the bottom film sends its submitter to the bench (they still vote next month, but can’t submit). Repeat forever.</p>
-<p><strong>Live:</strong> <a href="https://movieclub.fastapicloud.dev" class="uri">https://movieclub.fastapicloud.dev</a></p>
+<p><img src="https://htmx.org/img/memes/original.png" class="img-fluid"></p>
+<section id="the-vibe-coding-react-trap" class="level3">
+<h3 class="anchored" data-anchor-id="the-vibe-coding-react-trap">The Vibe Coding / React Trap</h3>
+<p>There is a huge shift of Data Scientist’s moving toward AI Engineering. Given Data Science is very Python heavy, it’s hard to know which front-end framework to learn and why. So many of us will naturally turn to the vibe coding, which almost exclusively spits out huge scary folders of React code.</p>
+<p>This was my experience, and it lead me down the road of doing a React course and spending 6 months trying to build React apps. I struggled to commit to any project for over a week until I realised that I just do not enjoy writing or editing React code at all.</p>
 </section>
-<section id="the-product" class="level2">
-<h2 class="anchored" data-anchor-id="the-product">The product</h2>
-<p>The whole thing runs on a three-phase cycle lifecycle:</p>
-<ol type="1">
-<li><strong>SUBMITTING</strong> — each member picks one film via live search against the <a href="https://www.omdbapi.com/">OMDB API</a>. One pick per person, no duplicates.</li>
-<li><strong>RANKING</strong> — an admin locks submissions, then everyone drags their ballot into order with ▲▼ controls.</li>
-<li><strong>CLOSED</strong> — points are tallied by <strong>Borda count</strong>: position 1 of <em>N</em> films gets <em>N−1</em> points, last place gets 0. Winner crowned, loser evicted, next cycle auto-created.</li>
-</ol>
-<p>Joining is invite-only via a team code, and an all-time leaderboard tracks wins and losses per member.</p>
-<p><img src="images/vote.png" class="img-fluid"> <em>The <code>/vote</code> ballot page, built as HTMX partials so reordering never reloads the page.</em></p>
-<p><img src="images/leaderboard.png" class="img-fluid"> <em>The all-time leaderboard. Bragging rights are permanent.</em></p>
+<section id="htmx-as-an-alternative" class="level3">
+<h3 class="anchored" data-anchor-id="htmx-as-an-alternative">HTMX as an Alternative</h3>
+<p>I came across a blog post on HTMX last week and Then I actually read the pitch: HTML attributes that let any element make an HTTP request and swap the response into the page. No JSX. No build step. No client-side state to manage, because the server just sends back HTML fragments and HTMX drops them where you tell it to.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> hx-get</span><span class="op">=</span><span class="st">"/movies/42/rate"</span><span class="ot"> hx-target</span><span class="op">=</span><span class="st">"#rating-widget"</span><span class="ot"> hx-swap</span><span class="op">=</span><span class="st">"innerHTML"</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  Rate this movie</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>That’s it. That’s the whole interaction. No useState, no fetch, no useEffect, no reducer. The server does what it’s good at (logic, data, templates), and the browser does what it’s good at (rendering HTML), and HTMX is just the thin, boring glue between them.</p>
+<p>As a Python person, the part that really sold me was realizing I didn’t need a separate API layer at all. My FastAPI endpoints could just return HTML instead of JSON, rendered straight from Jinja2 templates. Suddenly my backend skills — the thing I actually already knew — were 90% of what I needed to build a real app.</p>
 </section>
-<section id="the-stack" class="level2">
-<h2 class="anchored" data-anchor-id="the-stack">The stack</h2>
-<p>I deliberately avoided React. The goal was to learn how a “real” web app works at the request/response level, not to learn a frontend framework:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Layer</th>
-<th>Choice</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Hosting</td>
-<td><a href="https://fastapicloud.com">FastAPI Cloud</a></td>
-</tr>
-<tr class="even">
-<td>Backend</td>
-<td>FastAPI + Jinja2 templates + HTMX fragments</td>
-</tr>
-<tr class="odd">
-<td>Database</td>
-<td>PostgreSQL via SQLAlchemy 2.0, Alembic migrations (Supabase in prod)</td>
-</tr>
-<tr class="even">
-<td>Auth</td>
-<td>Argon2 password hashing + signed session cookie (<code>itsdangerous</code>)</td>
-</tr>
-<tr class="odd">
-<td>Movies</td>
-<td>OMDB API</td>
-</tr>
-<tr class="even">
-<td>Styling</td>
-<td>Hand-rolled CSS, black/phosphor-green CRT theme</td>
-</tr>
-</tbody>
-</table>
-<p>The architecture is refreshingly boring:</p>
-<pre><code>browser → router → SQLAlchemy model → template or redirect</code></pre>
-<p>Routes return either full pages or HTML fragments. HTMX swaps fragments into placeholders (<code>#ballot</code>, <code>#search-results</code>) — no SPA, no client state, no build step. For a voting app where interactions are small and local, this felt exactly right.</p>
-</section>
-<section id="next-building-a-recommender-system" class="level2">
-<h2 class="anchored" data-anchor-id="next-building-a-recommender-system">Next: Building a Recommender System</h2>
-<p>Here’s the part I’m most excited about. This little club is quietly generating a dataset:</p>
+<section id="building-movieclub" class="level2">
+<h2 class="anchored" data-anchor-id="building-movieclub">Building MovieClub</h2>
+<p>To actually test this out, I built <strong>MovieClub</strong> — a small app for my friend group to log movies we’ve watched together, rate them, and argue about rankings. Nothing groundbreaking, but exactly the kind of CRUD-y, form-heavy, “fetch data and update part of the page” app that HTMX is built for.</p>
+<p>The stack ended up being refreshingly small:</p>
 <ul>
-<li>Every member’s <strong>full ranking of shared movies</strong>, every month, indefinitely</li>
-<li>Implicit signals: abstentions, submission choices, win/loss history</li>
-<li>A growing matrix of <em>members × movies</em> with ordinal preferences</li>
+<li><p><strong>FastAPI</strong> for routing and business logic (the part I already knew)</p></li>
+<li><p><strong>Jinja2</strong> for templates</p></li>
+<li><p><strong>HTMX</strong> for interactivity — searching movies, submitting ratings, filtering by member, live-updating the leaderboard</p></li>
+<li><p><strong>SQLite</strong> because I didn’t need anything heavier for a friend group’s movie list</p></li>
+<li><p>A tiny sprinkle of vanilla CSS, no framework needed A few things that used to be multi-file React ordeals became almost trivial:</p></li>
+<li><p><strong>Live search</strong> for movies: an input with <code>hx-get="/movies/search" hx-trigger="keyup changed delay:300ms" hx-target="#results"</code>. One line of HTML. In React this was a whole controlled-input-plus-debounce-hook situation.</p></li>
+<li><p><strong>Adding a rating without a page reload</strong>: a form that posts to an endpoint and swaps in the updated rating widget. No client-side state to sync, because there <em>is</em> no client-side state — the server is the source of truth, always.</p></li>
+<li><p><strong>The leaderboard updating in real time</strong> as people rate movies: <code>hx-trigger="every 5s"</code> on a container polling an endpoint. That was genuinely a five-minute feature. Here’s the actual base template MovieClub is built on. This is, quite literally, the entire “frontend framework” for the app:</p></li>
 </ul>
-<p>The obvious problem with a 6-person club is sparsity — six months in, we might have 30 movies total. The fix: <strong>Letterboxd exports</strong>. Letterboxd lets any user export their entire diary and ratings as CSV (title, year, rating, watched date). Importing those gives every member hundreds of rated films immediately.</p>
-<p>The plan:</p>
-<ol type="1">
-<li>Members upload their Letterboxd export (or connect via the unofficial API).</li>
-<li>Normalize ratings onto a common scale and align with OMDB/IMDb IDs.</li>
-<li>Train an implicit-feedback model (probably start with simple matrix factorization, then something like implicit ALS or a neural CF model) on the union of club rankings + Letterboxd ratings.</li>
-</ol>
-<p>Suddenly the cold-start problem mostly disappears: a new member arrives with years of taste already attached.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!doctype</span> html<span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="ot"> lang</span><span class="op">=</span><span class="st">"en"</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">meta</span><span class="ot"> charset</span><span class="op">=</span><span class="st">"utf-8"</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">meta</span><span class="ot"> name</span><span class="op">=</span><span class="st">"viewport"</span><span class="ot"> content</span><span class="op">=</span><span class="st">"width=device-width, initial-scale=1"</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">title</span><span class="dt">&gt;</span>{% block title %}movie club{% endblock %}<span class="dt">&lt;/</span><span class="kw">title</span><span class="dt">&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">link</span><span class="ot"> rel</span><span class="op">=</span><span class="st">"stylesheet"</span><span class="ot"> href</span><span class="op">=</span><span class="st">"/static/css/theme.css"</span><span class="ot"> </span><span class="dt">/&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">"https://unpkg.com/htmx.org@2.0.4"</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"crt"</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    {% if user %}</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">nav</span><span class="dt">&gt;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"logo"</span><span class="dt">&gt;</span>movie club<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"nav-links"</span><span class="dt">&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"/"</span><span class="dt">&gt;</span>month<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"/vote"</span><span class="dt">&gt;</span>vote<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"/leaderboard"</span><span class="dt">&gt;</span>leaderboard<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        {% if user.team_id %}<span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"/team"</span><span class="dt">&gt;</span>my team<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span>{% endif %}</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"dim"</span><span class="dt">&gt;</span>{{ user.name }}<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">form</span><span class="ot"> method</span><span class="op">=</span><span class="st">"post"</span><span class="ot"> action</span><span class="op">=</span><span class="st">"/logout"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"inline"</span><span class="dt">&gt;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>          <span class="dt">&lt;</span><span class="kw">button</span><span class="ot"> type</span><span class="op">=</span><span class="st">"submit"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"linklike"</span><span class="dt">&gt;</span>logout<span class="dt">&lt;/</span><span class="kw">button</span><span class="dt">&gt;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;/</span><span class="kw">form</span><span class="dt">&gt;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">nav</span><span class="dt">&gt;</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    {% endif %}</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">main</span><span class="dt">&gt;</span>{% block content %}{% endblock %}<span class="dt">&lt;/</span><span class="kw">main</span><span class="dt">&gt;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>What I love about this file is how boring it is. There’s nothing here I have to explain to a future version of myself. <code>{% if user %}</code> shows the nav if someone’s logged in. <code>{% if user.team_id %}</code> shows the “my team” link if they’re on one. Every other page in the app extends this template and fills in <code>title</code> and <code>content</code>. When I add a new page, I’m not thinking about component composition or where state should live — I’m just writing a Jinja2 block and maybe an HTMX attribute or two.</p>
+<p>I deployed it on a FastAPI Cloud — no separate frontend build pipeline, no CORS configuration, no Vercel/Netlify account for the frontend and a different host for the backend. One app, one deploy.</p>
+</section>
+<section id="what-i-recommend-it-over-react" class="level2">
+<h2 class="anchored" data-anchor-id="what-i-recommend-it-over-react">What I Recommend it over React</h2>
+<p>Looking back at the two experiences side by side:</p>
+<ul>
+<li><strong>I understood every layer of my own app.</strong> With React, there was always a black box somewhere — bundler config, hook lifecycle timing, hydration quirks. With HTMX + FastAPI, I could trace a click all the way from the button, to the HTTP request, to the Python function, to the Jinja2 template, back to the DOM. Nothing felt magic.</li>
+<li><strong>My data science instincts transferred.</strong> I’m used to thinking in terms of data flowing through a pipeline. HTMX apps feel like that: request in, HTML out, swap. It’s a mental model close to how I already think about data transformations.</li>
+<li><strong>I shipped faster.</strong> MovieClub went from idea to deployed app in a weekend. My React todo-list clone from the course took me longer than that, and it did about a tenth as much.</li>
+<li><strong>Way less code, way less anxiety.</strong> No <code>node_modules</code> folder eating 400MB. No dependency upgrade dread. No “why did this break after a patch version bump.”</li>
+<li><strong>AI assistance became safe again.</strong> I still use AI tools to help write code for MovieClub, but now the loop is honest again. When OpenCode suggests an <code>hx-get</code> attribute or a FastAPI route, I can read it top to bottom and understand exactly what it does — there’s no hidden reconciliation behavior or closure trap for it to quietly get wrong. Vibe-coding a feature I don’t fully understand is much lower-risk when the “runtime” is just an HTTP request and a template render, not an entire client-side framework’s internal state machine.</li>
+</ul>
+</section>
+<section id="where-react-falls-short" class="level2">
+<h2 class="anchored" data-anchor-id="where-react-falls-short">Where React Falls short</h2>
+<p>HTMX isn’t a universal answer, and my course wasn’t a waste. If I ever want to build something with heavy client-side interactivity — a drag-and-drop movie-ranking board, complex animations, or offline support — I know I’d probably have to reach for React or a lighter alternative like Alpine.js layered on top of HTMX for the fiddly bits. HTMX shines brightest for exactly the kind of app MovieClub is: mostly CRUD, mostly server-driven, occasionally interactive.</p>
+<p>But for a data scientist trying to get from “I have a backend I understand” to “I have a deployed app that works,” HTMX removed almost every piece of friction that made React feel like a second full-time job. It let me build something real, ship it, and actually enjoy the process — which, three weeks into that React course, I genuinely wasn’t sure was possible.</p>
+<p>If you’re comfortable with Python, terrified of the JavaScript ecosystem and just want to ship something — do yourself a favor and spend an afternoon with HTMX and FastAPI before you try another React course. It might save you the burnout it saved me.</p>
 
 
 </section>

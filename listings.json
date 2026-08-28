@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/HTMX/post.html",
       "/posts/movie-club/post.html",
       "/posts/deustch-class/post.html",
       "/posts/reset/post.html"

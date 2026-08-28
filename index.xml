@@ -10,7 +10,520 @@
 <atom:link href="https://lucas-hudsn.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description>Lucas Hudson - Data Science, Open Source AI Projects, and Blog.</description>
 <generator>quarto-1.8.27</generator>
-<lastBuildDate>Tue, 25 Aug 2026 22:00:00 GMT</lastBuildDate>
+<lastBuildDate>Thu, 27 Aug 2026 22:00:00 GMT</lastBuildDate>
+<item>
+  <title>I Hate React and JS</title>
+  <link>https://lucas-hudsn.github.io/posts/HTMX/post.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><img src="https://htmx.org/img/memes/original.png" class="img-fluid"></p>
+<section id="the-vibe-coding-react-trap" class="level3">
+<h3 class="anchored" data-anchor-id="the-vibe-coding-react-trap">The Vibe Coding / React Trap</h3>
+<p>There is a huge shift of Data Scientist’s moving toward AI Engineering. Given Data Science is very Python heavy, it’s hard to know which front-end framework to learn and why. So many of us will naturally turn to the vibe coding, which almost exclusively spits out huge scary folders of React code.</p>
+<p>This was my experience, and it lead me down the road of doing a React course and spending 6 months trying to build React apps. I struggled to commit to any project for over a week until I realised that I just do not enjoy writing or editing React code at all.</p>
+</section>
+<section id="htmx-as-an-alternative" class="level3">
+<h3 class="anchored" data-anchor-id="htmx-as-an-alternative">HTMX as an Alternative</h3>
+<p>I came across a blog post on HTMX last week and Then I actually read the pitch: HTML attributes that let any element make an HTTP request and swap the response into the page. No JSX. No build step. No client-side state to manage, because the server just sends back HTML fragments and HTMX drops them where you tell it to.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">button</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> hx-get</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/movies/42/rate"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> hx-target</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#rating-widget"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> hx-swap</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"innerHTML"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb1-2">  Rate this movie</span>
+<span id="cb1-3"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">button</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span></code></pre></div></div>
+<p>That’s it. That’s the whole interaction. No useState, no fetch, no useEffect, no reducer. The server does what it’s good at (logic, data, templates), and the browser does what it’s good at (rendering HTML), and HTMX is just the thin, boring glue between them.</p>
+<p>As a Python person, the part that really sold me was realizing I didn’t need a separate API layer at all. My FastAPI endpoints could just return HTML instead of JSON, rendered straight from Jinja2 templates. Suddenly my backend skills — the thing I actually already knew — were 90% of what I needed to build a real app.</p>
+</section>
+<section id="building-movieclub" class="level2">
+<h2 class="anchored" data-anchor-id="building-movieclub">Building MovieClub</h2>
+<p>To actually test this out, I built <strong>MovieClub</strong> — a small app for my friend group to log movies we’ve watched together, rate them, and argue about rankings. Nothing groundbreaking, but exactly the kind of CRUD-y, form-heavy, “fetch data and update part of the page” app that HTMX is built for.</p>
+<p>The stack ended up being refreshingly small:</p>
+<ul>
+<li><p><strong>FastAPI</strong> for routing and business logic (the part I already knew)</p></li>
+<li><p><strong>Jinja2</strong> for templates</p></li>
+<li><p><strong>HTMX</strong> for interactivity — searching movies, submitting ratings, filtering by member, live-updating the leaderboard</p></li>
+<li><p><strong>SQLite</strong> because I didn’t need anything heavier for a friend group’s movie list</p></li>
+<li><p>A tiny sprinkle of vanilla CSS, no framework needed A few things that used to be multi-file React ordeals became almost trivial:</p></li>
+<li><p><strong>Live search</strong> for movies: an input with <code>hx-get="/movies/search" hx-trigger="keyup changed delay:300ms" hx-target="#results"</code>. One line of HTML. In React this was a whole controlled-input-plus-debounce-hook situation.</p></li>
+<li><p><strong>Adding a rating without a page reload</strong>: a form that posts to an endpoint and swaps in the updated rating widget. No client-side state to sync, because there <em>is</em> no client-side state — the server is the source of truth, always.</p></li>
+<li><p><strong>The leaderboard updating in real time</strong> as people rate movies: <code>hx-trigger="every 5s"</code> on a container polling an endpoint. That was genuinely a five-minute feature. Here’s the actual base template MovieClub is built on. This is, quite literally, the entire “frontend framework” for the app:</p></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;!doctype</span> html<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-2"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">html</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> lang</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"en"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-3">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">head</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-4">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">meta</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> charset</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"utf-8"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> </span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">/&gt;</span></span>
+<span id="cb2-5">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">meta</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> name</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"viewport"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> content</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"width=device-width, initial-scale=1"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> </span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">/&gt;</span></span>
+<span id="cb2-6">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">title</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>{% block title %}movie club{% endblock %}<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">title</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-7">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">link</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> rel</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"stylesheet"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> href</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/static/css/theme.css"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> </span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">/&gt;</span></span>
+<span id="cb2-8">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">script</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> src</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://unpkg.com/htmx.org@2.0.4"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">script</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-9">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">head</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-10">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">body</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-11">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">div</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> class</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"crt"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">div</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-12">    {% if user %}</span>
+<span id="cb2-13">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">nav</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-14">      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">span</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> class</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"logo"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>movie club<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">span</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-15">      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">span</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> class</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nav-links"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-16">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">a</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> href</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>month<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">a</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-17">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">a</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> href</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/vote"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>vote<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">a</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-18">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">a</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> href</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/leaderboard"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>leaderboard<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">a</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-19">        {% if user.team_id %}<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">a</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> href</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/team"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>my team<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">a</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>{% endif %}</span>
+<span id="cb2-20">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">span</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> class</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dim"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>{{ user.name }}<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">span</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-21">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">form</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> method</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"post"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> action</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/logout"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> class</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"inline"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-22">          <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">button</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> type</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"submit"</span><span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;"> class</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"linklike"</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>logout<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">button</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-23">        <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">form</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-24">      <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">span</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-25">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">nav</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-26">    {% endif %}</span>
+<span id="cb2-27">    <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">main</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span>{% block content %}{% endblock %}<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">main</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-28">  <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">body</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span>
+<span id="cb2-29"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&lt;/</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">html</span><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">&gt;</span></span></code></pre></div></div>
+<p>What I love about this file is how boring it is. There’s nothing here I have to explain to a future version of myself. <code>{% if user %}</code> shows the nav if someone’s logged in. <code>{% if user.team_id %}</code> shows the “my team” link if they’re on one. Every other page in the app extends this template and fills in <code>title</code> and <code>content</code>. When I add a new page, I’m not thinking about component composition or where state should live — I’m just writing a Jinja2 block and maybe an HTMX attribute or two.</p>
+<p>I deployed it on a FastAPI Cloud — no separate frontend build pipeline, no CORS configuration, no Vercel/Netlify account for the frontend and a different host for the backend. One app, one deploy.</p>
+</section>
+<section id="what-i-recommend-it-over-react" class="level2">
+<h2 class="anchored" data-anchor-id="what-i-recommend-it-over-react">What I Recommend it over React</h2>
+<p>Looking back at the two experiences side by side:</p>
+<ul>
+<li><strong>I understood every layer of my own app.</strong> With React, there was always a black box somewhere — bundler config, hook lifecycle timing, hydration quirks. With HTMX + FastAPI, I could trace a click all the way from the button, to the HTTP request, to the Python function, to the Jinja2 template, back to the DOM. Nothing felt magic.</li>
+<li><strong>My data science instincts transferred.</strong> I’m used to thinking in terms of data flowing through a pipeline. HTMX apps feel like that: request in, HTML out, swap. It’s a mental model close to how I already think about data transformations.</li>
+<li><strong>I shipped faster.</strong> MovieClub went from idea to deployed app in a weekend. My React todo-list clone from the course took me longer than that, and it did about a tenth as much.</li>
+<li><strong>Way less code, way less anxiety.</strong> No <code>node_modules</code> folder eating 400MB. No dependency upgrade dread. No “why did this break after a patch version bump.”</li>
+<li><strong>AI assistance became safe again.</strong> I still use AI tools to help write code for MovieClub, but now the loop is honest again. When OpenCode suggests an <code>hx-get</code> attribute or a FastAPI route, I can read it top to bottom and understand exactly what it does — there’s no hidden reconciliation behavior or closure trap for it to quietly get wrong. Vibe-coding a feature I don’t fully understand is much lower-risk when the “runtime” is just an HTTP request and a template render, not an entire client-side framework’s internal state machine.</li>
+</ul>
+</section>
+<section id="where-react-falls-short" class="level2">
+<h2 class="anchored" data-anchor-id="where-react-falls-short">Where React Falls short</h2>
+<p>HTMX isn’t a universal answer, and my course wasn’t a waste. If I ever want to build something with heavy client-side interactivity — a drag-and-drop movie-ranking board, complex animations, or offline support — I know I’d probably have to reach for React or a lighter alternative like Alpine.js layered on top of HTMX for the fiddly bits. HTMX shines brightest for exactly the kind of app MovieClub is: mostly CRUD, mostly server-driven, occasionally interactive.</p>
+<p>But for a data scientist trying to get from “I have a backend I understand” to “I have a deployed app that works,” HTMX removed almost every piece of friction that made React feel like a second full-time job. It let me build something real, ship it, and actually enjoy the process — which, three weeks into that React course, I genuinely wasn’t sure was possible.</p>
+<p>If you’re comfortable with Python, terrified of the JavaScript ecosystem and just want to ship something — do yourself a favor and spend an afternoon with HTMX and FastAPI before you try another React course. It might save you the burnout it saved me.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Blog</category>
+  <guid>https://lucas-hudsn.github.io/posts/HTMX/post.html</guid>
+  <pubDate>Thu, 27 Aug 2026 22:00:00 GMT</pubDate>
+  <media:content url="https://htmx.org/img/memes/original.png" medium="image" type="image/png"/>
+</item>
 <item>
   <title>Movie Club: Building My Deployed Full-Stack App</title>
   <link>https://lucas-hudsn.github.io/posts/movie-club/post.html</link>
@@ -101,7 +614,7 @@
 </section>
 
  ]]></description>
-  <category>full-stack</category>
+  <category>Full Stack</category>
   <guid>https://lucas-hudsn.github.io/posts/movie-club/post.html</guid>
   <pubDate>Tue, 25 Aug 2026 22:00:00 GMT</pubDate>
   <media:content url="https://lucas-hudsn.github.io/posts/movie-club/images/dashboard.png" medium="image" type="image/png" height="82" width="144"/>
@@ -348,7 +861,7 @@ font-style: inherit;">#  "difficulty":"easy","id":294,"learned":false}</span></s
   <pubDate>Thu, 20 Aug 2026 22:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>Berlin - a Fresh Start</title>
+  <title>Berlin - Blog Refresh</title>
   <dc:creator>Lucas Hudson</dc:creator>
   <link>https://lucas-hudsn.github.io/posts/reset/post.html</link>
   <description><![CDATA[ 
@@ -357,27 +870,26 @@ font-style: inherit;">#  "difficulty":"easy","id":294,"learned":false}</span></s
 
 
 
-<section id="berlin---a-fresh-start" class="level3">
-<h3 class="anchored" data-anchor-id="berlin---a-fresh-start">Berlin - a Fresh Start</h3>
+<section id="berlin---blog-refresh" class="level3">
+<h3 class="anchored" data-anchor-id="berlin---blog-refresh">Berlin - Blog Refresh</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="https://lucas-hudsn.github.io/posts/reset/IMG_9000.jpg" class="img-fluid figure-img"></p>
-<figcaption>Tempellhofer Feld on the night of the Solar Eclipse (28-07-2026)</figcaption>
+<figcaption>Tempelhofer Feld on the night of the Solar Eclipse (28-07-2026)</figcaption>
 </figure>
 </div>
-<p>My partner and I have made the difficult decision to leave our lives, jobs and cat 🤕 in Melbourne, and journey over to Berlin for a new life and new experiences. The past 10 years in Melbourne (and Canberra) have been transformative, from High School graduates through to Masters-educated practising professionals in our respective fields (Data Science and Architecture) we cannot thank our home country enough for the opportunities and experiences.</p>
-<p>However, we had always wondered what opportunities and lifestyle changes may come from moving overseas and always had a vague plan to seek them. Last year, we decided it was time to organise and make some definitive plans to move, Lucy exhausted herself building matrices that cross checked lifestyle and culturual factors with opportunities and cost of living. This allowed us to easily decide on Berlin as the city which suited us the best, and since then had built plans to move.</p>
+<p>My partner and I have made the difficult decision to leave our lives, jobs and cat in Melbourne, and journey over to Berlin for a new life and new experiences. The past 10 years in Melbourne (and Canberra) have been transformative, from High School graduates through to Masters-educated practising professionals in our respective fields (Data Science and Architecture) we cannot thank our home country enough for the opportunities and experiences.</p>
+<p>However, we had always wondered what opportunities and lifechanging experiences might come from moving overseas and we always had a vague plan to seek them. Last year, we decided it was time to organise and make some definitive plans to move, Lucy exhausted herself building matrices that cross checked lifestyle and culturual factors with opportunities and cost of living etc. This allowed us to easily decide on Berlin as the city which suited us the best, and since then had built plans to move.</p>
 <p>Now, having moved in just a week ago, it feels like we have made an excellent decision. Walking around the streets of Kreuzberg I am overcome with feelings of inspiration, excitement and spontanaeity. I am determined to build myself into this city through engaging with the many events, cultural experiences, meetups and work opportunities, as well as let the city educate and shape a new way of life for me and guide my approach in life decisions.</p>
 <p>This brings me to resetting my blog, I decided the cheap efforted projects I have done in the past do not align with the new approach I want to use when building personal projects. I was to make use of my skills to build projects that:</p>
 <ul>
-<li>Serve the community</li>
+<li>I find fun!</li>
 <li>Only use open source models</li>
-<li>Are taylored towards small local models</li>
 <li>Do not require big cloud providers</li>
-<li>I use myself</li>
+<li>I am able to use regularly to motivate myself to improve them.</li>
 </ul>
 <p>Aside from this, I want to be studying new areas of computer science and using this blog to collate my notes. So from this day onwards, expect posts much more frequently with fun projects I find enjoyable as well as my learnings.</p>
-<p>First up, my next project being built is a local application users can practise German with, democratizing Voice and STT models to English speaking users learning German, as well as notes from my studies on <a href="https://ethics.fast.ai/">AI Ethics</a>.</p>
+<p>First up, my next project being built is a local application users can practise German with, democratizing Voice and STT models to English speaking users learning German.</p>
 <p>Hopefully will post with an update again this week!</p>
 <p>Lucas.</p>
 

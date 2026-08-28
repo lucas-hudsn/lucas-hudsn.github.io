@@ -509,11 +509,11 @@ font-style: inherit;">&gt;</span></span></code></pre></div></div>
 <li><strong>AI assistance became safe again.</strong> I still use AI tools to help write code for MovieClub, but now the loop is honest again. When OpenCode suggests an <code>hx-get</code> attribute or a FastAPI route, I can read it top to bottom and understand exactly what it does — there’s no hidden reconciliation behavior or closure trap for it to quietly get wrong. Vibe-coding a feature I don’t fully understand is much lower-risk when the “runtime” is just an HTTP request and a template render, not an entire client-side framework’s internal state machine.</li>
 </ul>
 </section>
-<section id="where-react-falls-short" class="level2">
-<h2 class="anchored" data-anchor-id="where-react-falls-short">Where React Falls short</h2>
+<section id="where-htmx-falls-short" class="level2">
+<h2 class="anchored" data-anchor-id="where-htmx-falls-short">Where HTMX Falls short</h2>
 <p>HTMX isn’t a universal answer, and my course wasn’t a waste. If I ever want to build something with heavy client-side interactivity — a drag-and-drop movie-ranking board, complex animations, or offline support — I know I’d probably have to reach for React or a lighter alternative like Alpine.js layered on top of HTMX for the fiddly bits. HTMX shines brightest for exactly the kind of app MovieClub is: mostly CRUD, mostly server-driven, occasionally interactive.</p>
 <p>But for a data scientist trying to get from “I have a backend I understand” to “I have a deployed app that works,” HTMX removed almost every piece of friction that made React feel like a second full-time job. It let me build something real, ship it, and actually enjoy the process — which, three weeks into that React course, I genuinely wasn’t sure was possible.</p>
-<p>If you’re comfortable with Python, terrified of the JavaScript ecosystem and just want to ship something — do yourself a favor and spend an afternoon with HTMX and FastAPI before you try another React course. It might save you the burnout it saved me.</p>
+<p>If you’re comfortable with Python, terrified of the JavaScript ecosystem and just want to ship something — do yourself a favor and spend an afternoon with HTMX and FastAPI before you try another React course. It might save you some stress.</p>
 
 
 </section>

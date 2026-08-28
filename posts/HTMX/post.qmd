@@ -1,0 +1,107 @@
+---
+title: "I Hate React and JS"
+subtitle: "Any Data Scientist Learning AI Engineering should learn HTMX"
+date: 2026-08-28
+categories:
+  - Blog
+image: https://htmx.org/img/memes/original.png
+format:
+  html:
+    toc: true
+---
+![](https://htmx.org/img/memes/original.png)
+
+### The Vibe Coding / React Trap
+
+There is a huge shift of Data Scientist's moving toward AI Engineering.
+Given Data Science is very Python heavy, it's hard to know which front-end framework to learn and why.
+So many of us will naturally turn to the vibe coding, which almost exclusively spits out huge scary folders of React code.
+
+This was my experience, and it lead me down the road of doing a React course and spending 6 months trying to build React apps.
+I struggled to commit to any project for over a week until I realised that I just do not enjoy writing or editing React code at all.
+
+### HTMX as an Alternative
+I came across a blog post on HTMX last week and 
+Then I actually read the pitch: HTML attributes that let any element make an HTTP request and swap the response into the page. No JSX. No build step. No client-side state to manage, because the server just sends back HTML fragments and HTMX drops them where you tell it to.
+
+```html
+<button hx-get="/movies/42/rate" hx-target="#rating-widget" hx-swap="innerHTML">
+  Rate this movie
+</button>
+```
+
+That's it. That's the whole interaction. No useState, no fetch, no useEffect, no reducer. The server does what it's good at (logic, data, templates), and the browser does what it's good at (rendering HTML), and HTMX is just the thin, boring glue between them.
+
+As a Python person, the part that really sold me was realizing I didn't need a separate API layer at all. My FastAPI endpoints could just return HTML instead of JSON, rendered straight from Jinja2 templates. Suddenly my backend skills — the thing I actually already knew — were 90% of what I needed to build a real app.
+
+## Building MovieClub
+ 
+To actually test this out, I built **MovieClub** — a small app for my friend group to log movies we've watched together, rate them, and argue about rankings. Nothing groundbreaking, but exactly the kind of CRUD-y, form-heavy, "fetch data and update part of the page" app that HTMX is built for.
+ 
+The stack ended up being refreshingly small:
+ 
+- **FastAPI** for routing and business logic (the part I already knew)
+- **Jinja2** for templates
+- **HTMX** for interactivity — searching movies, submitting ratings, filtering by member, live-updating the leaderboard
+- **SQLite** because I didn't need anything heavier for a friend group's movie list
+- A tiny sprinkle of vanilla CSS, no framework needed
+A few things that used to be multi-file React ordeals became almost trivial:
+ 
+- **Live search** for movies: an input with `hx-get="/movies/search" hx-trigger="keyup changed delay:300ms" hx-target="#results"`. One line of HTML. In React this was a whole controlled-input-plus-debounce-hook situation.
+- **Adding a rating without a page reload**: a form that posts to an endpoint and swaps in the updated rating widget. No client-side state to sync, because there *is* no client-side state — the server is the source of truth, always.
+- **The leaderboard updating in real time** as people rate movies: `hx-trigger="every 5s"` on a container polling an endpoint. That was genuinely a five-minute feature.
+Here's the actual base template MovieClub is built on. This is, quite literally, the entire "frontend framework" for the app:
+ 
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}movie club{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/theme.css" />
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  </head>
+  <body>
+    <div class="crt"></div>
+    {% if user %}
+    <nav>
+      <span class="logo">movie club</span>
+      <span class="nav-links">
+        <a href="/">month</a>
+        <a href="/vote">vote</a>
+        <a href="/leaderboard">leaderboard</a>
+        {% if user.team_id %}<a href="/team">my team</a>{% endif %}
+        <span class="dim">{{ user.name }}</span>
+        <form method="post" action="/logout" class="inline">
+          <button type="submit" class="linklike">logout</button>
+        </form>
+      </span>
+    </nav>
+    {% endif %}
+    <main>{% block content %}{% endblock %}</main>
+  </body>
+</html>
+```
+ 
+What I love about this file is how boring it is. There's nothing here I have to explain to a future version of myself. `{% if user %}` shows the nav if someone's logged in. `{% if user.team_id %}` shows the "my team" link if they're on one. Every other page in the app extends this template and fills in `title` and `content`. When I add a new page, I'm not thinking about component composition or where state should live — I'm just writing a Jinja2 block and maybe an HTMX attribute or two.
+ 
+I deployed it on a FastAPI Cloud — no separate frontend build pipeline, no CORS configuration, no Vercel/Netlify account for the frontend and a different host for the backend. One app, one deploy.
+
+## What I Recommend it over React
+ 
+Looking back at the two experiences side by side:
+ 
+- **I understood every layer of my own app.** With React, there was always a black box somewhere — bundler config, hook lifecycle timing, hydration quirks. With HTMX + FastAPI, I could trace a click all the way from the button, to the HTTP request, to the Python function, to the Jinja2 template, back to the DOM. Nothing felt magic.
+- **My data science instincts transferred.** I'm used to thinking in terms of data flowing through a pipeline. HTMX apps feel like that: request in, HTML out, swap. It's a mental model close to how I already think about data transformations.
+- **I shipped faster.** MovieClub went from idea to deployed app in a weekend. My React todo-list clone from the course took me longer than that, and it did about a tenth as much.
+- **Way less code, way less anxiety.** No `node_modules` folder eating 400MB. No dependency upgrade dread. No "why did this break after a patch version bump."
+- **AI assistance became safe again.** I still use AI tools to help write code for MovieClub, but now the loop is honest again. When OpenCode suggests an `hx-get` attribute or a FastAPI route, I can read it top to bottom and understand exactly what it does — there's no hidden reconciliation behavior or closure trap for it to quietly get wrong. Vibe-coding a feature I don't fully understand is much lower-risk when the "runtime" is just an HTTP request and a template render, not an entire client-side framework's internal state machine.
+
+## Where HTMX Falls short
+ 
+HTMX isn't a universal answer, and my course wasn't a waste. If I ever want to build something with heavy client-side interactivity — a drag-and-drop movie-ranking board, complex animations, or offline support — I know I'd probably have to reach for React or a lighter alternative like Alpine.js layered on top of HTMX for the fiddly bits. HTMX shines brightest for exactly the kind of app MovieClub is: mostly CRUD, mostly server-driven, occasionally interactive.
+ 
+But for a data scientist trying to get from "I have a backend I understand" to "I have a deployed app that works," HTMX removed almost every piece of friction that made React feel like a second full-time job. It let me build something real, ship it, and actually enjoy the process — which, three weeks into that React course, I genuinely wasn't sure was possible.
+ 
+If you're comfortable with Python, terrified of the JavaScript ecosystem and just want to ship something — do yourself a favor and spend an afternoon with HTMX and FastAPI before you try another React course. It might save you some stress.

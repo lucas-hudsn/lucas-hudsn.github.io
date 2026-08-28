@@ -1,5 +1,5 @@
 ---
-title: "lucas hudson blog"
+title: "Lucas Hudson's Blog"
 listing:
   contents: posts
   feed: true

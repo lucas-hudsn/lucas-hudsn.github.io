@@ -52,5 +52,8 @@
   },
   "posts/movie-club/post.qmd": {
     "post.html": "20875dcd"
+  },
+  "posts/HTMX/post.qmd": {
+    "post.html": "592f075c"
   }
 }

@@ -7,17 +7,15 @@ website:
   title: "blog"
   navbar:
     right:
-      - about.qmd
       - icon: github
         href: https://github.com/lucas-hudsn
       - icon: linkedin
         href: https://www.linkedin.com/in/lucas-hudson-0a1384183/
+    left:
+      - resume/resume.qmd
 format:
   html:
     theme:
       - lux
       - brand
     css: styles.css
-
-
-

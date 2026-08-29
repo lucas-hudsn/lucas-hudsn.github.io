@@ -1,9 +1,9 @@
 ---
-title: "Movie Club: Building My Deployed Full-Stack App"
+title: "Movie Club: My First Deployed Full-Stack Web App"
 subtitle: "Monthly group-based movie club Web Application"
 date: 2026-08-26
 categories:
-  - Full Stack
+  - Full Stack Engineering
 image: images/dashboard.png
 format:
   html:

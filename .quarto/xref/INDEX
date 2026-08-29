@@ -55,5 +55,11 @@
   },
   "posts/HTMX/post.qmd": {
     "post.html": "592f075c"
+  },
+  "resume.qmd": {
+    "resume.html": "6a8a8943"
+  },
+  "resume/resume.qmd": {
+    "resume.html": "e93b5ae9"
   }
 }

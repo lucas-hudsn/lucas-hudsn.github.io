@@ -1,6 +1,5 @@
 ---
 title: "Berlin - Blog Refresh"
-author: "Lucas Hudson"
 date: "2026-08-19"
 categories: [Blog]
 ---

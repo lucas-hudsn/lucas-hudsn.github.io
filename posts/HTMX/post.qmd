@@ -1,6 +1,6 @@
 ---
 title: "I Hate React and JS"
-subtitle: "Any Data Scientist Learning AI Engineering should learn HTMX"
+subtitle: "Any Data Scientist Learning AI Engineering should learn HTMX First"
 date: 2026-08-28
 categories:
   - Blog

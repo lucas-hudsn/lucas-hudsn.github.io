@@ -1,43 +1,43 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "Contact Details",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Lucas Hudson’s Blog",
     "section": "",
-    "text": "Lucas Hudson | Masters of Data Science - Monash University | Australian Government Data Scientist (AI Engineering)\nPlease feel free to reach out to me on LinkedIn or GitHub if you have any questions or would like to connect!"
+    "text": "I Hate React and JS\n\n\nAny Data Scientist Learning AI Engineering should learn HTMX First\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nMovie Club: My First Deployed Full-Stack Web App\n\n\nMonthly group-based movie club Web Application\n\n\n\nFull Stack Engineering\n\n\n\n\n\n\n\n\n\nAug 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDeutsch Class: Fully Local German Vocabulary Trainer\n\n\n\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - Blog Refresh\n\n\n\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/movie-club/post.html",
     "href": "posts/movie-club/post.html",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "",
     "text": "I spend most of my time as a data scientist / AI engineer: notebooks, models, pipelines. But every model I ship eventually needs an actual application around it, and my ability to build that part has always been limited. So I built one from scratch: Movie Club, a server-rendered FastAPI app that runs a monthly film competition for my friends and me.\nThe dashboard — submission phase, phosphor-green CRT theme."
   },
   {
     "objectID": "posts/movie-club/post.html#what-is-movie-club",
     "href": "posts/movie-club/post.html#what-is-movie-club",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "What is Movie Club?",
     "text": "What is Movie Club?\nHaving moved from Melbourne to Berlin, I am no longer able to meet my friends for our monthly movie club competition, so I thought it is a good opportunity for my first deployed application to make an app for us. ### The Rules: Every month each team member submits one movie. Everyone watches and ranks all the picks best → worst. The top film wins; the bottom film sends its submitter to the bench (they still vote next month, but can’t submit). Repeat forever.\nLive: https://movieclub.fastapicloud.dev"
   },
   {
     "objectID": "posts/movie-club/post.html#the-product",
     "href": "posts/movie-club/post.html#the-product",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "The product",
     "text": "The product\nThe whole thing runs on a three-phase cycle lifecycle:\n\nSUBMITTING — each member picks one film via live search against the OMDB API. One pick per person, no duplicates.\nRANKING — an admin locks submissions, then everyone drags their ballot into order with ▲▼ controls.\nCLOSED — points are tallied by Borda count: position 1 of N films gets N−1 points, last place gets 0. Winner crowned, loser evicted, next cycle auto-created.\n\nJoining is invite-only via a team code, and an all-time leaderboard tracks wins and losses per member.\n The /vote ballot page, built as HTMX partials so reordering never reloads the page.\n The all-time leaderboard. Bragging rights are permanent."
   },
   {
     "objectID": "posts/movie-club/post.html#the-stack",
     "href": "posts/movie-club/post.html#the-stack",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "The stack",
     "text": "The stack\nI deliberately avoided React. The goal was to learn how a “real” web app works at the request/response level, not to learn a frontend framework:\n\n\n\nLayer\nChoice\n\n\n\n\nHosting\nFastAPI Cloud\n\n\nBackend\nFastAPI + Jinja2 templates + HTMX fragments\n\n\nDatabase\nPostgreSQL via SQLAlchemy 2.0, Alembic migrations (Supabase in prod)\n\n\nAuth\nArgon2 password hashing + signed session cookie (itsdangerous)\n\n\nMovies\nOMDB API\n\n\nStyling\nHand-rolled CSS, black/phosphor-green CRT theme\n\n\n\nThe architecture is refreshingly boring:\nbrowser → router → SQLAlchemy model → template or redirect\nRoutes return either full pages or HTML fragments. HTMX swaps fragments into placeholders (#ballot, #search-results) — no SPA, no client state, no build step. For a voting app where interactions are small and local, this felt exactly right."
   },
   {
     "objectID": "posts/movie-club/post.html#next-building-a-recommender-system",
     "href": "posts/movie-club/post.html#next-building-a-recommender-system",
-    "title": "Movie Club: Building My Deployed Full-Stack App",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
     "section": "Next: Building a Recommender System",
     "text": "Next: Building a Recommender System\nHere’s the part I’m most excited about. This little club is quietly generating a dataset:\n\nEvery member’s full ranking of shared movies, every month, indefinitely\nImplicit signals: abstentions, submission choices, win/loss history\nA growing matrix of members × movies with ordinal preferences\n\nThe obvious problem with a 6-person club is sparsity — six months in, we might have 30 movies total. The fix: Letterboxd exports. Letterboxd lets any user export their entire diary and ratings as CSV (title, year, rating, watched date). Importing those gives every member hundreds of rated films immediately.\nThe plan:\n\nMembers upload their Letterboxd export (or connect via the unofficial API).\nNormalize ratings onto a common scale and align with OMDB/IMDb IDs.\nTrain an implicit-feedback model (probably start with simple matrix factorization, then something like implicit ALS or a neural CF model) on the union of club rankings + Letterboxd ratings.\n\nSuddenly the cold-start problem mostly disappears: a new member arrives with years of taste already attached."
   },
@@ -126,10 +126,45 @@
     "text": "Where HTMX Falls short\nHTMX isn’t a universal answer, and my course wasn’t a waste. If I ever want to build something with heavy client-side interactivity — a drag-and-drop movie-ranking board, complex animations, or offline support — I know I’d probably have to reach for React or a lighter alternative like Alpine.js layered on top of HTMX for the fiddly bits. HTMX shines brightest for exactly the kind of app MovieClub is: mostly CRUD, mostly server-driven, occasionally interactive.\nBut for a data scientist trying to get from “I have a backend I understand” to “I have a deployed app that works,” HTMX removed almost every piece of friction that made React feel like a second full-time job. It let me build something real, ship it, and actually enjoy the process — which, three weeks into that React course, I genuinely wasn’t sure was possible.\nIf you’re comfortable with Python, terrified of the JavaScript ecosystem and just want to ship something — do yourself a favor and spend an afternoon with HTMX and FastAPI before you try another React course. It might save you some stress."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Lucas Hudson’s Blog",
+    "objectID": "resume/resume.html",
+    "href": "resume/resume.html",
+    "title": "Resume",
     "section": "",
-    "text": "I Hate React and JS\n\n\nAny Data Scientist Learning AI Engineering should learn HTMX\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nMovie Club: Building My Deployed Full-Stack App\n\n\nMonthly group-based movie club Web Application\n\n\n\nFull Stack\n\n\n\n\n\n\n\n\n\nAug 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDeutsch Class: Fully Local German Vocabulary Trainer\n\n\n\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - Blog Refresh\n\n\n\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\nLucas Hudson\n\n\n\n\n\nNo matching items"
+    "text": "Kreuzberg, Berlin · lucashudsn@gmail.com · +49 17 4947 9954\nLinkedIn · GitHub\nBerlin-based Data Scientist with 4 years of experience building machine learning models for national-security-related pattern and anomaly detection within the Australian Public Service. Recently I have taken a career break from my work in Autralia, using the time to explore research directions in AI, deepen a growing interest in data governance, AI policy, and responsible-AI frameworks, and build personal projects that renew my enjoyment of data science and AI. Experienced across the full pipeline: SQL, feature engineering, classification, unsupervised learning, and anomaly detection, alongside strong stakeholder engagement and data storytelling skills. Now looking to bring this combination of applied ML, governance experience, and hands-on curiosity to explore opportunities at the intersection of research, policy, and production machine learning."
+  },
+  {
+    "objectID": "resume/resume.html#experience",
+    "href": "resume/resume.html#experience",
+    "title": "Resume",
+    "section": "Experience",
+    "text": "Experience\n\nAustralian Public Service (2023 – 2026)\n\n\nActing Senior Data Scientist (AP6), AI Engineering Team (October 2025 – May 2026)\n\n\nBuilt and deployed a hybrid semantic/lexical similarity search system to surface related items of interest across large volumes of operational data, later extending the approach to cluster related groups of records for national security analysts.\nApplied graph network analysis (entity-link analysis, community detection) and neural network experimentation (GNNs) to identify coordinated patterns of activity that would not surface through individual-record scoring.\nTrained and deployed models both locally and on cloud infrastructure (AWS SageMaker, AWS OpenSearch); built automated MLflow pipelines for model drift detection.\nAuthored and maintained data governance and model documentation, ensuring all models and pipelines complied with departmental data governance and privacy frameworks.\n\n\nData Scientist, Enterprise Applications and Analytics (July 2023 – October 2025)\n\n\nBuilt predictive-targeting, anomaly-detection, and clustering models used operationally to support national security screening.\nDesigned and shipped a gradient-boosted-tree model (LightGBM) to detect anomalies of interest in high-volume operational data — a project run independently from feature design through to handover, exceeding validation expectations set by end users and deployed across multiple teams.\nPartnered with frontline operational staff to translate domain expertise into usable model features (feature engineering).\nBuilt internal dashboards so stakeholders could visualise, use, and act on model outputs.\nProduced data governance documentation for multiple projects (data lineage, privacy impact considerations, model risk assessments), ensuring adherence to APS data governance and privacy policies and frameworks throughout the model lifecycle.\nMentored 3 junior data scientists through a formal mentorship program; all 3 went on to land new roles or promotions in Data Science/Data Engineering.\n\n\nGraduate (Data Governance & Partnerships) (February 2023 – July 2023)\n\n\nReviewed projects across the branch for adherence to the department’s data governance framework, working with project teams to identify and remediate gaps against privacy and governance policy.\nSupported the development and refinement of internal data governance documentation and review checklists.\nCoordinated meetings between the Department and internal/external stakeholders, including scheduling, agenda preparation, and taking and distributing minutes.\nSupported early-stage relationship management with partner teams as part of onboarding into the branch.\n\n\nRecognition:\n\nCommisioner’s award for innovation in data science supporting national security operations.\nSecretary’s award for contribution to a multicultural affairs initiative.\n\n\n\nPersonal Projects:\n\nMovieClub – Full-stack FastAPI/HTMX application for coordinating a monthly movie club.\nDeutschClass – TUI app for German vocabulary practice using TTS/STT models for pronunciation testing.\nwavereader – Agentic surf-forecasting app that flips the query: instead of checking one beach, it finds which beaches are good today.\nSpeakWell – English pronunciation coaching app with automated diagnostics and speech exercises."
+  },
+  {
+    "objectID": "resume/resume.html#skills",
+    "href": "resume/resume.html#skills",
+    "title": "Resume",
+    "section": "Skills",
+    "text": "Skills\nModelling: Gradient-boosted trees (LightGBM, XGBoost), anomaly detection, GNNs/graph methods, classical & deep learning classification, hybrid semantic/lexical retrieval, regression & time-series forecasting, NLP/LLM fine-tuning & RAG, recommender systems, clustering & dimensionality reduction.\nTools: Python (pandas, scikit-learn, PyTorch), SQL, FastAPI, Docker, AWS SageMaker, OpenSearch, Git, Vector Databases (ChromaDB, FAISS), MLflow, Spark.\nGovernance & Other: Data governance documentation, privacy impact & policy compliance, stakeholder collaboration, model monitoring & drift detection, data storytelling, MLOps/CI-CD, experiment design (A/B testing), technical documentation.\nLanguages: English (native), German (Learning – A1 level)"
+  },
+  {
+    "objectID": "resume/resume.html#certifications",
+    "href": "resume/resume.html#certifications",
+    "title": "Resume",
+    "section": "Certifications",
+    "text": "Certifications\n\nIBM RAG and Agentic AI Specialization (Nov 2025) – 8-course specialization covering RAG, vector databases, and agentic AI frameworks (LangChain, LangGraph, CrewAI, AutoGen)\nAssociate AI Engineer for Data Scientists, DataCamp (Jul 2025)\nDeveloping Front-End Apps with React, IBM (Mar 2026)\nIntroduction to Cloud Computing, IBM (Dec 2025)\nClaude Code in Action, Anthropic (Jan 2026)"
+  },
+  {
+    "objectID": "resume/resume.html#education",
+    "href": "resume/resume.html#education",
+    "title": "Resume",
+    "section": "Education",
+    "text": "Education\n\nMaster of Data Science, Monash University 2021 – 2022\n\n\nBachelor of Science, Monash University 2016 – 2020\n\nMonash University is ranked 31st in the world by the QS World University Rankings 2027"
+  },
+  {
+    "objectID": "resume/resume.html#references",
+    "href": "resume/resume.html#references",
+    "title": "Resume",
+    "section": "References",
+    "text": "References\nAvailable upon request.\nFull working rights in Germany – Australian citizen with Working Holiday Visa"
   }
 ]

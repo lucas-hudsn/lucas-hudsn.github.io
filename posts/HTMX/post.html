@@ -187,7 +187,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#the-vibe-coding-react-trap" id="toc-the-vibe-coding-react-trap" class="nav-link active" data-scroll-target="#the-vibe-coding-react-trap">The Vibe Coding / React Trap</a></li>
   <li><a href="#htmx-as-an-alternative" id="toc-htmx-as-an-alternative" class="nav-link" data-scroll-target="#htmx-as-an-alternative">HTMX as an Alternative</a></li>
   <li><a href="#building-movieclub" id="toc-building-movieclub" class="nav-link" data-scroll-target="#building-movieclub">Building MovieClub</a></li>
-  <li><a href="#what-i-recommend-it-over-react" id="toc-what-i-recommend-it-over-react" class="nav-link" data-scroll-target="#what-i-recommend-it-over-react">What I Recommend it over React</a></li>
+  <li><a href="#why-i-recommend-it-over-react" id="toc-why-i-recommend-it-over-react" class="nav-link" data-scroll-target="#why-i-recommend-it-over-react">Why I Recommend it over React</a></li>
   <li><a href="#where-htmx-falls-short" id="toc-where-htmx-falls-short" class="nav-link" data-scroll-target="#where-htmx-falls-short">Where HTMX Falls short</a></li>
   </ul>
 </nav>
@@ -260,8 +260,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>What I love about this file is how boring it is. There’s nothing here I have to explain to a future version of myself. <code>{% if user %}</code> shows the nav if someone’s logged in. <code>{% if user.team_id %}</code> shows the “my team” link if they’re on one. Every other page in the app extends this template and fills in <code>title</code> and <code>content</code>. When I add a new page, I’m not thinking about component composition or where state should live — I’m just writing a Jinja2 block and maybe an HTMX attribute or two.</p>
 <p>I deployed it on a FastAPI Cloud — no separate frontend build pipeline, no CORS configuration, no Vercel/Netlify account for the frontend and a different host for the backend. One app, one deploy.</p>
 </section>
-<section id="what-i-recommend-it-over-react" class="level2">
-<h2 class="anchored" data-anchor-id="what-i-recommend-it-over-react">What I Recommend it over React</h2>
+<section id="why-i-recommend-it-over-react" class="level2">
+<h2 class="anchored" data-anchor-id="why-i-recommend-it-over-react">Why I Recommend it over React</h2>
 <p>Looking back at the two experiences side by side:</p>
 <ul>
 <li><strong>I understood every layer of my own app.</strong> With React, there was always a black box somewhere — bundler config, hook lifecycle timing, hydration quirks. With HTMX + FastAPI, I could trace a click all the way from the button, to the HTTP request, to the Python function, to the Jinja2 template, back to the DOM. Nothing felt magic.</li>

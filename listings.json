@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/ai-profession/post.html",
       "/posts/wavereader/post.html",
       "/posts/HTMX/post.html",
       "/posts/movie-club/post.html",

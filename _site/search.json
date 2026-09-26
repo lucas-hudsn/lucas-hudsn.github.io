@@ -1,0 +1,275 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Lucas Hudson’s Blog",
+    "section": "",
+    "text": "Maybe AI needs a regulated profession behind it\n\n\nMy opinion after 3 years in the APS — and three stories from this month\n\n\n\nBlog\n\n\n\nIn my opinion, almost anyone can deploy AI that makes big decisions about people with no profession in the middle. Three recent Australian stories show why I think we need registered AI engineers.\n\n\n\n\n\nSep 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n\n🏆 NVIDIA GTC Golden Ticket Winner: wave~reader\n\n\nAgentic surf forecasting — how I won a Golden Ticket to GTC Berlin\n\n\n\nML Engineering\n\nAI Engineering\n\n\n\nI won an NVIDIA GTC Golden Ticket challenge with wave~reader — an agentic surf forecaster for 238 Australian breaks with deterministic scoring narrated by NVIDIA Nemotron 3 Ultra.\n\n\n\n\n\nSep 19, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nI Hate React and JS\n\n\nAny Data Scientist Learning AI Engineering should learn HTMX First\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nMovie Club: My First Deployed Full-Stack Web App\n\n\nMonthly group-based movie club Web Application\n\n\n\nFull Stack Engineering\n\n\n\n\n\n\n\n\n\nAug 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDeutsch Class: Fully Local German Vocabulary Trainer\n\n\n\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - Blog Refresh\n\n\n\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/movie-club/post.html",
+    "href": "posts/movie-club/post.html",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
+    "section": "",
+    "text": "I spend most of my time as a data scientist / AI engineer: notebooks, models, pipelines. But every model I ship eventually needs an actual application around it, and my ability to build that part has always been limited. So I built one from scratch: Movie Club, a server-rendered FastAPI app that runs a monthly film competition for my friends and me.\nThe dashboard — submission phase, phosphor-green CRT theme."
+  },
+  {
+    "objectID": "posts/movie-club/post.html#what-is-movie-club",
+    "href": "posts/movie-club/post.html#what-is-movie-club",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
+    "section": "What is Movie Club?",
+    "text": "What is Movie Club?\nHaving moved from Melbourne to Berlin, I am no longer able to meet my friends for our monthly movie club competition, so I thought it is a good opportunity for my first deployed application to make an app for us. ### The Rules: Every month each team member submits one movie. Everyone watches and ranks all the picks best → worst. The top film wins; the bottom film sends its submitter to the bench (they still vote next month, but can’t submit). Repeat forever.\nLive: https://movieclub.fastapicloud.dev"
+  },
+  {
+    "objectID": "posts/movie-club/post.html#the-product",
+    "href": "posts/movie-club/post.html#the-product",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
+    "section": "The product",
+    "text": "The product\nThe whole thing runs on a three-phase cycle lifecycle:\n\nSUBMITTING — each member picks one film via live search against the OMDB API. One pick per person, no duplicates.\nRANKING — an admin locks submissions, then everyone drags their ballot into order with ▲▼ controls.\nCLOSED — points are tallied by Borda count: position 1 of N films gets N−1 points, last place gets 0. Winner crowned, loser evicted, next cycle auto-created.\n\nJoining is invite-only via a team code, and an all-time leaderboard tracks wins and losses per member.\n The /vote ballot page, built as HTMX partials so reordering never reloads the page.\n The all-time leaderboard. Bragging rights are permanent."
+  },
+  {
+    "objectID": "posts/movie-club/post.html#the-stack",
+    "href": "posts/movie-club/post.html#the-stack",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
+    "section": "The stack",
+    "text": "The stack\nI deliberately avoided React. The goal was to learn how a “real” web app works at the request/response level, not to learn a frontend framework:\n\n\n\nLayer\nChoice\n\n\n\n\nHosting\nFastAPI Cloud\n\n\nBackend\nFastAPI + Jinja2 templates + HTMX fragments\n\n\nDatabase\nPostgreSQL via SQLAlchemy 2.0, Alembic migrations (Supabase in prod)\n\n\nAuth\nArgon2 password hashing + signed session cookie (itsdangerous)\n\n\nMovies\nOMDB API\n\n\nStyling\nHand-rolled CSS, black/phosphor-green CRT theme\n\n\n\nThe architecture is refreshingly boring:\nbrowser → router → SQLAlchemy model → template or redirect\nRoutes return either full pages or HTML fragments. HTMX swaps fragments into placeholders (#ballot, #search-results) — no SPA, no client state, no build step. For a voting app where interactions are small and local, this felt exactly right."
+  },
+  {
+    "objectID": "posts/movie-club/post.html#next-building-a-recommender-system",
+    "href": "posts/movie-club/post.html#next-building-a-recommender-system",
+    "title": "Movie Club: My First Deployed Full-Stack Web App",
+    "section": "Next: Building a Recommender System",
+    "text": "Next: Building a Recommender System\nHere’s the part I’m most excited about. This little club is quietly generating a dataset:\n\nEvery member’s full ranking of shared movies, every month, indefinitely\nImplicit signals: abstentions, submission choices, win/loss history\nA growing matrix of members × movies with ordinal preferences\n\nThe obvious problem with a 6-person club is sparsity — six months in, we might have 30 movies total. The fix: Letterboxd exports. Letterboxd lets any user export their entire diary and ratings as CSV (title, year, rating, watched date). Importing those gives every member hundreds of rated films immediately.\nThe plan:\n\nMembers upload their Letterboxd export (or connect via the unofficial API).\nNormalize ratings onto a common scale and align with OMDB/IMDb IDs.\nTrain an implicit-feedback model (probably start with simple matrix factorization, then something like implicit ALS or a neural CF model) on the union of club rankings + Letterboxd ratings.\n\nSuddenly the cold-start problem mostly disappears: a new member arrives with years of taste already attached."
+  },
+  {
+    "objectID": "posts/reset/post.html",
+    "href": "posts/reset/post.html",
+    "title": "Berlin - Blog Refresh",
+    "section": "",
+    "text": "Berlin - Blog Refresh\n\n\n\nTempelhofer Feld on the night of the Solar Eclipse (28-07-2026)\n\n\nMy partner and I have made the difficult decision to leave our lives, jobs and cat in Melbourne, and journey over to Berlin for a new life and new experiences. The past 10 years in Melbourne (and Canberra) have been transformative, from High School graduates through to Masters-educated practising professionals in our respective fields (Data Science and Architecture) we cannot thank our home country enough for the opportunities and experiences.\nHowever, we had always wondered what opportunities and lifechanging experiences might come from moving overseas and we always had a vague plan to seek them. Last year, we decided it was time to organise and make some definitive plans to move, Lucy exhausted herself building matrices that cross checked lifestyle and culturual factors with opportunities and cost of living etc. This allowed us to easily decide on Berlin as the city which suited us the best, and since then had built plans to move.\nNow, having moved in just a week ago, it feels like we have made an excellent decision. Walking around the streets of Kreuzberg I am overcome with feelings of inspiration, excitement and spontanaeity. I am determined to build myself into this city through engaging with the many events, cultural experiences, meetups and work opportunities, as well as let the city educate and shape a new way of life for me and guide my approach in life decisions.\nThis brings me to resetting my blog, I decided the cheap efforted projects I have done in the past do not align with the new approach I want to use when building personal projects. I was to make use of my skills to build projects that:\n\nI find fun!\nOnly use open source models\nDo not require big cloud providers\nI am able to use regularly to motivate myself to improve them.\n\nAside from this, I want to be studying new areas of computer science and using this blog to collate my notes. So from this day onwards, expect posts much more frequently with fun projects I find enjoyable as well as my learnings.\nFirst up, my next project being built is a local application users can practise German with, democratizing Voice and STT models to English speaking users learning German.\nHopefully will post with an update again this week!\nLucas."
+  },
+  {
+    "objectID": "posts/wavereader/post.html",
+    "href": "posts/wavereader/post.html",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "",
+    "text": "Tip🏆 NVIDIA GTC Berlin — Golden Ticket Winner\n\n\n\nwave~reader won a Golden Ticket to GTC Berlin in the NVIDIA GTC golden ticket challenge — built on open weights (nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16) via Hugging Face Inference Providers.\nI built an agentic surf forecaster — wave~reader — and it won a Golden Ticket to GTC Berlin.\nLive: https://huggingface.co/spaces/lucashudsn/wavereader Code: https://github.com/lucas-hudsn/wavereader"
+  },
+  {
+    "objectID": "posts/wavereader/post.html#what-is-wavereader",
+    "href": "posts/wavereader/post.html#what-is-wavereader",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "What is wave~reader?",
+    "text": "What is wave~reader?\nA surf-forecasting world model for the Australian coast: 238 breaks, 168 deterministic scores per spot, a 3D seafloor built from real GEBCO bathymetry — and one open model that narrates the numbers instead of inventing them.\nAsk it “where’s good in NSW this weekend?” and it reasons, calls tools, cites them, and narrates — it never makes up its own swell."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#one-rule-holds-the-whole-app-together",
+    "href": "posts/wavereader/post.html#one-rule-holds-the-whole-app-together",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "One rule holds the whole app together",
+    "text": "One rule holds the whole app together\nThe LLM never owns numbers. Every wave height, wind reading, and 0–10 score comes out of plain deterministic Python — wavereader/scoring.py, wavereader/openmeteo.py, wavereader/tools.py — running over live Open-Meteo marine feeds + 5 years of ERA5 reanalysis.\nThe model’s contract is to interpret those numbers, name the tool that produced them, and never compute a forecast itself. The agent can recommend; it can’t hallucinate a swell."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#one-screen-four-instruments",
+    "href": "posts/wavereader/post.html#one-screen-four-instruments",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "One screen, four instruments",
+    "text": "One screen, four instruments\nNo tabs. One surface, four synchronized instruments, one source of truth (selected):\n\nMap lens (left) — all 238 breaks on a Plotly map, filtered by state / region / skill.\nForecast story (center) — 0–10 score for every hour of the next 7 days, score / swell / wind strips with weekend shading, then a smoothed 3D seafloor with animated swell riding the forecast’s dominant period.\nIntel rail (right) — field guide (peak type, ideal swell / wind / tide, hazards, crowd), 5-year ERA5 swell climate rose, wetsuit hint, nearby surf cams.\nAgent bar (full width) — chat powered by smolagents ToolCallingAgent on Nemotron 3 Ultra. Every tool card shows latency in ms. Hard budget: 6 steps, 700 tokens a turn."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#the-stack-nvidia-open-weights-on-hugging-face-rails",
+    "href": "posts/wavereader/post.html#the-stack-nvidia-open-weights-on-hugging-face-rails",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "The stack: NVIDIA open weights on Hugging Face rails",
+    "text": "The stack: NVIDIA open weights on Hugging Face rails\nEvery model call goes through one door — Hugging Face Inference Providers, served by DeepInfra — running nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16. No private APIs, one HF_TOKEN.\nAround it, everything is open too: Open-Meteo forecasts, ERA5 reanalysis, GEBCO 2020 bathymetry via OpenTopoData, and a scoring engine you can read in one sitting."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#the-app-is-the-tool-mcp-built-in",
+    "href": "posts/wavereader/post.html#the-app-is-the-tool-mcp-built-in",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "The app is the tool: MCP built in",
+    "text": "The app is the tool: MCP built in\napp.py launches with mcp_server=True, so any MCP client can drive the deterministic engines directly at &lt;space-or-local-url&gt;/gradio_api/mcp/. Same three typed tools the agent uses:\n\nscore_week — hourly 0–10 scores, daily bests, best window\nrank_region_week — every break in a region, ranked best-first\nexplain_score — size / direction / wind / period breakdown of one hour\n\nEverything else is registered with api_name=False on purpose — the MCP surface stays clean."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#try-it",
+    "href": "posts/wavereader/post.html#try-it",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "Try it",
+    "text": "Try it\n\nLive app: https://huggingface.co/spaces/lucashudsn/wavereader\nContest entry: LinkedIn post\nWinners: LinkedIn post\n\n\n\n\n\nSee you at GTC Berlin!"
+  },
+  {
+    "objectID": "posts/deustch-class/post.html",
+    "href": "posts/deustch-class/post.html",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "",
+    "text": "Having recently moved to Berlin, I wanted to practice and expand my German vocabulary, I was struggling prioritizing between my German practise and ML projects. So I built Deutsch Class: a fully local German learning app with a Postgres-backed vocabulary database, a FastAPI REST API, and a terminal UI. Everything runs on my machine.\n\n\n\nTUI main view — word list, filters, and detail panel"
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#is-there-any-need-for-yet-another-language-learning-platform",
+    "href": "posts/deustch-class/post.html#is-there-any-need-for-yet-another-language-learning-platform",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "",
+    "text": "Having recently moved to Berlin, I wanted to practice and expand my German vocabulary, I was struggling prioritizing between my German practise and ML projects. So I built Deutsch Class: a fully local German learning app with a Postgres-backed vocabulary database, a FastAPI REST API, and a terminal UI. Everything runs on my machine.\n\n\n\nTUI main view — word list, filters, and detail panel"
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#architecture",
+    "href": "posts/deustch-class/post.html#architecture",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "Architecture",
+    "text": "Architecture\nThe whole thing is three small pieces:\n┌───────────┐   HTTP    ┌──────────────┐   SQL    ┌────────────────┐\n│  TUI      │ ────────► │  FastAPI     │ ───────► │  PostgreSQL    │\n│ (Textual) │           │  api/main.py │          │  deutsch_class │\n└───────────┘           └──────────────┘          └────────────────┘\n\nPostgreSQL stores ~1,000 words seeded from a JSON file (402 easy · 402 medium · 196 difficult), each with a phonetic transcription, English translation, and a learned flag.\nFastAPI exposes listing, search, filtering, CRUD, random draws, and stats.\nTextual drives the terminal frontend against the live API.\n\nThe schema is deliberately simple, with difficulty constrained at the database level:\nCREATE TABLE words (\n    id          SERIAL PRIMARY KEY,\n    word        TEXT NOT NULL,\n    phonetic    TEXT,\n    translation TEXT,\n    difficulty  TEXT NOT NULL CHECK (difficulty IN ('easy', 'medium', 'difficult')),\n    learned     BOOLEAN NOT NULL DEFAULT FALSE,\n    UNIQUE (word, difficulty)\n);\nOne entry point (main.py) starts the API and launches the TUI together, so uv run main.py is all you need."
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#the-tui",
+    "href": "posts/deustch-class/post.html#the-tui",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "The TUI",
+    "text": "The TUI\nTextual made the terminal frontend genuinely pleasant to build. The main screen has a filterable word table, a search box, and a detail panel for the selected word.\nKeybindings are kept minimal:\n\n\n\nKey\nAction\n\n\n\n\nr\nDraw a random word\n\n\nl\nToggle learned on selected word\n\n\np\nPronounce the selected word (TTS)\n\n\nt\nTest pronunciation of the selected word (mic+ASR)\n\n\n/\nFocus the search box\n\n\nF5\nRefresh the word list\n\n\nq\nQuit\n\n\n\nRandom draw mode is where most of the studying happens — pull a random unlearned word at your chosen difficulty, hear it spoken, mark it learned when you’ve got it."
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#text-to-speech",
+    "href": "posts/deustch-class/post.html#text-to-speech",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "Text-to-speech",
+    "text": "Text-to-speech\nEvery word shown is announced aloud using macOS say with a German voice. Pressing p replays the currently selected word. It’s a tiny feature but it completely changes how the app feels — you’re not just reading, you’re hearing the language constantly."
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#pronunciation-testing-with-on-device-whisper",
+    "href": "posts/deustch-class/post.html#pronunciation-testing-with-on-device-whisper",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "Pronunciation testing with on-device Whisper",
+    "text": "Pronunciation testing with on-device Whisper\nThis is the part I’m most happy with. Press t and the app records 3 seconds from your microphone, transcribes the audio locally with mlx-whisper using whisper-large-v3-turbo-german-f16 (a German-optimized model that runs fast on Apple Silicon), then scores your attempt against the target word via character-level edit distance:\n\n≥ 80% — green\n50–79% — yellow\n&lt; 50% — red\n\nNo audio ever leaves the machine. The first run downloads the ~1.6 GB model; after that it’s instant."
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#the-api",
+    "href": "posts/deustch-class/post.html#the-api",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "The API",
+    "text": "The API\nThe API is thin but complete — interactive docs come free with FastAPI at /docs.\n\n\n\n\n\n\n\n\nMethod\nEndpoint\nDescription\n\n\n\n\nGET\n/words\nList/filter/search words\n\n\nGET\n/words/random\nRandom word (filter by difficulty, unlearned only)\n\n\nPOST\n/words\nCreate a word\n\n\nPATCH\n/words/{id}\nUpdate any subset of fields\n\n\nPOST\n/words/{id}/toggle-learned\nFlip the learned flag\n\n\nDELETE\n/words/{id}\nDelete a word\n\n\nGET\n/stats\nCounts per difficulty + learned + total\n\n\n\ncurl \"localhost:8000/words/random?difficulty=easy&unlearned_only=true\"\n# {\"word\":\"geradeaus\",\"phonetic\":\"ɡərˈɑdeːˌaʊs\",\"translation\":\"straight ahead\",\n#  \"difficulty\":\"easy\",\"id\":294,\"learned\":false}"
+  },
+  {
+    "objectID": "posts/deustch-class/post.html#whats-next",
+    "href": "posts/deustch-class/post.html#whats-next",
+    "title": "Deutsch Class: Fully Local German Vocabulary Trainer",
+    "section": "What’s next",
+    "text": "What’s next\n\nWeb frontend — HTMX + CSS served by FastAPI, replacing the TUI as the primary client\nPhrases — full sentences with categories (ordering coffee, directions, shopping…) alongside single words\nListening & reading/writing exercises\nSpaced repetition built on top of the learned flag\n\nThe code is on GitHub. If you have an Apple Silicon Mac and a Postgres instance lying around, uv sync && uv run main.py gets you using it right away."
+  },
+  {
+    "objectID": "posts/HTMX/post.html#building-movieclub",
+    "href": "posts/HTMX/post.html#building-movieclub",
+    "title": "I Hate React and JS",
+    "section": "Building MovieClub",
+    "text": "Building MovieClub\nTo actually test this out, I built MovieClub — a small app for my friend group to log movies we’ve watched together, rate them, and argue about rankings. Nothing groundbreaking, but exactly the kind of CRUD-y, form-heavy, “fetch data and update part of the page” app that HTMX is built for.\nThe stack ended up being refreshingly small:\n\nFastAPI for routing and business logic (the part I already knew)\nJinja2 for templates\nHTMX for interactivity — searching movies, submitting ratings, filtering by member, live-updating the leaderboard\nSQLite because I didn’t need anything heavier for a friend group’s movie list\nA tiny sprinkle of vanilla CSS, no framework needed A few things that used to be multi-file React ordeals became almost trivial:\nLive search for movies: an input with hx-get=\"/movies/search\" hx-trigger=\"keyup changed delay:300ms\" hx-target=\"#results\". One line of HTML. In React this was a whole controlled-input-plus-debounce-hook situation.\nAdding a rating without a page reload: a form that posts to an endpoint and swaps in the updated rating widget. No client-side state to sync, because there is no client-side state — the server is the source of truth, always.\nThe leaderboard updating in real time as people rate movies: hx-trigger=\"every 5s\" on a container polling an endpoint. That was genuinely a five-minute feature. Here’s the actual base template MovieClub is built on. This is, quite literally, the entire “frontend framework” for the app:\n\n&lt;!doctype html&gt;\n&lt;html lang=\"en\"&gt;\n  &lt;head&gt;\n    &lt;meta charset=\"utf-8\" /&gt;\n    &lt;meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" /&gt;\n    &lt;title&gt;{% block title %}movie club{% endblock %}&lt;/title&gt;\n    &lt;link rel=\"stylesheet\" href=\"/static/css/theme.css\" /&gt;\n    &lt;script src=\"https://unpkg.com/htmx.org@2.0.4\"&gt;&lt;/script&gt;\n  &lt;/head&gt;\n  &lt;body&gt;\n    &lt;div class=\"crt\"&gt;&lt;/div&gt;\n    {% if user %}\n    &lt;nav&gt;\n      &lt;span class=\"logo\"&gt;movie club&lt;/span&gt;\n      &lt;span class=\"nav-links\"&gt;\n        &lt;a href=\"/\"&gt;month&lt;/a&gt;\n        &lt;a href=\"/vote\"&gt;vote&lt;/a&gt;\n        &lt;a href=\"/leaderboard\"&gt;leaderboard&lt;/a&gt;\n        {% if user.team_id %}&lt;a href=\"/team\"&gt;my team&lt;/a&gt;{% endif %}\n        &lt;span class=\"dim\"&gt;{{ user.name }}&lt;/span&gt;\n        &lt;form method=\"post\" action=\"/logout\" class=\"inline\"&gt;\n          &lt;button type=\"submit\" class=\"linklike\"&gt;logout&lt;/button&gt;\n        &lt;/form&gt;\n      &lt;/span&gt;\n    &lt;/nav&gt;\n    {% endif %}\n    &lt;main&gt;{% block content %}{% endblock %}&lt;/main&gt;\n  &lt;/body&gt;\n&lt;/html&gt;\nWhat I love about this file is how boring it is. There’s nothing here I have to explain to a future version of myself. {% if user %} shows the nav if someone’s logged in. {% if user.team_id %} shows the “my team” link if they’re on one. Every other page in the app extends this template and fills in title and content. When I add a new page, I’m not thinking about component composition or where state should live — I’m just writing a Jinja2 block and maybe an HTMX attribute or two.\nI deployed it on a FastAPI Cloud — no separate frontend build pipeline, no CORS configuration, no Vercel/Netlify account for the frontend and a different host for the backend. One app, one deploy."
+  },
+  {
+    "objectID": "posts/HTMX/post.html#why-i-recommend-it-over-react",
+    "href": "posts/HTMX/post.html#why-i-recommend-it-over-react",
+    "title": "I Hate React and JS",
+    "section": "Why I Recommend it over React",
+    "text": "Why I Recommend it over React\nLooking back at the two experiences side by side:\n\nI understood every layer of my own app. With React, there was always a black box somewhere — bundler config, hook lifecycle timing, hydration quirks. With HTMX + FastAPI, I could trace a click all the way from the button, to the HTTP request, to the Python function, to the Jinja2 template, back to the DOM. Nothing felt magic.\nMy data science instincts transferred. I’m used to thinking in terms of data flowing through a pipeline. HTMX apps feel like that: request in, HTML out, swap. It’s a mental model close to how I already think about data transformations.\nI shipped faster. MovieClub went from idea to deployed app in a weekend. My React todo-list clone from the course took me longer than that, and it did about a tenth as much.\nWay less code, way less anxiety. No node_modules folder eating 400MB. No dependency upgrade dread. No “why did this break after a patch version bump.”\nAI assistance became safe again. I still use AI tools to help write code for MovieClub, but now the loop is honest again. When OpenCode suggests an hx-get attribute or a FastAPI route, I can read it top to bottom and understand exactly what it does — there’s no hidden reconciliation behavior or closure trap for it to quietly get wrong. Vibe-coding a feature I don’t fully understand is much lower-risk when the “runtime” is just an HTTP request and a template render, not an entire client-side framework’s internal state machine."
+  },
+  {
+    "objectID": "posts/HTMX/post.html#where-htmx-falls-short",
+    "href": "posts/HTMX/post.html#where-htmx-falls-short",
+    "title": "I Hate React and JS",
+    "section": "Where HTMX Falls short",
+    "text": "Where HTMX Falls short\nHTMX isn’t a universal answer, and my course wasn’t a waste. If I ever want to build something with heavy client-side interactivity — a drag-and-drop movie-ranking board, complex animations, or offline support — I know I’d probably have to reach for React or a lighter alternative like Alpine.js layered on top of HTMX for the fiddly bits. HTMX shines brightest for exactly the kind of app MovieClub is: mostly CRUD, mostly server-driven, occasionally interactive.\nBut for a data scientist trying to get from “I have a backend I understand” to “I have a deployed app that works,” HTMX removed almost every piece of friction that made React feel like a second full-time job. It let me build something real, ship it, and actually enjoy the process — which, three weeks into that React course, I genuinely wasn’t sure was possible.\nIf you’re comfortable with Python, terrified of the JavaScript ecosystem and just want to ship something — do yourself a favor and spend an afternoon with HTMX and FastAPI before you try another React course. It might save you some stress."
+  },
+  {
+    "objectID": "resume/resume.html",
+    "href": "resume/resume.html",
+    "title": "Resume",
+    "section": "",
+    "text": "Kreuzberg, Berlin · lucashudsn@gmail.com · +49 17 4947 9954\nLinkedIn · GitHub\nBerlin-based Data Scientist with 4 years of experience building machine learning models for national-security-related pattern and anomaly detection within the Australian Public Service. Recently I have taken a career break from my work in Autralia, using the time to explore research directions in AI, deepen a growing interest in data governance, AI policy, and responsible-AI frameworks, and build personal projects that renew my enjoyment of data science and AI. Experienced across the full pipeline: SQL, feature engineering, classification, unsupervised learning, and anomaly detection, alongside strong stakeholder engagement and data storytelling skills. Now looking to bring this combination of applied ML, governance experience, and hands-on curiosity to explore opportunities at the intersection of research, policy, and production machine learning."
+  },
+  {
+    "objectID": "resume/resume.html#experience",
+    "href": "resume/resume.html#experience",
+    "title": "Resume",
+    "section": "Experience",
+    "text": "Experience\n\nAustralian Public Service (2023 – 2026)\n\n\nActing Senior Data Scientist (AP6), AI Engineering Team (October 2025 – May 2026)\n\n\nBuilt and deployed a hybrid semantic/lexical similarity search system to surface related items of interest across large volumes of operational data, later extending the approach to cluster related groups of records for national security analysts.\nApplied graph network analysis (entity-link analysis, community detection) and neural network experimentation (GNNs) to identify coordinated patterns of activity that would not surface through individual-record scoring.\nTrained and deployed models both locally and on cloud infrastructure (AWS SageMaker, AWS OpenSearch); built automated MLflow pipelines for model drift detection.\nAuthored and maintained data governance and model documentation, ensuring all models and pipelines complied with departmental data governance and privacy frameworks.\n\n\nData Scientist, Enterprise Applications and Analytics (July 2023 – October 2025)\n\n\nBuilt predictive-targeting, anomaly-detection, and clustering models used operationally to support national security screening.\nDesigned and shipped a gradient-boosted-tree model (LightGBM) to detect anomalies of interest in high-volume operational data — a project run independently from feature design through to handover, exceeding validation expectations set by end users and deployed across multiple teams.\nPartnered with frontline operational staff to translate domain expertise into usable model features (feature engineering).\nBuilt internal dashboards so stakeholders could visualise, use, and act on model outputs.\nProduced data governance documentation for multiple projects (data lineage, privacy impact considerations, model risk assessments), ensuring adherence to APS data governance and privacy policies and frameworks throughout the model lifecycle.\nMentored 3 junior data scientists through a formal mentorship program; all 3 went on to land new roles or promotions in Data Science/Data Engineering.\n\n\nGraduate (Data Governance & Partnerships) (February 2023 – July 2023)\n\n\nReviewed projects across the branch for adherence to the department’s data governance framework, working with project teams to identify and remediate gaps against privacy and governance policy.\nSupported the development and refinement of internal data governance documentation and review checklists.\nCoordinated meetings between the Department and internal/external stakeholders, including scheduling, agenda preparation, and taking and distributing minutes.\nSupported early-stage relationship management with partner teams as part of onboarding into the branch.\n\n\nRecognition:\n\nCommisioner’s award for innovation in data science supporting national security operations.\nSecretary’s award for contribution to a multicultural affairs initiative.\n\n\n\nPersonal Projects:\n\nMovieClub – Full-stack FastAPI/HTMX application for coordinating a monthly movie club.\nDeutschClass – TUI app for German vocabulary practice using TTS/STT models for pronunciation testing.\nwavereader – Agentic surf-forecasting app that flips the query: instead of checking one beach, it finds which beaches are good today.\nSpeakWell – English pronunciation coaching app with automated diagnostics and speech exercises."
+  },
+  {
+    "objectID": "resume/resume.html#skills",
+    "href": "resume/resume.html#skills",
+    "title": "Resume",
+    "section": "Skills",
+    "text": "Skills\nModelling: Gradient-boosted trees (LightGBM, XGBoost), anomaly detection, GNNs/graph methods, classical & deep learning classification, hybrid semantic/lexical retrieval, regression & time-series forecasting, NLP/LLM fine-tuning & RAG, recommender systems, clustering & dimensionality reduction.\nTools: Python (pandas, scikit-learn, PyTorch), SQL, FastAPI, Docker, AWS SageMaker, OpenSearch, Git, Vector Databases (ChromaDB, FAISS), MLflow, Spark.\nGovernance & Other: Data governance documentation, privacy impact & policy compliance, stakeholder collaboration, model monitoring & drift detection, data storytelling, MLOps/CI-CD, experiment design (A/B testing), technical documentation.\nLanguages: English (native), German (Learning – A1 level)"
+  },
+  {
+    "objectID": "resume/resume.html#certifications",
+    "href": "resume/resume.html#certifications",
+    "title": "Resume",
+    "section": "Certifications",
+    "text": "Certifications\n\nIBM RAG and Agentic AI Specialization (Nov 2025) – 8-course specialization covering RAG, vector databases, and agentic AI frameworks (LangChain, LangGraph, CrewAI, AutoGen)\nAssociate AI Engineer for Data Scientists, DataCamp (Jul 2025)\nDeveloping Front-End Apps with React, IBM (Mar 2026)\nIntroduction to Cloud Computing, IBM (Dec 2025)\nClaude Code in Action, Anthropic (Jan 2026)"
+  },
+  {
+    "objectID": "resume/resume.html#education",
+    "href": "resume/resume.html#education",
+    "title": "Resume",
+    "section": "Education",
+    "text": "Education\n\nMaster of Data Science, Monash University 2021 – 2022\n\n\nBachelor of Science, Monash University 2016 – 2020\n\nMonash University is ranked 31st in the world by the QS World University Rankings 2027"
+  },
+  {
+    "objectID": "resume/resume.html#references",
+    "href": "resume/resume.html#references",
+    "title": "Resume",
+    "section": "References",
+    "text": "References\nAvailable upon request.\nFull working rights in Germany – Australian citizen with Working Holiday Visa"
+  },
+  {
+    "objectID": "posts/ai-profession/post.html",
+    "href": "posts/ai-profession/post.html",
+    "title": "Maybe AI needs a regulated profession behind it",
+    "section": "",
+    "text": "NotePersonal view\n\n\n\nThis is just my personal opinion as a relatively novice Data Scientist. This is not my employer’s view — just half-formed thoughts I’ve been turning over.\nIn my opinion, we have a gap: almost anyone with the right tech skills can put an AI model live that makes big decisions about real people, and almost nothing stands in the way.\nA new grad can do it within weeks of starting. So can a contractor, a vendor selling into government, or a startup founder. I’m not picking on grads — they’re just the clearest example I’ve seen. My point is broader: there is no profession in the middle checking this work. So power sits with whoever has the computers and the confidence to ship, not with anyone accountable for getting it right.\nI’m not a policymaker or a lawyer, so I’m probably missing a lot here. But as I understand it, Australia’s approach is still up in the air. We had a Voluntary AI Safety Standard in 2024, then mandatory guardrails were floated that same year, then the National AI Plan in December 2025 stepped back and said “just use existing law.” Then in July 2026 the Prime Minister changed direction again and announced mandatory “Australian Standards for AI” plus a new Office of AI, with a law possibly in early 2027.\nSo there’s a live conversation happening right now, and lots of smarter people than me are debating what to do. I’m not saying this post has the answer. I just wanted to put forward one possible way to look at it — what if part of the answer was about people and professions, not just rules and guardrails?\nThree stories from this month helped shape my thinking here, and in my view they show why this angle might be worth talking about."
+  },
+  {
+    "objectID": "posts/ai-profession/post.html#the-gap-as-i-see-it",
+    "href": "posts/ai-profession/post.html#the-gap-as-i-see-it",
+    "title": "Maybe AI needs a regulated profession behind it",
+    "section": "The gap, as I see it",
+    "text": "The gap, as I see it\nIf you want to say a building won’t fall down, you need to be a qualified structural engineer. If you want to put someone to sleep for surgery, you need to be a registered doctor.\nBut if you want to launch a model that decides who gets a loan, who gets flagged for fraud, or who gets help first in a queue? As far as I can tell, you don’t need to be anything in particular. No registration. No personal accountability. No body that can stop you practising if you get it badly wrong."
+  },
+  {
+    "objectID": "posts/ai-profession/post.html#my-rough-idea-registered-ai-engineers",
+    "href": "posts/ai-profession/post.html#my-rough-idea-registered-ai-engineers",
+    "title": "Maybe AI needs a regulated profession behind it",
+    "section": "My rough idea: registered AI engineers",
+    "text": "My rough idea: registered AI engineers\nI don’t think we need to invent this from scratch. Australia already makes engineers register in several states. You can’t legally work in structural, civil or electrical without being on the register, and a board can suspend you.\nMy suggestion: create a new type — something like Deployed AI Systems Engineer — under that same sort of system. To sign off on a live model-based system, you’d need to be on the register.\nWhat would you need to show? I’d guess:\n\nEthics and bias testing. Not just a one-off training video. In my view, you’d need to show you can actually test for unfair or harmful outputs before launch.\nUsing the right-sized tool. Knowing when you need a big language model and when a simple logistic regression — or no model at all — would do for way less cost and carbon. It’s small, but it’s one of the only places AI rules might touch emissions, and it might nudge people away from grabbing the biggest model every time.\nRisk checks before launch. A bit like the judgement a structural engineer uses before saying a building is safe to occupy.\n\nOn liability, my view is you should be judged against the standard that existed when you signed off — not a new standard invented after something went wrong. Otherwise no one would sign, and the whole idea would fail."
+  },
+  {
+    "objectID": "posts/ai-profession/post.html#who-would-run-it-just-my-guess",
+    "href": "posts/ai-profession/post.html#who-would-run-it-just-my-guess",
+    "title": "Maybe AI needs a regulated profession behind it",
+    "section": "Who would run it? Just my guess",
+    "text": "Who would run it? Just my guess\nEngineer registration now is state-based. But AI isn’t — something built in Sydney is live in Perth the same afternoon. Bolting this onto six state schemes would, in my opinion, get messy.\nMy instinct is a single Commonwealth AI Engineering Register, set up through National Cabinet, would make more sense. National Cabinet is already meeting on AI standards as of August 2026, so the mechanism is arguably already there."
+  },
+  {
+    "objectID": "posts/ai-profession/post.html#enforcement-the-bit-im-least-sure-about",
+    "href": "posts/ai-profession/post.html#enforcement-the-bit-im-least-sure-about",
+    "title": "Maybe AI needs a regulated profession behind it",
+    "section": "Enforcement — the bit I’m least sure about",
+    "text": "Enforcement — the bit I’m least sure about\nHere’s where I’ve landed for now: I lean toward enforcement being mostly after launch, with pre-launch checks as a smaller layer just for the highest-risk systems.\nTwo levers, kept deliberately apart:\n1. The product. If a live system’s outputs break published standards — racist lending, unsafe triage, fake legal bans like the Tasmania case — the system faces fines, forced fixes, maybe a deployment ban. One bad output shouldn’t end a career by itself.\n2. The engineer. If the breach came from real negligence in how it was built or signed off, then it’s the engineer’s licence on the line — suspension or being struck off, like doctors or engineers face now.\nI think keeping these separate matters. Otherwise it becomes “one mistake and you’re a criminal,” and no one would join. But we still need real teeth.\nPre-launch checks would sit on top, but I’d keep them narrow — in my opinion maybe just credit, health, criminal justice, critical infrastructure, like the Medicare case. Everything else could run on monitoring, audits and incident reports after launch. That’s faster and doesn’t block every low-risk model."
+  },
+  {
+    "objectID": "posts/ai-profession/post.html#what-id-leave-out",
+    "href": "posts/ai-profession/post.html#what-id-leave-out",
+    "title": "Maybe AI needs a regulated profession behind it",
+    "section": "What I’d leave out",
+    "text": "What I’d leave out\nIf someone just uses an off-the-shelf tool badly as an individual, existing law probably already covers it.\nMy rough rule: was this a custom or built-in AI system, offered to the public or making big decisions about people, built by someone acting as a professional? If yes, maybe it needs a registered engineer behind it. The Tasmania parole document and the Medicare agent, in my view, both pass that test. Just chatting with a chatbot badly does not."
+  },
+  {
+    "objectID": "posts/ai-profession/post.html#who-should-be-covered-my-instinct",
+    "href": "posts/ai-profession/post.html#who-should-be-covered-my-instinct",
+    "title": "Maybe AI needs a regulated profession behind it",
+    "section": "Who should be covered? My instinct",
+    "text": "Who should be covered? My instinct\nI’d say government, big business and small business should all be in. Carving out small business would, in my view, just push risk down to whoever can handle it least. And government shouldn’t get an easier standard either — the Tasmania case shows why.\nBut the paperwork should scale with risk and size. A three-person startup tweaking an open model for internal use is not the same as a bank fraud system, and I think the rules should say that clearly."
+  },
+  {
+    "objectID": "posts/ai-profession/post.html#one-last-thought",
+    "href": "posts/ai-profession/post.html#one-last-thought",
+    "title": "Maybe AI needs a regulated profession behind it",
+    "section": "One last thought",
+    "text": "One last thought\nIn my opinion Australia can’t just copy America here — light-touch rules and huge compute budgets have let a handful of labs set the terms for everyone else. If we built licensing and handed the keys to whoever’s biggest, we wouldn’t fix capture, we’d formalise it.\nWhoever writes the course, sits on the board, and defines “meets the standard” shapes who gets to do AI here. So whatever body does this would need to be genuinely independent, its rule-making public, and the standard itself must explicitly protect open-model use rather than punish it for being checkable.\nWe already licence the people who say buildings are safe to stand in. I’m not sure why we don’t do something similar for people saying a model is safe to make decisions about people’s lives.\nBut I could easily be missing something, and I’d genuinely like to hear the counterargument.\n\nReferences\n\nNino Bucci, “She was convicted of a murder she says she didn’t commit. Then AI hallucinations stopped her speaking out”, The Guardian, 26 Sep 2026.\nBen Doherty and Stephanie Convery, “An OpenAI agent infiltrated Medicare – and Australia only found out months later. Here’s what we know so far”, The Guardian, 24 Sep 2026.\nTom McIlroy and Luca Ittimani, “‘Global reckoning for big tech’: Australia to force social media platforms to allow users to opt out of algorithms”, The Guardian, 8 Sep 2026."
+  }
+]

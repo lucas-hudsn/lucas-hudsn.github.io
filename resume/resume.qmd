@@ -69,9 +69,9 @@ Now looking to bring this combination of applied ML, governance experience, and 
 
 ##### Personal Projects:
 
-- MovieClub -- Full-stack FastAPI/HTMX application for coordinating a monthly movie club.
-- DeutschClass -- TUI app for German vocabulary practice using TTS/STT models for pronunciation testing.
-- wavereader -- Agentic surf-forecasting app that flips the query: instead of checking one beach, it finds which beaches are good today.
+- wavereader -- **🏆 NVIDIA GTC Golden Ticket Winner (GTC Berlin)** -- Agentic surf-forecasting app that flips the query: instead of checking one beach, it finds which beaches are good today. [Read more](../posts/wavereader/post.html).
+- MovieClub -- Full-stack FastAPI/HTMX application for coordinating a monthly movie club. [Read more](../posts/movie-club/post.html).
+- DeutschClass -- TUI app for German vocabulary practice using TTS/STT models for pronunciation testing. [Read more](../posts/deustch-class/post.html).
 - SpeakWell -- English pronunciation coaching app with automated diagnostics and speech exercises.
 
 ## Skills

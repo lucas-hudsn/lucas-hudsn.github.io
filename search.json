@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Lucas Hudson’s Blog",
     "section": "",
-    "text": "I Hate React and JS\n\n\nAny Data Scientist Learning AI Engineering should learn HTMX First\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nMovie Club: My First Deployed Full-Stack Web App\n\n\nMonthly group-based movie club Web Application\n\n\n\nFull Stack Engineering\n\n\n\n\n\n\n\n\n\nAug 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDeutsch Class: Fully Local German Vocabulary Trainer\n\n\n\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - Blog Refresh\n\n\n\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\n\n\n\nNo matching items"
+    "text": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader\n\n\nAgentic surf forecasting — how I won a Golden Ticket to GTC Berlin\n\n\n\nML Engineering\n\nAI Engineering\n\n\n\nI won an NVIDIA GTC Golden Ticket challenge with wave~reader — an agentic surf forecaster for 238 Australian breaks with deterministic scoring narrated by NVIDIA Nemotron 3 Ultra.\n\n\n\n\n\nSep 19, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nI Hate React and JS\n\n\nAny Data Scientist Learning AI Engineering should learn HTMX First\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nMovie Club: My First Deployed Full-Stack Web App\n\n\nMonthly group-based movie club Web Application\n\n\n\nFull Stack Engineering\n\n\n\n\n\n\n\n\n\nAug 26, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nDeutsch Class: Fully Local German Vocabulary Trainer\n\n\n\n\n\n\nML Engineering\n\n\n\nExpand and test your German vocab - fully locally!\n\n\n\n\n\nAug 21, 2026\n\n\n\n\n\n\n\n\n\n\n\n\nBerlin - Blog Refresh\n\n\n\n\n\n\nBlog\n\n\n\n\n\n\n\n\n\nAug 19, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/movie-club/post.html",
@@ -47,6 +47,55 @@
     "title": "Berlin - Blog Refresh",
     "section": "",
     "text": "Berlin - Blog Refresh\n\n\n\nTempelhofer Feld on the night of the Solar Eclipse (28-07-2026)\n\n\nMy partner and I have made the difficult decision to leave our lives, jobs and cat in Melbourne, and journey over to Berlin for a new life and new experiences. The past 10 years in Melbourne (and Canberra) have been transformative, from High School graduates through to Masters-educated practising professionals in our respective fields (Data Science and Architecture) we cannot thank our home country enough for the opportunities and experiences.\nHowever, we had always wondered what opportunities and lifechanging experiences might come from moving overseas and we always had a vague plan to seek them. Last year, we decided it was time to organise and make some definitive plans to move, Lucy exhausted herself building matrices that cross checked lifestyle and culturual factors with opportunities and cost of living etc. This allowed us to easily decide on Berlin as the city which suited us the best, and since then had built plans to move.\nNow, having moved in just a week ago, it feels like we have made an excellent decision. Walking around the streets of Kreuzberg I am overcome with feelings of inspiration, excitement and spontanaeity. I am determined to build myself into this city through engaging with the many events, cultural experiences, meetups and work opportunities, as well as let the city educate and shape a new way of life for me and guide my approach in life decisions.\nThis brings me to resetting my blog, I decided the cheap efforted projects I have done in the past do not align with the new approach I want to use when building personal projects. I was to make use of my skills to build projects that:\n\nI find fun!\nOnly use open source models\nDo not require big cloud providers\nI am able to use regularly to motivate myself to improve them.\n\nAside from this, I want to be studying new areas of computer science and using this blog to collate my notes. So from this day onwards, expect posts much more frequently with fun projects I find enjoyable as well as my learnings.\nFirst up, my next project being built is a local application users can practise German with, democratizing Voice and STT models to English speaking users learning German.\nHopefully will post with an update again this week!\nLucas."
+  },
+  {
+    "objectID": "posts/wavereader/post.html",
+    "href": "posts/wavereader/post.html",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "",
+    "text": "Tip🏆 NVIDIA GTC Berlin — Golden Ticket Winner\n\n\n\nwave~reader won a Golden Ticket to GTC Berlin in the NVIDIA GTC golden ticket challenge — built on open weights (nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16) via Hugging Face Inference Providers.\nI built an agentic surf forecaster — wave~reader — and it won a Golden Ticket to GTC Berlin.\nLive: https://huggingface.co/spaces/lucashudsn/wavereader Code: https://github.com/lucas-hudsn/wavereader"
+  },
+  {
+    "objectID": "posts/wavereader/post.html#what-is-wavereader",
+    "href": "posts/wavereader/post.html#what-is-wavereader",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "What is wave~reader?",
+    "text": "What is wave~reader?\nA surf-forecasting world model for the Australian coast: 238 breaks, 168 deterministic scores per spot, a 3D seafloor built from real GEBCO bathymetry — and one open model that narrates the numbers instead of inventing them.\nAsk it “where’s good in NSW this weekend?” and it reasons, calls tools, cites them, and narrates — it never makes up its own swell."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#one-rule-holds-the-whole-app-together",
+    "href": "posts/wavereader/post.html#one-rule-holds-the-whole-app-together",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "One rule holds the whole app together",
+    "text": "One rule holds the whole app together\nThe LLM never owns numbers. Every wave height, wind reading, and 0–10 score comes out of plain deterministic Python — wavereader/scoring.py, wavereader/openmeteo.py, wavereader/tools.py — running over live Open-Meteo marine feeds + 5 years of ERA5 reanalysis.\nThe model’s contract is to interpret those numbers, name the tool that produced them, and never compute a forecast itself. The agent can recommend; it can’t hallucinate a swell."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#one-screen-four-instruments",
+    "href": "posts/wavereader/post.html#one-screen-four-instruments",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "One screen, four instruments",
+    "text": "One screen, four instruments\nNo tabs. One surface, four synchronized instruments, one source of truth (selected):\n\nMap lens (left) — all 238 breaks on a Plotly map, filtered by state / region / skill.\nForecast story (center) — 0–10 score for every hour of the next 7 days, score / swell / wind strips with weekend shading, then a smoothed 3D seafloor with animated swell riding the forecast’s dominant period.\nIntel rail (right) — field guide (peak type, ideal swell / wind / tide, hazards, crowd), 5-year ERA5 swell climate rose, wetsuit hint, nearby surf cams.\nAgent bar (full width) — chat powered by smolagents ToolCallingAgent on Nemotron 3 Ultra. Every tool card shows latency in ms. Hard budget: 6 steps, 700 tokens a turn."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#the-stack-nvidia-open-weights-on-hugging-face-rails",
+    "href": "posts/wavereader/post.html#the-stack-nvidia-open-weights-on-hugging-face-rails",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "The stack: NVIDIA open weights on Hugging Face rails",
+    "text": "The stack: NVIDIA open weights on Hugging Face rails\nEvery model call goes through one door — Hugging Face Inference Providers, served by DeepInfra — running nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16. No private APIs, one HF_TOKEN.\nAround it, everything is open too: Open-Meteo forecasts, ERA5 reanalysis, GEBCO 2020 bathymetry via OpenTopoData, and a scoring engine you can read in one sitting."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#the-app-is-the-tool-mcp-built-in",
+    "href": "posts/wavereader/post.html#the-app-is-the-tool-mcp-built-in",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "The app is the tool: MCP built in",
+    "text": "The app is the tool: MCP built in\napp.py launches with mcp_server=True, so any MCP client can drive the deterministic engines directly at &lt;space-or-local-url&gt;/gradio_api/mcp/. Same three typed tools the agent uses:\n\nscore_week — hourly 0–10 scores, daily bests, best window\nrank_region_week — every break in a region, ranked best-first\nexplain_score — size / direction / wind / period breakdown of one hour\n\nEverything else is registered with api_name=False on purpose — the MCP surface stays clean."
+  },
+  {
+    "objectID": "posts/wavereader/post.html#try-it",
+    "href": "posts/wavereader/post.html#try-it",
+    "title": "🏆 NVIDIA GTC Golden Ticket Winner: wave~reader",
+    "section": "Try it",
+    "text": "Try it\n\nLive app: https://huggingface.co/spaces/lucashudsn/wavereader\nContest entry: LinkedIn post\nWinners: LinkedIn post\n\n\n\n\n\nSee you at GTC Berlin!"
   },
   {
     "objectID": "posts/deustch-class/post.html",

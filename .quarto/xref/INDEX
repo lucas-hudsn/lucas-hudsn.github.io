@@ -61,5 +61,8 @@
   },
   "resume/resume.qmd": {
     "resume.html": "e93b5ae9"
+  },
+  "posts/wavereader/post.qmd": {
+    "post.html": "5d5b06c6"
   }
 }

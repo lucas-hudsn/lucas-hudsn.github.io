@@ -88,7 +88,7 @@ What I love about this file is how boring it is. There's nothing here I have to 
  
 I deployed it on a FastAPI Cloud — no separate frontend build pipeline, no CORS configuration, no Vercel/Netlify account for the frontend and a different host for the backend. One app, one deploy.
 
-## What I Recommend it over React
+## Why I Recommend it over React
  
 Looking back at the two experiences side by side:
  

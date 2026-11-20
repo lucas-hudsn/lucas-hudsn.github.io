@@ -1,23 +1,45 @@
-### Berlin - a Fresh Start (ref Initial Post)
+# lucas-hudsn.github.io
 
-My partner and I have made the difficult decision to leave our lives, jobs and cat 🤕 in Melbourne, and journey over to Berlin for a new life and new experiences. The past 10 years in Melbourne (and Canberra) have been transformative, from High School graduates through to Masters-educated practising professionals in our respective fields (Data Science and Architecture) we cannot thank our home country enough for the opportunities and experiences.
+My personal blog and portfolio — static HTML and CSS, no framework, no build step.
 
-However, we had always wondered what opportunities and lifestyles would come from moving overseas and always had a vague plan to seek them. Last year, we decided it was time to organise and make some definitive plans to move, Lucy exhausted herself building matrices that cross checked lifestyle and culturual factors with opportunities and cost of living. This allowed us to easily decide on Berlin as the city we believe suited us the best, and since then had built plans to move.
+## Structure
 
-Now, having moved in just a week ago, it feels like we have made an excellent decision. Walking around the streets of Kreuzberg I am overcome with feelings of inspiration, excitement and spontanaeity. I am determined to build myself into this city through engaging with the many events, cultural experiences, meet ups and working, as well as let the city educate and shape a new way of life for me, as well as guide my approach in life decisions.
+```
+index.html              Homepage: lead story, latest rail, featured stories, projects
+posts/<slug>/post.html  Individual posts, with their images alongside
+resume/index.html       Resume
+assets/css/site.css     All site styles
+assets/img/             Shared thumbnails, optimized photos, favicon
+404.html                Not-found page
+feed.xml                RSS feed
+sitemap.xml             Sitemap
+```
 
-This brings me to resetting my blog, I decided the cheap efforted projects I have done in the past do not align with the new approach I want to use when building personal projects. I was to make use of my skills to build projects that:
+## Adding a post
 
-- Serve the community
-- Only use open source models
-- Are taylored towards small local models
-- Do not require big cloud providers
-- I use myself
+1. Create `posts/<slug>/post.html` by copying an existing post and updating the
+   `<head>` metadata, `<h1>`, date, reading time and article body.
+2. Put any images in the same folder and reference them relatively
+   (e.g. `src="screenshot.png"`).
+3. Add the post to `index.html` (latest rail and, if featured, the card grid),
+   plus the ticker, footer, `feed.xml` and `sitemap.xml`.
 
-Aside from this, I want to be studying new areas of computer science and using this blog to collate my notes. So from this day onwards, expect posts much more frequently with fun projects I find enjoyable as well as my learnings.
+New styles go in `assets/css/site.css`. There is no JavaScript and no
+dependency to install.
 
-First up, my next project being built is a local application users can practise German with, democratizing Voice and STT models to English speaking users learning German, as well as notes from my studies on [AI Ethics](https://ethics.fast.ai/).
+## Local preview
 
-Hopefully will post with an update again this week!
+```sh
+python3 -m http.server 8000
+```
 
-Lucas.
+Then open <http://localhost:8000>.
+
+## Deployment
+
+Every push to `main` deploys the static files to GitHub Pages via
+`.github/workflows/deploy.yml`.
+
+In the repository settings, Pages must be set to **Source: GitHub Actions**
+(Settings → Pages → Build and deployment). The old `gh-pages` branch contains
+the retired Quarto build; switch the source if Pages is still pointing there.

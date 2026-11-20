@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lucas Hudson — Blog</title>
+    <link>https://lucas-hudsn.github.io/</link>
+    <description>Notes from Berlin on data science, local AI, open-source models, and building software that runs on your own machine.</description>
+    <language>en</language>
+    <atom:link href="https://lucas-hudsn.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Maybe AI needs a regulated profession behind it</title>
+      <link>https://lucas-hudsn.github.io/posts/ai-profession/post.html</link>
+      <guid isPermaLink="true">https://lucas-hudsn.github.io/posts/ai-profession/post.html</guid>
+      <pubDate>Sat, 26 Sep 2026 09:00:00 +0000</pubDate>
+      <description>Almost anyone can deploy AI that makes big decisions about people with no profession in the middle. Three recent Australian stories show why I think we need registered AI engineers.</description>
+    </item>
+    <item>
+      <title>NVIDIA GTC Golden Ticket Winner: wave~reader</title>
+      <link>https://lucas-hudsn.github.io/posts/wavereader/post.html</link>
+      <guid isPermaLink="true">https://lucas-hudsn.github.io/posts/wavereader/post.html</guid>
+      <pubDate>Sat, 19 Sep 2026 09:00:00 +0000</pubDate>
+      <description>I won an NVIDIA GTC Golden Ticket challenge with wave~reader — an agentic surf forecaster for 238 Australian breaks with deterministic scoring narrated by NVIDIA Nemotron 3 Ultra.</description>
+    </item>
+    <item>
+      <title>I Hate React and JS</title>
+      <link>https://lucas-hudsn.github.io/posts/HTMX/post.html</link>
+      <guid isPermaLink="true">https://lucas-hudsn.github.io/posts/HTMX/post.html</guid>
+      <pubDate>Fri, 28 Aug 2026 09:00:00 +0000</pubDate>
+      <description>Why a Python-first data scientist should reach for HTMX and FastAPI before another React course.</description>
+    </item>
+    <item>
+      <title>Movie Club: My First Deployed Full-Stack Web App</title>
+      <link>https://lucas-hudsn.github.io/posts/movie-club/post.html</link>
+      <guid isPermaLink="true">https://lucas-hudsn.github.io/posts/movie-club/post.html</guid>
+      <pubDate>Wed, 26 Aug 2026 09:00:00 +0000</pubDate>
+      <description>A server-rendered FastAPI app that runs a monthly film competition for friends — built without a line of React.</description>
+    </item>
+    <item>
+      <title>Deutsch Class: Fully Local German Vocabulary Trainer</title>
+      <link>https://lucas-hudsn.github.io/posts/deustch-class/post.html</link>
+      <guid isPermaLink="true">https://lucas-hudsn.github.io/posts/deustch-class/post.html</guid>
+      <pubDate>Fri, 21 Aug 2026 09:00:00 +0000</pubDate>
+      <description>A Postgres-backed vocabulary trainer with a Textual TUI, macOS text-to-speech, and on-device Whisper pronunciation scoring.</description>
+    </item>
+    <item>
+      <title>Berlin - Blog Refresh</title>
+      <link>https://lucas-hudsn.github.io/posts/reset/post.html</link>
+      <guid isPermaLink="true">https://lucas-hudsn.github.io/posts/reset/post.html</guid>
+      <pubDate>Wed, 19 Aug 2026 09:00:00 +0000</pubDate>
+      <description>Leaving Melbourne for Berlin, resetting the blog, and setting the terms for the projects that come next.</description>
+    </item>
+  </channel>
+</rss>

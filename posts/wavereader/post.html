@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NVIDIA GTC Golden Ticket Winner: wave~reader — Lucas Hudson</title>
+<meta name="description" content="I won an NVIDIA GTC Golden Ticket challenge with wave~reader — an agentic surf forecaster for 238 Australian breaks with deterministic scoring narrated by NVIDIA Nemotron 3 Ultra.">
+<link rel="canonical" href="https://lucas-hudsn.github.io/posts/wavereader/post.html">
+<meta property="og:site_name" content="Lucas Hudson">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NVIDIA GTC Golden Ticket Winner: wave~reader — Lucas Hudson">
+<meta property="og:description" content="I won an NVIDIA GTC Golden Ticket challenge with wave~reader — an agentic surf forecaster for 238 Australian breaks with deterministic scoring narrated by NVIDIA Nemotron 3 Ultra.">
+<meta property="og:url" content="https://lucas-hudsn.github.io/posts/wavereader/post.html">
+<meta property="og:image" content="https://lucas-hudsn.github.io/posts/wavereader/wavereader_landing.png">
+<meta name="twitter:image" content="https://lucas-hudsn.github.io/posts/wavereader/wavereader_landing.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NVIDIA GTC Golden Ticket Winner: wave~reader — Lucas Hudson">
+<meta name="twitter:description" content="I won an NVIDIA GTC Golden Ticket challenge with wave~reader — an agentic surf forecaster for 238 Australian breaks with deterministic scoring narrated by NVIDIA Nemotron 3 Ultra.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="Lucas Hudson — Blog" href="/feed.xml">
+<link rel="stylesheet" href="/assets/css/site.css">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "NVIDIA GTC Golden Ticket Winner: wave~reader",
+  "description": "I won an NVIDIA GTC Golden Ticket challenge with wave~reader — an agentic surf forecaster for 238 Australian breaks with deterministic scoring narrated by NVIDIA Nemotron 3 Ultra.",
+  "datePublished": "2026-09-19",
+  "url": "https://lucas-hudsn.github.io/posts/wavereader/post.html",
+  "author": {
+    "@type": "Person",
+    "name": "Lucas Hudson",
+    "url": "https://lucas-hudsn.github.io/resume/"
+  },
+  "image": "https://lucas-hudsn.github.io/posts/wavereader/wavereader_landing.png"
+}</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container masthead">
+    <a class="brand" href="/" aria-label="Lucas Hudson — home">
+      <span class="brand-mark">LH</span>
+      <span class="brand-name">Lucas Hudson</span>
+      <span class="brand-tag">Data Science<br>AI &amp; Open Source</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/">Latest</a>
+      <a href="/#projects">Projects</a>
+      <a href="/resume/">Resume</a>
+    </nav>
+    <div class="nav-social">
+      <a href="https://github.com/lucas-hudsn" aria-label="GitHub" rel="me">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/lucas-hudson-0a1384183/" aria-label="LinkedIn" rel="me">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 1.8a1.8 1.8 0 1 1-3.6 0 1.8 1.8 0 0 1 3.6 0ZM.2 5.3h3.3V16H.2V5.3Zm5.4 0h3.1v1.5h.05c.43-.8 1.5-1.65 3.1-1.65 3.3 0 3.9 2.1 3.9 4.9V16h-3.3v-5.3c0-1.27-.02-2.9-1.8-2.9-1.8 0-2.07 1.37-2.07 2.8V16H5.6V5.3Z"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+<main id="main" class="container article">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Latest</a>
+  </nav>
+  <header class="article-header">
+    <span class="kicker">AI Engineering</span>
+    <h1>NVIDIA GTC Golden Ticket Winner: wave~reader</h1>
+    <p class="article-dek">Agentic surf forecasting — how I won a Golden Ticket to GTC Berlin</p>
+    <div class="article-meta">
+      <span class="author">By Lucas Hudson</span>
+      <span>19 September 2026</span>
+      <span>2 min read</span>
+    </div>
+  </header>
+  <div class="article-layout">
+    <article class="post-body">
+      <section id="nvidia-gtc-berlin-golden-ticket-winner"
+class="callout-tip">
+<h2>🏆 NVIDIA GTC Berlin — Golden Ticket Winner</h2>
+<p><strong>wave~reader won a Golden Ticket to GTC Berlin</strong> in the
+NVIDIA GTC golden ticket challenge — built on open weights
+(<code>nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16</code>) via Hugging
+Face Inference Providers.</p>
+</section>
+<p>I built an agentic surf forecaster — <strong>wave~reader</strong> —
+and it won a Golden Ticket to <strong>GTC Berlin</strong>.</p>
+<figure>
+<img loading="lazy" src="wavereader_landing.png"
+alt="The live app — Bells Beach loaded, forecast story, 3D GEBCO seafloor, and agent bar." />
+<figcaption aria-hidden="true">The live app — Bells Beach loaded,
+forecast story, 3D GEBCO seafloor, and agent bar.</figcaption>
+</figure>
+<div class="column-screen">
+<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7508054327152762880" height="800" width="60%" frameborder="0" allowfullscreen title="Embedded LinkedIn post - GTC Berlin Golden Ticket winners" loading="lazy">
+</iframe>
+</div>
+<p><strong>Live:</strong> <a
+href="https://huggingface.co/spaces/lucashudsn/wavereader"
+class="uri">https://huggingface.co/spaces/lucashudsn/wavereader</a>
+<strong>Code:</strong> <a
+href="https://github.com/lucas-hudsn/wavereader"
+class="uri">https://github.com/lucas-hudsn/wavereader</a></p>
+<h2 id="what-is-wavereader">What is wave~reader?</h2>
+<p>A surf-forecasting world model for the Australian coast: 238 breaks,
+168 deterministic scores per spot, a 3D seafloor built from real GEBCO
+bathymetry — and one open model that narrates the numbers instead of
+inventing them.</p>
+<p>Ask it <em>“where’s good in NSW this weekend?”</em> and it reasons,
+calls tools, cites them, and narrates — it never makes up its own
+swell.</p>
+<h2 id="one-rule-holds-the-whole-app-together">One rule holds the whole
+app together</h2>
+<p><strong>The LLM never owns numbers.</strong> Every wave height, wind
+reading, and 0–10 score comes out of plain deterministic Python —
+<code>wavereader/scoring.py</code>,
+<code>wavereader/openmeteo.py</code>, <code>wavereader/tools.py</code> —
+running over live Open-Meteo marine feeds + 5 years of ERA5
+reanalysis.</p>
+<p>The model’s contract is to interpret those numbers, name the tool
+that produced them, and never compute a forecast itself. The agent can
+<em>recommend</em>; it can’t <em>hallucinate a swell</em>.</p>
+<h2 id="one-screen-four-instruments">One screen, four instruments</h2>
+<p>No tabs. One surface, four synchronized instruments, one source of
+truth (<code>selected</code>):</p>
+<ol type="1">
+<li><strong>Map lens (left)</strong> — all 238 breaks on a Plotly map,
+filtered by state / region / skill.</li>
+<li><strong>Forecast story (center)</strong> — 0–10 score for every hour
+of the next 7 days, score / swell / wind strips with weekend shading,
+then a smoothed 3D seafloor with animated swell riding the forecast’s
+dominant period.</li>
+<li><strong>Intel rail (right)</strong> — field guide (peak type, ideal
+swell / wind / tide, hazards, crowd), 5-year ERA5 swell climate rose,
+wetsuit hint, nearby surf cams.</li>
+<li><strong>Agent bar (full width)</strong> — chat powered by smolagents
+<code>ToolCallingAgent</code> on Nemotron 3 Ultra. Every tool card shows
+latency in ms. Hard budget: 6 steps, 700 tokens a turn.</li>
+</ol>
+<h2 id="the-stack-nvidia-open-weights-on-hugging-face-rails">The stack:
+NVIDIA open weights on Hugging Face rails</h2>
+<p>Every model call goes through one door — <strong>Hugging Face
+Inference Providers</strong>, served by DeepInfra — running
+<code>nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16</code>. No private
+APIs, one <code>HF_TOKEN</code>.</p>
+<p>Around it, everything is open too: Open-Meteo forecasts, ERA5
+reanalysis, GEBCO 2020 bathymetry via OpenTopoData, and a scoring engine
+you can read in one sitting.</p>
+<h2 id="the-app-is-the-tool-mcp-built-in">The app is the tool: MCP built
+in</h2>
+<p><code>app.py</code> launches with <code>mcp_server=True</code>, so
+any MCP client can drive the deterministic engines directly at
+<code>&lt;space-or-local-url&gt;/gradio_api/mcp/</code>. Same three
+typed tools the agent uses:</p>
+<ul>
+<li><code>score_week</code> — hourly 0–10 scores, daily bests, best
+window</li>
+<li><code>rank_region_week</code> — every break in a region, ranked
+best-first</li>
+<li><code>explain_score</code> — size / direction / wind / period
+breakdown of one hour</li>
+</ul>
+<p>Everything else is registered with <code>api_name=False</code> on
+purpose — the MCP surface stays clean.</p>
+<h2 id="try-it">Try it</h2>
+<ul>
+<li>Live app: <a
+href="https://huggingface.co/spaces/lucashudsn/wavereader"
+class="uri">https://huggingface.co/spaces/lucashudsn/wavereader</a></li>
+<li>Contest entry: <a
+href="https://www.linkedin.com/feed/update/urn:li:activity:7503872869848825856/">LinkedIn
+post</a></li>
+<li>Winners: <a
+href="https://www.linkedin.com/feed/update/urn:li:activity:7508054327152762880/">LinkedIn
+post</a></li>
+</ul>
+<div class="column-screen">
+<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:activity:7503872869848825856" height="1300" width="60%" frameborder="0" allowfullscreen title="Embedded LinkedIn post - GTC Berlin Golden Ticket winners" loading="lazy">
+</iframe>
+</div>
+<p>See you at GTC Berlin!</p>
+      <footer class="article-footer">
+        <p class="footer-label">Filed under</p>
+        <div class="tags"><span class="tag">ML Engineering</span><span class="tag">NVIDIA</span><span class="tag">Open Source</span></div>
+        <div class="share">
+          <span>Share</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://lucas-hudsn.github.io/posts/wavereader/post.html">LinkedIn</a>
+          <a href="https://twitter.com/intent/tweet?url=https://lucas-hudsn.github.io/posts/wavereader/post.html">X</a>
+          <a href="mailto:?subject=NVIDIA GTC Golden Ticket Winner: wave~reader&amp;body=https://lucas-hudsn.github.io/posts/wavereader/post.html">Email</a>
+        </div>
+      </footer>
+    </article>
+    <aside class="toc" aria-label="In this story"><h2>In this story</h2><ol><li><a href="#what-is-wavereader">What is wave~reader?</a></li><li><a href="#one-rule-holds-the-whole-app-together">One rule holds the whole app together</a></li><li><a href="#one-screen-four-instruments">One screen, four instruments</a></li><li><a href="#the-stack-nvidia-open-weights-on-hugging-face-rails">The stack: NVIDIA open weights on Hugging Face rails</a></li><li><a href="#the-app-is-the-tool-mcp-built-in">The app is the tool: MCP built in</a></li><li><a href="#try-it">Try it</a></li></ol></aside>
+  </div>
+  <section class="related"><div class="section-head"><h2>More from the blog</h2><span class="section-meta">Keep reading</span></div><div class="cards">
+<article class="card">
+  <a class="card-media card-media--contain" href="/posts/HTMX/post.html" tabindex="-1" aria-hidden="true"><img src="/assets/img/htmx-thumb.jpg" alt="An HTMX meme about writing less JavaScript." loading="lazy"></a>
+  <div class="card-body">
+    <span class="kicker">Engineering</span>
+    <h3><a href="/posts/HTMX/post.html">I Hate React and JS</a></h3>
+    <p class="card-dek">Why a Python-first data scientist should reach for HTMX and FastAPI before another React course.</p>
+    <div class="meta"><span>28 August 2026</span><span class="meta-sep"></span><span>6 min read</span></div>
+  </div>
+</article>
+<article class="card">
+  <a class="card-media" href="/posts/movie-club/post.html" tabindex="-1" aria-hidden="true"><img src="/assets/img/movie-club-thumb.jpg" alt="The Movie Club dashboard in its phosphor-green CRT theme." loading="lazy"></a>
+  <div class="card-body">
+    <span class="kicker">Full Stack</span>
+    <h3><a href="/posts/movie-club/post.html">Movie Club: My First Deployed Full-Stack Web App</a></h3>
+    <p class="card-dek">A server-rendered FastAPI app that runs a monthly film competition for friends — built without React.</p>
+    <div class="meta"><span>26 August 2026</span><span class="meta-sep"></span><span>3 min read</span></div>
+  </div>
+</article>
+<article class="card">
+  <a class="card-media" href="/posts/deustch-class/post.html" tabindex="-1" aria-hidden="true"><img src="/assets/img/deutsch-class-thumb.jpg" alt="The Deutsch Class terminal interface showing a word list and detail panel." loading="lazy"></a>
+  <div class="card-body">
+    <span class="kicker">ML Engineering</span>
+    <h3><a href="/posts/deustch-class/post.html">Deutsch Class: Fully Local German Vocabulary Trainer</a></h3>
+    <p class="card-dek">A Postgres-backed vocabulary trainer with a terminal UI, text-to-speech and on-device Whisper scoring.</p>
+    <div class="meta"><span>21 August 2026</span><span class="meta-sep"></span><span>3 min read</span></div>
+  </div>
+</article></div></section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Lucas <span>Hudson</span></p>
+        <p class="footer-note">Data scientist and AI engineer in Berlin. Notes on local models, open-source AI, and building things that run on your own machine.</p>
+      </div>
+      <div>
+        <h2>Latest</h2>
+        <ul class="footer-links"><li><a href="/posts/ai-profession/post.html">Maybe AI needs a regulated profession behind it</a></li><li><a href="/posts/wavereader/post.html">NVIDIA GTC Golden Ticket Winner: wave~reader</a></li><li><a href="/posts/HTMX/post.html">I Hate React and JS</a></li><li><a href="/posts/movie-club/post.html">Movie Club: My First Deployed Full-Stack Web App</a></li></ul>
+      </div>
+      <div>
+        <h2>Elsewhere</h2>
+        <ul class="footer-links">
+          <li><a href="/resume/">Resume</a></li>
+          <li><a href="https://github.com/lucas-hudsn">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/lucas-hudson-0a1384183/">LinkedIn</a></li>
+          <li><a href="mailto:lucashudsn@gmail.com">Email</a></li>
+          <li><a href="/feed.xml">RSS</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span><span class="ticker-dot"></span>&copy; 2026 Lucas Hudson</span>
+      <span>Built with vanilla HTML &amp; CSS &middot; Berlin</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

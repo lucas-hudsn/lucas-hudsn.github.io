@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Movie Club: My First Deployed Full-Stack Web App — Lucas Hudson</title>
+<meta name="description" content="A server-rendered FastAPI app that runs a monthly film competition for friends — built without a line of React.">
+<link rel="canonical" href="https://lucas-hudsn.github.io/posts/movie-club/post.html">
+<meta property="og:site_name" content="Lucas Hudson">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Movie Club: My First Deployed Full-Stack Web App — Lucas Hudson">
+<meta property="og:description" content="A server-rendered FastAPI app that runs a monthly film competition for friends — built without a line of React.">
+<meta property="og:url" content="https://lucas-hudsn.github.io/posts/movie-club/post.html">
+<meta property="og:image" content="https://lucas-hudsn.github.io/posts/movie-club/images/dashboard.png">
+<meta name="twitter:image" content="https://lucas-hudsn.github.io/posts/movie-club/images/dashboard.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Movie Club: My First Deployed Full-Stack Web App — Lucas Hudson">
+<meta name="twitter:description" content="A server-rendered FastAPI app that runs a monthly film competition for friends — built without a line of React.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="Lucas Hudson — Blog" href="/feed.xml">
+<link rel="stylesheet" href="/assets/css/site.css">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Movie Club: My First Deployed Full-Stack Web App",
+  "description": "A server-rendered FastAPI app that runs a monthly film competition for friends — built without a line of React.",
+  "datePublished": "2026-08-26",
+  "url": "https://lucas-hudsn.github.io/posts/movie-club/post.html",
+  "author": {
+    "@type": "Person",
+    "name": "Lucas Hudson",
+    "url": "https://lucas-hudsn.github.io/resume/"
+  },
+  "image": "https://lucas-hudsn.github.io/posts/movie-club/images/dashboard.png"
+}</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="container masthead">
+    <a class="brand" href="/" aria-label="Lucas Hudson — home">
+      <span class="brand-mark">LH</span>
+      <span class="brand-name">Lucas Hudson</span>
+      <span class="brand-tag">Data Science<br>AI &amp; Open Source</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/">Latest</a>
+      <a href="/#projects">Projects</a>
+      <a href="/resume/">Resume</a>
+    </nav>
+    <div class="nav-social">
+      <a href="https://github.com/lucas-hudsn" aria-label="GitHub" rel="me">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/lucas-hudson-0a1384183/" aria-label="LinkedIn" rel="me">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.6 1.8a1.8 1.8 0 1 1-3.6 0 1.8 1.8 0 0 1 3.6 0ZM.2 5.3h3.3V16H.2V5.3Zm5.4 0h3.1v1.5h.05c.43-.8 1.5-1.65 3.1-1.65 3.3 0 3.9 2.1 3.9 4.9V16h-3.3v-5.3c0-1.27-.02-2.9-1.8-2.9-1.8 0-2.07 1.37-2.07 2.8V16H5.6V5.3Z"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+<main id="main" class="container article">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Latest</a>
+  </nav>
+  <header class="article-header">
+    <span class="kicker">Full Stack</span>
+    <h1>Movie Club: My First Deployed Full-Stack Web App</h1>
+    <p class="article-dek">Monthly group-based movie club Web Application</p>
+    <div class="article-meta">
+      <span class="author">By Lucas Hudson</span>
+      <span>26 August 2026</span>
+      <span>3 min read</span>
+    </div>
+  </header>
+  <div class="article-layout">
+    <article class="post-body">
+      <p>I spend most of my time as a data scientist / AI engineer: notebooks,
+models, pipelines. But every model I ship eventually needs an actual
+application around it, and my ability to build that part has always been
+limited. So I built one from scratch: <strong>Movie Club</strong>, a
+server-rendered FastAPI app that runs a monthly film competition for my
+friends and me.</p>
+<figure><img alt="" loading="lazy" src="images/dashboard.png" /><figcaption>The dashboard — submission
+phase, phosphor-green CRT theme.</figcaption></figure>
+<h2 id="what-is-movie-club">What is Movie Club?</h2>
+<p>Having moved from Melbourne to Berlin, I am no longer able to meet my
+friends for our monthly movie club competition, so I thought it is a
+good opportunity for my first deployed application to make an app for
+us.</p>
+<h3 id="the-rules">The Rules:</h3>
+<p>Every month each team member submits one movie. Everyone watches and
+ranks all the picks best → worst. The top film wins; the bottom film
+sends its submitter to the bench (they still vote next month, but can’t
+submit). Repeat forever.</p>
+<p><strong>Live:</strong> <a href="https://movieclub.fastapicloud.dev"
+class="uri">https://movieclub.fastapicloud.dev</a></p>
+<h2 id="the-product">The product</h2>
+<p>The whole thing runs on a three-phase cycle lifecycle:</p>
+<ol type="1">
+<li><strong>SUBMITTING</strong> — each member picks one film via live
+search against the <a href="https://www.omdbapi.com/">OMDB API</a>. One
+pick per person, no duplicates.</li>
+<li><strong>RANKING</strong> — an admin locks submissions, then everyone
+drags their ballot into order with ▲▼ controls.</li>
+<li><strong>CLOSED</strong> — points are tallied by <strong>Borda
+count</strong>: position 1 of <em>N</em> films gets <em>N−1</em> points,
+last place gets 0. Winner crowned, loser evicted, next cycle
+auto-created.</li>
+</ol>
+<p>Joining is invite-only via a team code, and an all-time leaderboard
+tracks wins and losses per member.</p>
+<figure><img alt="" loading="lazy" src="images/vote.png" /><figcaption>The <code>/vote</code> ballot page,
+built as HTMX partials so reordering never reloads the page.</figcaption></figure>
+<figure><img alt="" loading="lazy" src="images/leaderboard.png" /><figcaption>The all-time leaderboard.
+Bragging rights are permanent.</figcaption></figure>
+<h2 id="the-stack">The stack</h2>
+<p>I deliberately avoided React. The goal was to learn how a “real” web
+app works at the request/response level, not to learn a frontend
+framework:</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 55%" />
+<col style="width: 44%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hosting</td>
+<td><a href="https://fastapicloud.com">FastAPI Cloud</a></td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>FastAPI + Jinja2 templates + HTMX fragments</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>PostgreSQL via SQLAlchemy 2.0, Alembic migrations (Supabase in
+prod)</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>Argon2 password hashing + signed session cookie
+(<code>itsdangerous</code>)</td>
+</tr>
+<tr>
+<td>Movies</td>
+<td>OMDB API</td>
+</tr>
+<tr>
+<td>Styling</td>
+<td>Hand-rolled CSS, black/phosphor-green CRT theme</td>
+</tr>
+</tbody>
+</table></div>
+<p>The architecture is refreshingly boring:</p>
+<pre><code>browser → router → SQLAlchemy model → template or redirect</code></pre>
+<p>Routes return either full pages or HTML fragments. HTMX swaps
+fragments into placeholders (<code>#ballot</code>,
+<code>#search-results</code>) — no SPA, no client state, no build step.
+For a voting app where interactions are small and local, this felt
+exactly right.</p>
+<h2 id="next-building-a-recommender-system">Next: Building a Recommender
+System</h2>
+<p>Here’s the part I’m most excited about. This little club is quietly
+generating a dataset:</p>
+<ul>
+<li>Every member’s <strong>full ranking of shared movies</strong>, every
+month, indefinitely</li>
+<li>Implicit signals: abstentions, submission choices, win/loss
+history</li>
+<li>A growing matrix of <em>members × movies</em> with ordinal
+preferences</li>
+</ul>
+<p>The obvious problem with a 6-person club is sparsity — six months in,
+we might have 30 movies total. The fix: <strong>Letterboxd
+exports</strong>. Letterboxd lets any user export their entire diary and
+ratings as CSV (title, year, rating, watched date). Importing those
+gives every member hundreds of rated films immediately.</p>
+<p>The plan:</p>
+<ol type="1">
+<li>Members upload their Letterboxd export (or connect via the
+unofficial API).</li>
+<li>Normalize ratings onto a common scale and align with OMDB/IMDb
+IDs.</li>
+<li>Train an implicit-feedback model (probably start with simple matrix
+factorization, then something like implicit ALS or a neural CF model) on
+the union of club rankings + Letterboxd ratings.</li>
+</ol>
+<p>Suddenly the cold-start problem mostly disappears: a new member
+arrives with years of taste already attached.</p>
+      <footer class="article-footer">
+        <p class="footer-label">Filed under</p>
+        <div class="tags"><span class="tag">FastAPI</span><span class="tag">HTMX</span><span class="tag">PostgreSQL</span></div>
+        <div class="share">
+          <span>Share</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://lucas-hudsn.github.io/posts/movie-club/post.html">LinkedIn</a>
+          <a href="https://twitter.com/intent/tweet?url=https://lucas-hudsn.github.io/posts/movie-club/post.html">X</a>
+          <a href="mailto:?subject=Movie Club: My First Deployed Full-Stack Web App&amp;body=https://lucas-hudsn.github.io/posts/movie-club/post.html">Email</a>
+        </div>
+      </footer>
+    </article>
+    <aside class="toc" aria-label="In this story"><h2>In this story</h2><ol><li><a href="#what-is-movie-club">What is Movie Club?</a></li><li class="toc-sub"><a href="#the-rules">The Rules:</a></li><li><a href="#the-product">The product</a></li><li><a href="#the-stack">The stack</a></li><li><a href="#next-building-a-recommender-system">Next: Building a Recommender System</a></li></ol></aside>
+  </div>
+  <section class="related"><div class="section-head"><h2>More from the blog</h2><span class="section-meta">Keep reading</span></div><div class="cards">
+<article class="card">
+  <a class="card-media" href="/posts/wavereader/post.html" tabindex="-1" aria-hidden="true"><img src="/assets/img/wavereader-thumb.jpg" alt="The wave~reader app showing a surf forecast, 3D seafloor and agent panel." loading="lazy"></a>
+  <div class="card-body">
+    <span class="kicker">AI Engineering</span>
+    <h3><a href="/posts/wavereader/post.html">NVIDIA GTC Golden Ticket Winner: wave~reader</a></h3>
+    <p class="card-dek">An agentic surf forecaster for 238 Australian breaks — deterministic scoring, narrated by an open-weight model.</p>
+    <div class="meta"><span>19 September 2026</span><span class="meta-sep"></span><span>2 min read</span></div>
+  </div>
+</article>
+<article class="card">
+  <a class="card-media card-media--contain" href="/posts/HTMX/post.html" tabindex="-1" aria-hidden="true"><img src="/assets/img/htmx-thumb.jpg" alt="An HTMX meme about writing less JavaScript." loading="lazy"></a>
+  <div class="card-body">
+    <span class="kicker">Engineering</span>
+    <h3><a href="/posts/HTMX/post.html">I Hate React and JS</a></h3>
+    <p class="card-dek">Why a Python-first data scientist should reach for HTMX and FastAPI before another React course.</p>
+    <div class="meta"><span>28 August 2026</span><span class="meta-sep"></span><span>6 min read</span></div>
+  </div>
+</article>
+<article class="card">
+  <a class="card-media" href="/posts/deustch-class/post.html" tabindex="-1" aria-hidden="true"><img src="/assets/img/deutsch-class-thumb.jpg" alt="The Deutsch Class terminal interface showing a word list and detail panel." loading="lazy"></a>
+  <div class="card-body">
+    <span class="kicker">ML Engineering</span>
+    <h3><a href="/posts/deustch-class/post.html">Deutsch Class: Fully Local German Vocabulary Trainer</a></h3>
+    <p class="card-dek">A Postgres-backed vocabulary trainer with a terminal UI, text-to-speech and on-device Whisper scoring.</p>
+    <div class="meta"><span>21 August 2026</span><span class="meta-sep"></span><span>3 min read</span></div>
+  </div>
+</article></div></section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">Lucas <span>Hudson</span></p>
+        <p class="footer-note">Data scientist and AI engineer in Berlin. Notes on local models, open-source AI, and building things that run on your own machine.</p>
+      </div>
+      <div>
+        <h2>Latest</h2>
+        <ul class="footer-links"><li><a href="/posts/ai-profession/post.html">Maybe AI needs a regulated profession behind it</a></li><li><a href="/posts/wavereader/post.html">NVIDIA GTC Golden Ticket Winner: wave~reader</a></li><li><a href="/posts/HTMX/post.html">I Hate React and JS</a></li><li><a href="/posts/movie-club/post.html">Movie Club: My First Deployed Full-Stack Web App</a></li></ul>
+      </div>
+      <div>
+        <h2>Elsewhere</h2>
+        <ul class="footer-links">
+          <li><a href="/resume/">Resume</a></li>
+          <li><a href="https://github.com/lucas-hudsn">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/lucas-hudson-0a1384183/">LinkedIn</a></li>
+          <li><a href="mailto:lucashudsn@gmail.com">Email</a></li>
+          <li><a href="/feed.xml">RSS</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span><span class="ticker-dot"></span>&copy; 2026 Lucas Hudson</span>
+      <span>Built with vanilla HTML &amp; CSS &middot; Berlin</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

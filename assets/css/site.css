@@ -18,9 +18,9 @@
   --gray-600: #5c5c5c;
   --gray-700: #333;
   --gray-900: #1a1a1a;
-  --blue: #0068ff;
-  --blue-dark: #004ecc;
-  --blue-on-dark: #4d97ff;
+  --accent: #ff5c00;
+  --accent-dark: #cc4a00;
+  --accent-on-dark: #ff9d66;
   --sans: "Helvetica Neue", Helvetica, Arial, "Segoe UI", sans-serif;
   --serif: Georgia, "Times New Roman", Times, serif;
   --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -88,7 +88,7 @@ input {
   top: -100px;
   left: 12px;
   z-index: 200;
-  background: var(--blue);
+  background: var(--accent);
   color: #fff;
   font-size: 12px;
   font-weight: 700;
@@ -103,12 +103,12 @@ input {
 }
 
 :focus-visible {
-  outline: 2px solid var(--blue);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--blue);
+  background: var(--accent);
   color: #fff;
 }
 
@@ -146,7 +146,7 @@ input {
   justify-content: center;
   width: 30px;
   height: 30px;
-  background: var(--blue);
+  background: var(--accent);
   color: #fff;
   font-size: 12px;
   font-weight: 800;
@@ -193,11 +193,11 @@ input {
 }
 
 .nav a:hover {
-  border-color: var(--blue);
+  border-color: var(--accent);
 }
 
 .nav a[aria-current="page"] {
-  border-color: var(--blue);
+  border-color: var(--accent);
 }
 
 .nav-social {
@@ -219,7 +219,7 @@ input {
 }
 
 .nav-social a:hover {
-  color: var(--blue);
+  color: var(--accent);
 }
 
 .nav-social svg {
@@ -261,7 +261,7 @@ main {
   content: "";
   width: 8px;
   height: 8px;
-  background: var(--blue);
+  background: var(--accent);
 }
 
 .section-head .section-meta {
@@ -275,7 +275,7 @@ main {
 
 .kicker {
   display: inline-block;
-  color: var(--blue);
+  color: var(--accent);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -332,7 +332,7 @@ a.kicker:hover {
   width: 4px;
   height: 4px;
   margin: 0 6px;
-  background: var(--blue);
+  background: var(--accent);
   border-radius: 50%;
   vertical-align: middle;
 }
@@ -363,7 +363,7 @@ a.kicker:hover {
 }
 
 .hero-lead h1 a:hover {
-  color: var(--blue);
+  color: var(--accent);
 }
 
 .hero-lead .dek {
@@ -389,14 +389,14 @@ a.kicker:hover {
 
 .hero-lead .read-more::after {
   content: "\2192";
-  color: var(--blue);
+  color: var(--accent);
   font-size: 15px;
   line-height: 1;
   transition: transform 0.12s ease;
 }
 
 .hero-lead .read-more:hover {
-  color: var(--blue);
+  color: var(--accent);
 }
 
 .hero-lead .read-more:hover::after {
@@ -444,7 +444,7 @@ a.kicker:hover {
 
 .rail-list li::before {
   content: counter(rail, decimal-leading-zero);
-  color: var(--blue);
+  color: var(--accent);
   font-size: 10px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
@@ -476,7 +476,7 @@ a.kicker:hover {
 }
 
 .rail-item a:hover {
-  color: var(--blue);
+  color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -546,7 +546,7 @@ a.kicker:hover {
 }
 
 .card-body h2 a:hover {
-  color: var(--blue);
+  color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -619,14 +619,14 @@ a.kicker:hover {
 }
 
 .project-name:hover {
-  color: var(--blue-on-dark);
+  color: var(--accent-on-dark);
 }
 
 .status {
   flex: 0 0 auto;
   padding: 3px 6px;
-  border: 1px solid var(--blue-on-dark);
-  color: var(--blue-on-dark);
+  border: 1px solid var(--accent-on-dark);
+  color: var(--accent-on-dark);
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.13em;
@@ -663,7 +663,7 @@ a.kicker:hover {
 }
 
 .project-links a:hover {
-  color: var(--blue-on-dark);
+  color: var(--accent-on-dark);
 }
 
 /* About band */
@@ -713,7 +713,7 @@ a.kicker:hover {
 }
 
 .about-links a {
-  color: var(--blue);
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -746,7 +746,7 @@ a.kicker:hover {
 }
 
 .breadcrumb a:hover {
-  color: var(--blue);
+  color: var(--accent);
 }
 
 .breadcrumb .sep {
@@ -841,14 +841,14 @@ a.kicker:hover {
 }
 
 .post-body a {
-  color: var(--blue);
+  color: var(--accent);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
 
 .post-body a:hover {
-  color: var(--blue-dark);
+  color: var(--accent-dark);
   text-decoration-thickness: 2px;
 }
 
@@ -908,7 +908,7 @@ a.kicker:hover {
 .post-body blockquote {
   margin: 2em 0;
   padding: 2px 0 2px 20px;
-  border-left: 4px solid var(--blue);
+  border-left: 4px solid var(--accent);
   color: var(--gray-900);
   font-size: 21px;
   font-style: italic;
@@ -959,7 +959,7 @@ a.kicker:hover {
   margin: 1.9em 0;
   padding: 18px 20px;
   overflow-x: auto;
-  border-left: 4px solid var(--blue);
+  border-left: 4px solid var(--accent);
   background: #0a0a0a;
   color: #f2f2f2;
   font-size: 12.5px;
@@ -1039,7 +1039,7 @@ a.kicker:hover {
 .post-body .callout-important {
   margin: 2em 0;
   padding: 17px 20px 15px;
-  border-left: 4px solid var(--blue);
+  border-left: 4px solid var(--accent);
   background: var(--gray-50);
   font-family: var(--sans);
   font-size: 14.5px;
@@ -1081,7 +1081,7 @@ a.kicker:hover {
   width: 14px;
   height: 14px;
   margin: 6px 0 0;
-  accent-color: var(--blue);
+  accent-color: var(--accent);
 }
 
 /* Table of contents */
@@ -1127,7 +1127,7 @@ a.kicker:hover {
   position: absolute;
   top: 1px;
   left: 0;
-  color: var(--blue);
+  color: var(--accent);
   font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.02em;
@@ -1150,7 +1150,7 @@ a.kicker:hover {
 }
 
 .toc a:hover {
-  color: var(--blue);
+  color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -1194,8 +1194,8 @@ a.kicker:hover {
 }
 
 .tag:hover {
-  border-color: var(--blue);
-  background: var(--blue);
+  border-color: var(--accent);
+  background: var(--accent);
   color: #fff;
 }
 
@@ -1213,7 +1213,7 @@ a.kicker:hover {
 }
 
 .share a {
-  color: var(--blue);
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -1267,7 +1267,7 @@ a.kicker:hover {
 
 .resume-role {
   margin: 0 0 10px;
-  color: var(--blue);
+  color: var(--accent);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -1288,7 +1288,7 @@ a.kicker:hover {
 }
 
 .resume-contact a:hover {
-  color: var(--blue);
+  color: var(--accent);
   text-decoration: underline;
 }
 
@@ -1363,7 +1363,7 @@ a.kicker:hover {
 
 .job-role {
   margin: 0 0 9px;
-  color: var(--blue);
+  color: var(--accent);
   font-size: 12px;
   font-weight: 700;
 }
@@ -1444,7 +1444,7 @@ a.kicker:hover {
 }
 
 .project-list a:hover {
-  color: var(--blue);
+  color: var(--accent);
   text-decoration: underline;
 }
 
@@ -1502,7 +1502,7 @@ a.kicker:hover {
 }
 
 .footer-brand span {
-  color: var(--blue);
+  color: var(--accent);
 }
 
 .footer-note {
@@ -1539,7 +1539,7 @@ a.kicker:hover {
 }
 
 .footer-links a:hover {
-  color: var(--blue-on-dark);
+  color: var(--accent-on-dark);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -1565,7 +1565,7 @@ a.kicker:hover {
   width: 5px;
   height: 5px;
   margin-right: 7px;
-  background: var(--blue);
+  background: var(--accent);
   border-radius: 50%;
   vertical-align: 1px;
 }
@@ -1579,7 +1579,7 @@ a.kicker:hover {
 
 .notfound .code {
   margin: 0;
-  color: var(--blue);
+  color: var(--accent);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.2em;
@@ -1616,7 +1616,7 @@ a.kicker:hover {
 }
 
 .button:hover {
-  background: var(--blue);
+  background: var(--accent);
 }
 
 /* --- Responsive ---------------------------------------------------------- */
